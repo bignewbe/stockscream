@@ -1,0 +1,344 @@
+﻿@model CommonCSharpLibary.TACommon.QuoteCommon
+
+@{
+    //var myChart = new Chart(width: 600, height: 400)
+    //    .AddTitle("Chart Title")
+    //    .AddSeries(
+    //        name: "Employee",
+    //        xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+    //        yValues: new[] { "2", "6", "4", "5", "3" })
+    //    .Write();
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+}
+
+@{    
+    ViewBag.Title = "Details";
+    var data = Model.CreateJson();    
+}
+
+<style>
+    textarea {
+        max-width: 1680px;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    text.symbol {
+        fill: #BBBBBB;
+    }
+
+    path {
+        fill: none;
+        stroke-width: 1;
+    }
+
+        path.candle {
+            stroke: #000000;
+        }
+
+            path.candle.body {
+                stroke-width: 0;
+            }
+
+            path.candle.up {
+                fill: #00AA00;
+                stroke: #00AA00;
+            }
+
+            path.candle.down {
+                fill: #FF0000;
+                stroke: #FF0000;
+            }
+
+    .close.annotation.up path {
+        fill: #00AA00;
+    }
+
+    path.volume {
+        fill: #DDDDDD;
+    }
+
+    .indicator-plot path.line {
+        fill: none;
+        stroke-width: 1;
+    }
+
+    .ma-0 path.line {
+        stroke: #1f77b4;
+    }
+
+    .ma-1 path.line {
+        stroke: #aec7e8;
+    }
+
+    .ma-2 path.line {
+        stroke: #ff7f0e;
+    }
+
+    button {
+        position: absolute;
+        right: 110px;
+        top: 25px;
+    }
+
+    path.macd {
+        stroke: #0000AA;
+    }
+
+    path.signal {
+        stroke: #FF9999;
+    }
+
+    path.zero {
+        stroke: #BBBBBB;
+        stroke-dasharray: 0;
+        stroke-opacity: 0.5;
+    }
+
+    path.difference {
+        fill: #BBBBBB;
+        opacity: 0.5;
+    }
+
+    path.rsi {
+        stroke: #000000;
+    }
+
+    path.overbought, path.oversold {
+        stroke: #FF9999;
+        stroke-dasharray: 5, 5;
+    }
+
+    path.middle, path.zero {
+        stroke: #BBBBBB;
+        stroke-dasharray: 5, 5;
+    }
+
+    .analysis path, .analysis circle {
+        stroke: blue;
+        stroke-width: 0.8;
+    }
+
+    .trendline circle {
+        stroke-width: 0;
+        display: none;
+    }
+
+    .mouseover .trendline path {
+        stroke-width: 1.2;
+    }
+
+    .mouseover .trendline circle {
+        stroke-width: 1;
+        display: inline;
+    }
+
+    .dragging .trendline path, .dragging .trendline circle {
+        stroke: darkblue;
+    }
+
+    .interaction path, .interaction circle {
+        pointer-events: all;
+    }
+
+    .interaction .body {
+        cursor: move;
+    }
+
+    .trendlines .interaction .start, .trendlines .interaction .end {
+        cursor: nwse-resize;
+    }
+
+    .supstance path {
+        stroke-dasharray: 2, 2;
+    }
+
+    .supstances .interaction path {
+        pointer-events: all;
+        cursor: ns-resize;
+    }
+
+    .mouseover .supstance path {
+        stroke-width: 1.5;
+    }
+
+    .dragging .supstance path {
+        stroke: darkblue;
+    }
+
+    .crosshair {
+        cursor: crosshair;
+    }
+
+        .crosshair path.wire {
+            stroke: #DDDDDD;
+            stroke-dasharray: 1, 1;
+        }
+
+        .crosshair .axisannotation path {
+            fill: #DDDDDD;
+        }
+</style>
+
+
+<div class="container" style="float:left">
+    <div>
+        <select id="format-select" class="dropdown">
+            <option value="">none</option>
+            <option value="decimal" selected>decimal</option>
+            <option value="scientific">scientific</option>
+            <option value="percent">percent</option>
+            <option value="currency">currency</option>
+            <option value="short">short</option>
+            <option value="long">long</option>
+        </select>
+
+        <input type="file" id="fileUpload" />
+        <input type="button" id="upload" value="Upload" />
+        <hr />
+        <div id="dvCSV"></div>
+        <button>Reset</button>
+    </div>
+    <div id="divCharts"></div>
+</div>
+
+<div id="divCharts"></div>
+
+@section Scripts
+{
+    <script charset="utf-8" src="http://d3js.org/d3.v3.js"></script>
+    <script src="http://techanjs.org/techan.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+        //google.setOnLoadCallback(drawChart);
+
+        window.onload = function () {
+            var json = @Html.Raw(Json.Encode(@data));
+            drawStockChart(json);
+        }
+        
+        var drawStockChart = function (data) {
+            if (!data.hasOwnProperty("Time")) return;
+
+            var d = new google.visualization.DataTable();
+            d.addColumn("date", "day");
+            d.addColumn("number", "low");
+            d.addColumn("number", "open");
+            d.addColumn("number", "close");
+            d.addColumn("number", "high");
+            //d.addColumn("number", "volume");
+            for (i = data.Time.length - 50; i < data.Time.length; i++) {
+                var date = new Date(data.Time[i].Year, data.Time[i].Month, data.Time[i].Day);
+                d.addRow([date, data.Low[i], data.Open[i], data.Close[i], data.High[i]]);
+            }
+            var chart = new google.visualization.CandlestickChart(document.getElementById("divCharts"));
+            var options = {
+                //legend: 'none',
+                width: 1200,
+                height: 600,
+                bar: { groupWidth: 100 },
+                candlestick: {
+                    hollowIsRising: true,
+                    //fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                    //risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+                }
+            };
+            chart.draw(d, options);
+        }
+
+        $(document).ready(function () {
+            document.getElementById('format-select').onchange = function () {
+                createTechChanChart();
+            };
+            var url = "/data/download?filename=stock.csv";
+
+            function createTechChanChart() {
+                var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                        width = 960 - margin.left - margin.right,
+                        height = 500 - margin.top - margin.bottom;
+
+                var parseDate = d3.time.format("%d-%b-%y").parse;
+
+                var x = techan.scale.financetime()
+                        .range([0, width]);
+
+                var y = d3.scale.linear()
+                        .range([height, 0]);
+
+                var candlestick = techan.plot.candlestick()
+                        .xScale(x)
+                        .yScale(y);
+
+                var xAxis = d3.svg.axis()
+                        .scale(x)
+                        .orient("bottom");
+
+                var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .orient("left");
+
+                var svg = d3.select("body").append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                d3.csv(url, function(error, data) {
+                    var accessor = candlestick.accessor(),
+                        timestart = Date.now();
+
+                    data = data.slice(0, 200).map(function(d) {
+                        return {
+                            date: parseDate(d.Date),
+                            open: +d.Open,
+                            high: +d.High,
+                            low: +d.Low,
+                            close: +d.Close,
+                            volume: +d.Volume
+                        };
+                    }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+
+                    x.domain(data.map(accessor.d));
+                    y.domain(techan.scale.plot.ohlc(data, accessor).domain());
+
+                    svg.append("g")
+                            .datum(data)
+                            .attr("class", "candlestick")
+                            .call(candlestick);
+
+                    svg.append("g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(xAxis);
+
+                    svg.append("g")
+                            .attr("class", "y axis")
+                            .call(yAxis)
+                            .append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 6)
+                            .attr("dy", ".71em")
+                            .style("text-anchor", "end")
+                            .text("Price ($)");
+
+                    console.log("Render time: " + (Date.now()-timestart));
+                });
+            }
+        });
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<StockScream.Identity.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </th>
+        <th>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailConfirmed)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                @if (item.Email != "imliping@gmail.com") {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <span>|</span>
+                    <button class="btn-group">Reset Password</button>
+                }
+            </td>
+            <td id="@item.Id"></td>
+        </tr>
+    }
+</table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("table tr td button").click(function () {
+                var $td = $(this).parent().next();
+                var id = $td.attr("id");
+                var url = "/Account/SendResetPasswordEmail";
+                var request = facility.GetAjaxRequestPost(url, facility.AddAntiForgeryToken({ "id": id }));
+                request.done(function (data, textStatus, jqXHR) {
+                    $td.text("Email sent");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $td.text(textStatus);
+                });
+            });
+        });        
+    </script>
+}

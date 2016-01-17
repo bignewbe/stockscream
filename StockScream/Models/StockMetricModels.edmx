@@ -1,0 +1,1453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StockMetricModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Exchanges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Num" Type="int" />
+          <Property Name="Abbr" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="IndustryFinancials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Num" Type="int" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="real" />
+          <Property Name="GREPS5YrGrowthRate" Type="real" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="GRSales5YrGrowthRate" Type="real" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="real" />
+          <Property Name="MEReturnonEquityTTM" Type="real" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="real" />
+          <Property Name="MEReturnonInvestmentTTM" Type="real" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="real" />
+          <Property Name="MEReturnonAssetsTTM" Type="real" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="real" />
+          <Property Name="PREffectiveTaxRateTTM" Type="real" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="real" />
+          <Property Name="PRNetProfitMarginTTM" Type="real" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="real" />
+          <Property Name="PRPreTaxMarginTTM" Type="real" />
+          <Property Name="PROperatingMargin5YrAvg" Type="real" />
+          <Property Name="PROperatingMarginTTM" Type="real" />
+          <Property Name="PREBITD5YrAvg" Type="real" />
+          <Property Name="PREBITDMarginTTM" Type="real" />
+          <Property Name="PRGrossMargin5YrAvg" Type="real" />
+          <Property Name="PRGrossMarginTTM" Type="real" />
+          <Property Name="EffAssetTurnoverTTM" Type="real" />
+          <Property Name="EffInventoryTurnoverTTM" Type="real" />
+          <Property Name="EffReceivableTurnoverTTM" Type="real" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="real" />
+          <Property Name="EffRevenueEmployeeTTM" Type="real" />
+          <Property Name="DivPayoutRatioTTM" Type="real" />
+          <Property Name="DivDividend5YearGrowthRate" Type="real" />
+          <Property Name="DivDividendYield5YearAvg" Type="real" />
+          <Property Name="DivDividendYield" Type="real" />
+          <Property Name="FSInterestCoverageTTM" Type="real" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="real" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="real" />
+          <Property Name="FSCurrentRatioMRQ" Type="real" />
+          <Property Name="FSQuickRatioMRQ" Type="real" />
+          <Property Name="VROwnedInstitutions" Type="real" />
+          <Property Name="VRPricetoCashFlowTTM" Type="real" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="real" />
+          <Property Name="VRPricetoBookMRQ" Type="real" />
+          <Property Name="VRPricetoSalesTTM" Type="real" />
+          <Property Name="VRBeta" Type="real" />
+          <Property Name="VRPELowLast5Yrs" Type="real" />
+          <Property Name="VRPEHighLast5Yrs" Type="real" />
+          <Property Name="VRPERatioTTM" Type="real" />
+        </EntityType>
+        <EntityType Name="PPIndustry">
+          <Key>
+            <PropertyRef Name="IndustryID" />
+          </Key>
+          <Property Name="Symbol" Type="varchar" MaxLength="255" />
+          <Property Name="IndustryID" Type="int" Nullable="false" />
+          <Property Name="SectorID" Type="int" />
+          <Property Name="NumStock" Type="real" />
+          <Property Name="StartDate" Type="varchar" MaxLength="255" />
+          <Property Name="EndDate" Type="varchar" MaxLength="255" />
+          <Property Name="CurrentPrice" Type="real" />
+          <Property Name="pc1w" Type="real" />
+          <Property Name="r1w" Type="int" />
+          <Property Name="pc2w" Type="real" />
+          <Property Name="r2w" Type="int" />
+          <Property Name="pc3w" Type="real" />
+          <Property Name="r3w" Type="int" />
+          <Property Name="pc4w" Type="real" />
+          <Property Name="r4w" Type="int" />
+          <Property Name="pc13w" Type="real" />
+          <Property Name="r13w" Type="int" />
+          <Property Name="pc26w" Type="real" />
+          <Property Name="r26w" Type="int" />
+          <Property Name="pc52w" Type="real" />
+          <Property Name="r52w" Type="int" />
+          <Property Name="v1" Type="real" />
+          <Property Name="v2" Type="real" />
+          <Property Name="v3" Type="real" />
+          <Property Name="v4" Type="real" />
+          <Property Name="v5" Type="real" />
+          <Property Name="v6" Type="real" />
+          <Property Name="v7" Type="real" />
+          <Property Name="v8" Type="real" />
+          <Property Name="v9" Type="real" />
+          <Property Name="v10" Type="real" />
+          <Property Name="a5v1" Type="real" />
+          <Property Name="a5v2" Type="real" />
+          <Property Name="a5v3" Type="real" />
+          <Property Name="a5v4" Type="real" />
+          <Property Name="a5v5" Type="real" />
+          <Property Name="a5v6" Type="real" />
+          <Property Name="a5v7" Type="real" />
+          <Property Name="a5v8" Type="real" />
+          <Property Name="a5v9" Type="real" />
+          <Property Name="a5v10" Type="real" />
+          <Property Name="a10v1" Type="real" />
+          <Property Name="a10v2" Type="real" />
+          <Property Name="a10v3" Type="real" />
+          <Property Name="a10v4" Type="real" />
+          <Property Name="a10v5" Type="real" />
+          <Property Name="a10v6" Type="real" />
+          <Property Name="a10v7" Type="real" />
+          <Property Name="a10v8" Type="real" />
+          <Property Name="a10v9" Type="real" />
+          <Property Name="a10v10" Type="real" />
+        </EntityType>
+        <EntityType Name="PPSector">
+          <Key>
+            <PropertyRef Name="SectorID" />
+          </Key>
+          <Property Name="Symbol" Type="varchar" MaxLength="255" />
+          <Property Name="IndustryID" Type="int" />
+          <Property Name="SectorID" Type="int" Nullable="false" />
+          <Property Name="NumStock" Type="real" />
+          <Property Name="StartDate" Type="varchar" MaxLength="255" />
+          <Property Name="EndDate" Type="varchar" MaxLength="255" />
+          <Property Name="CurrentPrice" Type="real" />
+          <Property Name="pc1w" Type="real" />
+          <Property Name="r1w" Type="int" />
+          <Property Name="pc2w" Type="real" />
+          <Property Name="r2w" Type="int" />
+          <Property Name="pc3w" Type="real" />
+          <Property Name="r3w" Type="int" />
+          <Property Name="pc4w" Type="real" />
+          <Property Name="r4w" Type="int" />
+          <Property Name="pc13w" Type="real" />
+          <Property Name="r13w" Type="int" />
+          <Property Name="pc26w" Type="real" />
+          <Property Name="r26w" Type="int" />
+          <Property Name="pc52w" Type="real" />
+          <Property Name="r52w" Type="int" />
+          <Property Name="v1" Type="real" />
+          <Property Name="v2" Type="real" />
+          <Property Name="v3" Type="real" />
+          <Property Name="v4" Type="real" />
+          <Property Name="v5" Type="real" />
+          <Property Name="v6" Type="real" />
+          <Property Name="v7" Type="real" />
+          <Property Name="v8" Type="real" />
+          <Property Name="v9" Type="real" />
+          <Property Name="v10" Type="real" />
+          <Property Name="a5v1" Type="real" />
+          <Property Name="a5v2" Type="real" />
+          <Property Name="a5v3" Type="real" />
+          <Property Name="a5v4" Type="real" />
+          <Property Name="a5v5" Type="real" />
+          <Property Name="a5v6" Type="real" />
+          <Property Name="a5v7" Type="real" />
+          <Property Name="a5v8" Type="real" />
+          <Property Name="a5v9" Type="real" />
+          <Property Name="a5v10" Type="real" />
+          <Property Name="a10v1" Type="real" />
+          <Property Name="a10v2" Type="real" />
+          <Property Name="a10v3" Type="real" />
+          <Property Name="a10v4" Type="real" />
+          <Property Name="a10v5" Type="real" />
+          <Property Name="a10v6" Type="real" />
+          <Property Name="a10v7" Type="real" />
+          <Property Name="a10v8" Type="real" />
+          <Property Name="a10v9" Type="real" />
+          <Property Name="a10v10" Type="real" />
+        </EntityType>
+        <EntityType Name="PPStock">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IndustryID" Type="int" />
+          <Property Name="SectorID" Type="int" />
+          <Property Name="NumStock" Type="real" />
+          <Property Name="StartDate" Type="varchar" MaxLength="255" />
+          <Property Name="EndDate" Type="varchar" MaxLength="255" />
+          <Property Name="CurrentPrice" Type="real" />
+          <Property Name="pc1w" Type="real" />
+          <Property Name="r1w" Type="int" />
+          <Property Name="pc2w" Type="real" />
+          <Property Name="r2w" Type="int" />
+          <Property Name="pc3w" Type="real" />
+          <Property Name="r3w" Type="int" />
+          <Property Name="pc4w" Type="real" />
+          <Property Name="r4w" Type="int" />
+          <Property Name="pc13w" Type="real" />
+          <Property Name="r13w" Type="int" />
+          <Property Name="pc26w" Type="real" />
+          <Property Name="r26w" Type="int" />
+          <Property Name="pc52w" Type="real" />
+          <Property Name="r52w" Type="int" />
+          <Property Name="v1" Type="real" />
+          <Property Name="v2" Type="real" />
+          <Property Name="v3" Type="real" />
+          <Property Name="v4" Type="real" />
+          <Property Name="v5" Type="real" />
+          <Property Name="v6" Type="real" />
+          <Property Name="v7" Type="real" />
+          <Property Name="v8" Type="real" />
+          <Property Name="v9" Type="real" />
+          <Property Name="v10" Type="real" />
+          <Property Name="a5v1" Type="real" />
+          <Property Name="a5v2" Type="real" />
+          <Property Name="a5v3" Type="real" />
+          <Property Name="a5v4" Type="real" />
+          <Property Name="a5v5" Type="real" />
+          <Property Name="a5v6" Type="real" />
+          <Property Name="a5v7" Type="real" />
+          <Property Name="a5v8" Type="real" />
+          <Property Name="a5v9" Type="real" />
+          <Property Name="a5v10" Type="real" />
+          <Property Name="a10v1" Type="real" />
+          <Property Name="a10v2" Type="real" />
+          <Property Name="a10v3" Type="real" />
+          <Property Name="a10v4" Type="real" />
+          <Property Name="a10v5" Type="real" />
+          <Property Name="a10v6" Type="real" />
+          <Property Name="a10v7" Type="real" />
+          <Property Name="a10v8" Type="real" />
+          <Property Name="a10v9" Type="real" />
+          <Property Name="a10v10" Type="real" />
+        </EntityType>
+        <EntityType Name="SectorFinancials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Num" Type="int" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="real" />
+          <Property Name="GREPS5YrGrowthRate" Type="real" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="GRSales5YrGrowthRate" Type="real" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="real" />
+          <Property Name="MEReturnonEquityTTM" Type="real" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="real" />
+          <Property Name="MEReturnonInvestmentTTM" Type="real" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="real" />
+          <Property Name="MEReturnonAssetsTTM" Type="real" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="real" />
+          <Property Name="PREffectiveTaxRateTTM" Type="real" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="real" />
+          <Property Name="PRNetProfitMarginTTM" Type="real" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="real" />
+          <Property Name="PRPreTaxMarginTTM" Type="real" />
+          <Property Name="PROperatingMargin5YrAvg" Type="real" />
+          <Property Name="PROperatingMarginTTM" Type="real" />
+          <Property Name="PREBITD5YrAvg" Type="real" />
+          <Property Name="PREBITDMarginTTM" Type="real" />
+          <Property Name="PRGrossMargin5YrAvg" Type="real" />
+          <Property Name="PRGrossMarginTTM" Type="real" />
+          <Property Name="EffAssetTurnoverTTM" Type="real" />
+          <Property Name="EffInventoryTurnoverTTM" Type="real" />
+          <Property Name="EffReceivableTurnoverTTM" Type="real" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="real" />
+          <Property Name="EffRevenueEmployeeTTM" Type="real" />
+          <Property Name="DivPayoutRatioTTM" Type="real" />
+          <Property Name="DivDividend5YearGrowthRate" Type="real" />
+          <Property Name="DivDividendYield5YearAvg" Type="real" />
+          <Property Name="DivDividendYield" Type="real" />
+          <Property Name="FSInterestCoverageTTM" Type="real" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="real" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="real" />
+          <Property Name="FSCurrentRatioMRQ" Type="real" />
+          <Property Name="FSQuickRatioMRQ" Type="real" />
+          <Property Name="VROwnedInstitutions" Type="real" />
+          <Property Name="VRPricetoCashFlowTTM" Type="real" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="real" />
+          <Property Name="VRPricetoBookMRQ" Type="real" />
+          <Property Name="VRPricetoSalesTTM" Type="real" />
+          <Property Name="VRBeta" Type="real" />
+          <Property Name="VRPELowLast5Yrs" Type="real" />
+          <Property Name="VRPEHighLast5Yrs" Type="real" />
+          <Property Name="VRPERatioTTM" Type="real" />
+        </EntityType>
+        <EntityType Name="StockAnalyst">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IHNetBuyers" Type="real" />
+          <Property Name="IHReducedPositions" Type="real" />
+          <Property Name="IHIncreasedPositions" Type="real" />
+          <Property Name="IHClosedPositions" Type="real" />
+          <Property Name="IHNewPositions" Type="real" />
+          <Property Name="IH3MoNetChange" Type="real" />
+          <Property Name="IHTotalSharesHeld" Type="real" />
+          <Property Name="IHofHolders" Type="real" />
+          <Property Name="IHSharesOwned" Type="real" />
+          <Property Name="HSEPSSurpriseQuater4" Type="real" />
+          <Property Name="HSEPSSurpriseQuater3" Type="real" />
+          <Property Name="HSEPSSurpriseQuater2" Type="real" />
+          <Property Name="HSEPSSurpriseQuater1" Type="real" />
+          <Property Name="HSEPSSurpriseQuater0" Type="real" />
+          <Property Name="HSSalesSurpriseQuater4" Type="real" />
+          <Property Name="HSSalesSurpriseQuater3" Type="real" />
+          <Property Name="HSSalesSurpriseQuater2" Type="real" />
+          <Property Name="HSSalesSurpriseQuater1" Type="real" />
+          <Property Name="HSSalesSurpriseQuater0" Type="real" />
+          <Property Name="HSSurpiseQuarter" Type="varchar" MaxLength="255" />
+          <Property Name="CRLastUpdated" Type="varchar" MaxLength="255" />
+          <Property Name="CRCompanyFiscalYearEndMonth" Type="varchar" MaxLength="255" />
+          <Property Name="CRNextEarningsapprox" Type="real" />
+          <Property Name="CRConsensusRecommendation" Type="varchar" MaxLength="255" />
+          <Property Name="ARRMeanRating3MonthAgo" Type="real" />
+          <Property Name="ARRMeanRating2MonthAgo" Type="real" />
+          <Property Name="ARRMeanRating1MonthAgo" Type="real" />
+          <Property Name="ARRMeanRatingCurrent" Type="real" />
+          <Property Name="CETEarningYear1YearAgo2" Type="real" />
+          <Property Name="CETEarningYear2MonthAgo2" Type="real" />
+          <Property Name="CETEarningYear1MonthAgo2" Type="real" />
+          <Property Name="CETEarningYear1WeekAgo2" Type="real" />
+          <Property Name="CETEarningYearCurrent2" Type="real" />
+          <Property Name="CETEarningYear1YearAgo1" Type="real" />
+          <Property Name="CETEarningYear2MonthAgo1" Type="real" />
+          <Property Name="CETEarningYear1MonthAgo1" Type="real" />
+          <Property Name="CETEarningYear1WeekAgo1" Type="real" />
+          <Property Name="CETEarningYearCurrent1" Type="real" />
+          <Property Name="CETEarningYear1YearAgo0" Type="real" />
+          <Property Name="CETEarningYear2MonthAgo0" Type="real" />
+          <Property Name="CETEarningYear1MonthAgo0" Type="real" />
+          <Property Name="CETEarningYear1WeekAgo0" Type="real" />
+          <Property Name="CETEarningYearCurrent0" Type="real" />
+          <Property Name="CETEarningQuarter1YearAgo4" Type="real" />
+          <Property Name="CETEarningQuarter2MonthAgo4" Type="real" />
+          <Property Name="CETEarningQuarter1MonthAgo4" Type="real" />
+          <Property Name="CETEarningQuarter1WeekAgo4" Type="real" />
+          <Property Name="CETEarningQuarterCurrent4" Type="real" />
+          <Property Name="CETEarningQuarter1YearAgo3" Type="real" />
+          <Property Name="CETEarningQuarter2MonthAgo3" Type="real" />
+          <Property Name="CETEarningQuarter1MonthAgo3" Type="real" />
+          <Property Name="CETEarningQuarter1WeekAgo3" Type="real" />
+          <Property Name="CETEarningQuarterCurrent3" Type="real" />
+          <Property Name="CETEarningQuarter1YearAgo2" Type="real" />
+          <Property Name="CETEarningQuarter2MonthAgo2" Type="real" />
+          <Property Name="CETEarningQuarter1MonthAgo2" Type="real" />
+          <Property Name="CETEarningQuarter1WeekAgo2" Type="real" />
+          <Property Name="CETEarningQuarterCurrent2" Type="real" />
+          <Property Name="CETEarningQuarter1YearAgo1" Type="real" />
+          <Property Name="CETEarningQuarter2MonthAgo1" Type="real" />
+          <Property Name="CETEarningQuarter1MonthAgo1" Type="real" />
+          <Property Name="CETEarningQuarter1WeekAgo1" Type="real" />
+          <Property Name="CETEarningQuarterCurrent1" Type="real" />
+          <Property Name="CETEarningQuarter1YearAgo0" Type="real" />
+          <Property Name="CETEarningQuarter2MonthAgo0" Type="real" />
+          <Property Name="CETEarningQuarter1MonthAgo0" Type="real" />
+          <Property Name="CETEarningQuarter1WeekAgo0" Type="real" />
+          <Property Name="CETEarningQuarterCurrent0" Type="real" />
+          <Property Name="CETSaleYear1YearAgo2" Type="real" />
+          <Property Name="CETSaleYear2MonthAgo2" Type="real" />
+          <Property Name="CETSaleYear1MonthAgo2" Type="real" />
+          <Property Name="CETSaleYear1WeekAgo2" Type="real" />
+          <Property Name="CETSaleYearCurrent2" Type="real" />
+          <Property Name="CETSaleYear1YearAgo1" Type="real" />
+          <Property Name="CETSaleYear2MonthAgo1" Type="real" />
+          <Property Name="CETSaleYear1MonthAgo1" Type="real" />
+          <Property Name="CETSaleYear1WeekAgo1" Type="real" />
+          <Property Name="CETSaleYearCurrent1" Type="real" />
+          <Property Name="CETSaleYear1YearAgo0" Type="real" />
+          <Property Name="CETSaleYear2MonthAgo0" Type="real" />
+          <Property Name="CETSaleYear1MonthAgo0" Type="real" />
+          <Property Name="CETSaleYear1WeekAgo0" Type="real" />
+          <Property Name="CETSaleYearCurrent0" Type="real" />
+          <Property Name="CETSaleQuarter1YearAgo4" Type="real" />
+          <Property Name="CETSaleQuarter2MonthAgo4" Type="real" />
+          <Property Name="CETSaleQuarter1MonthAgo4" Type="real" />
+          <Property Name="CETSaleQuarter1WeekAgo4" Type="real" />
+          <Property Name="CETSaleQuarterCurrent4" Type="real" />
+          <Property Name="CETSaleQuarter1YearAgo3" Type="real" />
+          <Property Name="CETSaleQuarter2MonthAgo3" Type="real" />
+          <Property Name="CETSaleQuarter1MonthAgo3" Type="real" />
+          <Property Name="CETSaleQuarter1WeekAgo3" Type="real" />
+          <Property Name="CETSaleQuarterCurrent3" Type="real" />
+          <Property Name="CETSaleQuarter1YearAgo2" Type="real" />
+          <Property Name="CETSaleQuarter2MonthAgo2" Type="real" />
+          <Property Name="CETSaleQuarter1MonthAgo2" Type="real" />
+          <Property Name="CETSaleQuarter1WeekAgo2" Type="real" />
+          <Property Name="CETSaleQuarterCurrent2" Type="real" />
+          <Property Name="CETSaleQuarter1YearAgo1" Type="real" />
+          <Property Name="CETSaleQuarter2MonthAgo1" Type="real" />
+          <Property Name="CETSaleQuarter1MonthAgo1" Type="real" />
+          <Property Name="CETSaleQuarter1WeekAgo1" Type="real" />
+          <Property Name="CETSaleQuarterCurrent1" Type="real" />
+          <Property Name="CETSaleQuarter1YearAgo0" Type="real" />
+          <Property Name="CETSaleQuarter2MonthAgo0" Type="real" />
+          <Property Name="CETSaleQuarter1MonthAgo0" Type="real" />
+          <Property Name="CETSaleQuarter1WeekAgo0" Type="real" />
+          <Property Name="CETSaleQuarterCurrent0" Type="real" />
+        </EntityType>
+        <EntityType Name="StockFinancials">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IndustryId" Type="int" />
+          <Property Name="SectorId" Type="int" />
+          <Property Name="Exch" Type="varchar" MaxLength="255" />
+          <Property Name="Time" Type="varchar" MaxLength="255" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="real" />
+          <Property Name="GREPS5YrGrowthRate" Type="real" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="GRSales5YrGrowthRate" Type="real" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="real" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="real" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="real" />
+          <Property Name="MEReturnonEquityTTM" Type="real" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="real" />
+          <Property Name="MEReturnonInvestmentTTM" Type="real" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="real" />
+          <Property Name="MEReturnonAssetsTTM" Type="real" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="real" />
+          <Property Name="PREffectiveTaxRateTTM" Type="real" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="real" />
+          <Property Name="PRNetProfitMarginTTM" Type="real" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="real" />
+          <Property Name="PRPreTaxMarginTTM" Type="real" />
+          <Property Name="PROperatingMargin5YrAvg" Type="real" />
+          <Property Name="PROperatingMarginTTM" Type="real" />
+          <Property Name="PREBITD5YrAvg" Type="real" />
+          <Property Name="PREBITDMarginTTM" Type="real" />
+          <Property Name="PRGrossMargin5YrAvg" Type="real" />
+          <Property Name="PRGrossMarginTTM" Type="real" />
+          <Property Name="EffAssetTurnoverTTM" Type="real" />
+          <Property Name="EffInventoryTurnoverTTM" Type="real" />
+          <Property Name="EffReceivableTurnoverTTM" Type="real" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="real" />
+          <Property Name="EffRevenueEmployeeTTM" Type="real" />
+          <Property Name="DivPayoutRatioTTM" Type="real" />
+          <Property Name="DivDividend5YearGrowthRate" Type="real" />
+          <Property Name="DivDividendYield5YearAvg" Type="real" />
+          <Property Name="DivDividendYield" Type="real" />
+          <Property Name="FSInterestCoverageTTM" Type="real" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="real" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="real" />
+          <Property Name="FSCurrentRatioMRQ" Type="real" />
+          <Property Name="FSQuickRatioMRQ" Type="real" />
+          <Property Name="VROwnedInstitutions" Type="real" />
+          <Property Name="VRPricetoCashFlowTTM" Type="real" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="real" />
+          <Property Name="VRPricetoBookMRQ" Type="real" />
+          <Property Name="VRPricetoSalesTTM" Type="real" />
+          <Property Name="VRBeta" Type="real" />
+          <Property Name="VRPELowLast5Yrs" Type="real" />
+          <Property Name="VRPEHighLast5Yrs" Type="real" />
+          <Property Name="VRPERatioTTM" Type="real" />
+        </EntityType>
+        <EntityContainer Name="StockMetricModelsStoreContainer">
+          <EntitySet Name="Exchanges" EntityType="Self.Exchanges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IndustryFinancials" EntityType="Self.IndustryFinancials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PPIndustry" EntityType="Self.PPIndustry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PPSector" EntityType="Self.PPSector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PPStock" EntityType="Self.PPStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectorFinancials" EntityType="Self.SectorFinancials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockAnalyst" EntityType="Self.StockAnalyst" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockFinancials" EntityType="Self.StockFinancials" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockMetricModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Exchanx">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Num" Type="Int32" />
+          <Property Name="Abbr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="IndustryFinancial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Num" Type="Int32" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="Single" />
+          <Property Name="GREPS5YrGrowthRate" Type="Single" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="GRSales5YrGrowthRate" Type="Single" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="Single" />
+          <Property Name="MEReturnonEquityTTM" Type="Single" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="Single" />
+          <Property Name="MEReturnonInvestmentTTM" Type="Single" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="Single" />
+          <Property Name="MEReturnonAssetsTTM" Type="Single" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="Single" />
+          <Property Name="PREffectiveTaxRateTTM" Type="Single" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="Single" />
+          <Property Name="PRNetProfitMarginTTM" Type="Single" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="Single" />
+          <Property Name="PRPreTaxMarginTTM" Type="Single" />
+          <Property Name="PROperatingMargin5YrAvg" Type="Single" />
+          <Property Name="PROperatingMarginTTM" Type="Single" />
+          <Property Name="PREBITD5YrAvg" Type="Single" />
+          <Property Name="PREBITDMarginTTM" Type="Single" />
+          <Property Name="PRGrossMargin5YrAvg" Type="Single" />
+          <Property Name="PRGrossMarginTTM" Type="Single" />
+          <Property Name="EffAssetTurnoverTTM" Type="Single" />
+          <Property Name="EffInventoryTurnoverTTM" Type="Single" />
+          <Property Name="EffReceivableTurnoverTTM" Type="Single" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="Single" />
+          <Property Name="EffRevenueEmployeeTTM" Type="Single" />
+          <Property Name="DivPayoutRatioTTM" Type="Single" />
+          <Property Name="DivDividend5YearGrowthRate" Type="Single" />
+          <Property Name="DivDividendYield5YearAvg" Type="Single" />
+          <Property Name="DivDividendYield" Type="Single" />
+          <Property Name="FSInterestCoverageTTM" Type="Single" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSCurrentRatioMRQ" Type="Single" />
+          <Property Name="FSQuickRatioMRQ" Type="Single" />
+          <Property Name="VROwnedInstitutions" Type="Single" />
+          <Property Name="VRPricetoCashFlowTTM" Type="Single" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="Single" />
+          <Property Name="VRPricetoBookMRQ" Type="Single" />
+          <Property Name="VRPricetoSalesTTM" Type="Single" />
+          <Property Name="VRBeta" Type="Single" />
+          <Property Name="VRPELowLast5Yrs" Type="Single" />
+          <Property Name="VRPEHighLast5Yrs" Type="Single" />
+          <Property Name="VRPERatioTTM" Type="Single" />
+        </EntityType>
+        <EntityType Name="PPIndustry">
+          <Key>
+            <PropertyRef Name="IndustryID" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IndustryID" Type="Int32" Nullable="false" />
+          <Property Name="SectorID" Type="Int32" />
+          <Property Name="NumStock" Type="Single" />
+          <Property Name="StartDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EndDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentPrice" Type="Single" />
+          <Property Name="pc1w" Type="Single" />
+          <Property Name="r1w" Type="Int32" />
+          <Property Name="pc2w" Type="Single" />
+          <Property Name="r2w" Type="Int32" />
+          <Property Name="pc3w" Type="Single" />
+          <Property Name="r3w" Type="Int32" />
+          <Property Name="pc4w" Type="Single" />
+          <Property Name="r4w" Type="Int32" />
+          <Property Name="pc13w" Type="Single" />
+          <Property Name="r13w" Type="Int32" />
+          <Property Name="pc26w" Type="Single" />
+          <Property Name="r26w" Type="Int32" />
+          <Property Name="pc52w" Type="Single" />
+          <Property Name="r52w" Type="Int32" />
+          <Property Name="v1" Type="Single" />
+          <Property Name="v2" Type="Single" />
+          <Property Name="v3" Type="Single" />
+          <Property Name="v4" Type="Single" />
+          <Property Name="v5" Type="Single" />
+          <Property Name="v6" Type="Single" />
+          <Property Name="v7" Type="Single" />
+          <Property Name="v8" Type="Single" />
+          <Property Name="v9" Type="Single" />
+          <Property Name="v10" Type="Single" />
+          <Property Name="a5v1" Type="Single" />
+          <Property Name="a5v2" Type="Single" />
+          <Property Name="a5v3" Type="Single" />
+          <Property Name="a5v4" Type="Single" />
+          <Property Name="a5v5" Type="Single" />
+          <Property Name="a5v6" Type="Single" />
+          <Property Name="a5v7" Type="Single" />
+          <Property Name="a5v8" Type="Single" />
+          <Property Name="a5v9" Type="Single" />
+          <Property Name="a5v10" Type="Single" />
+          <Property Name="a10v1" Type="Single" />
+          <Property Name="a10v2" Type="Single" />
+          <Property Name="a10v3" Type="Single" />
+          <Property Name="a10v4" Type="Single" />
+          <Property Name="a10v5" Type="Single" />
+          <Property Name="a10v6" Type="Single" />
+          <Property Name="a10v7" Type="Single" />
+          <Property Name="a10v8" Type="Single" />
+          <Property Name="a10v9" Type="Single" />
+          <Property Name="a10v10" Type="Single" />
+        </EntityType>
+        <EntityType Name="PPSector">
+          <Key>
+            <PropertyRef Name="SectorID" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IndustryID" Type="Int32" />
+          <Property Name="SectorID" Type="Int32" Nullable="false" />
+          <Property Name="NumStock" Type="Single" />
+          <Property Name="StartDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EndDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentPrice" Type="Single" />
+          <Property Name="pc1w" Type="Single" />
+          <Property Name="r1w" Type="Int32" />
+          <Property Name="pc2w" Type="Single" />
+          <Property Name="r2w" Type="Int32" />
+          <Property Name="pc3w" Type="Single" />
+          <Property Name="r3w" Type="Int32" />
+          <Property Name="pc4w" Type="Single" />
+          <Property Name="r4w" Type="Int32" />
+          <Property Name="pc13w" Type="Single" />
+          <Property Name="r13w" Type="Int32" />
+          <Property Name="pc26w" Type="Single" />
+          <Property Name="r26w" Type="Int32" />
+          <Property Name="pc52w" Type="Single" />
+          <Property Name="r52w" Type="Int32" />
+          <Property Name="v1" Type="Single" />
+          <Property Name="v2" Type="Single" />
+          <Property Name="v3" Type="Single" />
+          <Property Name="v4" Type="Single" />
+          <Property Name="v5" Type="Single" />
+          <Property Name="v6" Type="Single" />
+          <Property Name="v7" Type="Single" />
+          <Property Name="v8" Type="Single" />
+          <Property Name="v9" Type="Single" />
+          <Property Name="v10" Type="Single" />
+          <Property Name="a5v1" Type="Single" />
+          <Property Name="a5v2" Type="Single" />
+          <Property Name="a5v3" Type="Single" />
+          <Property Name="a5v4" Type="Single" />
+          <Property Name="a5v5" Type="Single" />
+          <Property Name="a5v6" Type="Single" />
+          <Property Name="a5v7" Type="Single" />
+          <Property Name="a5v8" Type="Single" />
+          <Property Name="a5v9" Type="Single" />
+          <Property Name="a5v10" Type="Single" />
+          <Property Name="a10v1" Type="Single" />
+          <Property Name="a10v2" Type="Single" />
+          <Property Name="a10v3" Type="Single" />
+          <Property Name="a10v4" Type="Single" />
+          <Property Name="a10v5" Type="Single" />
+          <Property Name="a10v6" Type="Single" />
+          <Property Name="a10v7" Type="Single" />
+          <Property Name="a10v8" Type="Single" />
+          <Property Name="a10v9" Type="Single" />
+          <Property Name="a10v10" Type="Single" />
+        </EntityType>
+        <EntityType Name="PPStock">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IndustryID" Type="Int32" />
+          <Property Name="SectorID" Type="Int32" />
+          <Property Name="NumStock" Type="Single" />
+          <Property Name="StartDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EndDate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentPrice" Type="Single" />
+          <Property Name="pc1w" Type="Single" />
+          <Property Name="r1w" Type="Int32" />
+          <Property Name="pc2w" Type="Single" />
+          <Property Name="r2w" Type="Int32" />
+          <Property Name="pc3w" Type="Single" />
+          <Property Name="r3w" Type="Int32" />
+          <Property Name="pc4w" Type="Single" />
+          <Property Name="r4w" Type="Int32" />
+          <Property Name="pc13w" Type="Single" />
+          <Property Name="r13w" Type="Int32" />
+          <Property Name="pc26w" Type="Single" />
+          <Property Name="r26w" Type="Int32" />
+          <Property Name="pc52w" Type="Single" />
+          <Property Name="r52w" Type="Int32" />
+          <Property Name="v1" Type="Single" />
+          <Property Name="v2" Type="Single" />
+          <Property Name="v3" Type="Single" />
+          <Property Name="v4" Type="Single" />
+          <Property Name="v5" Type="Single" />
+          <Property Name="v6" Type="Single" />
+          <Property Name="v7" Type="Single" />
+          <Property Name="v8" Type="Single" />
+          <Property Name="v9" Type="Single" />
+          <Property Name="v10" Type="Single" />
+          <Property Name="a5v1" Type="Single" />
+          <Property Name="a5v2" Type="Single" />
+          <Property Name="a5v3" Type="Single" />
+          <Property Name="a5v4" Type="Single" />
+          <Property Name="a5v5" Type="Single" />
+          <Property Name="a5v6" Type="Single" />
+          <Property Name="a5v7" Type="Single" />
+          <Property Name="a5v8" Type="Single" />
+          <Property Name="a5v9" Type="Single" />
+          <Property Name="a5v10" Type="Single" />
+          <Property Name="a10v1" Type="Single" />
+          <Property Name="a10v2" Type="Single" />
+          <Property Name="a10v3" Type="Single" />
+          <Property Name="a10v4" Type="Single" />
+          <Property Name="a10v5" Type="Single" />
+          <Property Name="a10v6" Type="Single" />
+          <Property Name="a10v7" Type="Single" />
+          <Property Name="a10v8" Type="Single" />
+          <Property Name="a10v9" Type="Single" />
+          <Property Name="a10v10" Type="Single" />
+        </EntityType>
+        <EntityType Name="SectorFinancial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Num" Type="Int32" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="Single" />
+          <Property Name="GREPS5YrGrowthRate" Type="Single" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="GRSales5YrGrowthRate" Type="Single" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="Single" />
+          <Property Name="MEReturnonEquityTTM" Type="Single" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="Single" />
+          <Property Name="MEReturnonInvestmentTTM" Type="Single" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="Single" />
+          <Property Name="MEReturnonAssetsTTM" Type="Single" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="Single" />
+          <Property Name="PREffectiveTaxRateTTM" Type="Single" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="Single" />
+          <Property Name="PRNetProfitMarginTTM" Type="Single" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="Single" />
+          <Property Name="PRPreTaxMarginTTM" Type="Single" />
+          <Property Name="PROperatingMargin5YrAvg" Type="Single" />
+          <Property Name="PROperatingMarginTTM" Type="Single" />
+          <Property Name="PREBITD5YrAvg" Type="Single" />
+          <Property Name="PREBITDMarginTTM" Type="Single" />
+          <Property Name="PRGrossMargin5YrAvg" Type="Single" />
+          <Property Name="PRGrossMarginTTM" Type="Single" />
+          <Property Name="EffAssetTurnoverTTM" Type="Single" />
+          <Property Name="EffInventoryTurnoverTTM" Type="Single" />
+          <Property Name="EffReceivableTurnoverTTM" Type="Single" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="Single" />
+          <Property Name="EffRevenueEmployeeTTM" Type="Single" />
+          <Property Name="DivPayoutRatioTTM" Type="Single" />
+          <Property Name="DivDividend5YearGrowthRate" Type="Single" />
+          <Property Name="DivDividendYield5YearAvg" Type="Single" />
+          <Property Name="DivDividendYield" Type="Single" />
+          <Property Name="FSInterestCoverageTTM" Type="Single" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSCurrentRatioMRQ" Type="Single" />
+          <Property Name="FSQuickRatioMRQ" Type="Single" />
+          <Property Name="VROwnedInstitutions" Type="Single" />
+          <Property Name="VRPricetoCashFlowTTM" Type="Single" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="Single" />
+          <Property Name="VRPricetoBookMRQ" Type="Single" />
+          <Property Name="VRPricetoSalesTTM" Type="Single" />
+          <Property Name="VRBeta" Type="Single" />
+          <Property Name="VRPELowLast5Yrs" Type="Single" />
+          <Property Name="VRPEHighLast5Yrs" Type="Single" />
+          <Property Name="VRPERatioTTM" Type="Single" />
+        </EntityType>
+        <EntityType Name="StockAnalyst">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IHNetBuyers" Type="Single" />
+          <Property Name="IHReducedPositions" Type="Single" />
+          <Property Name="IHIncreasedPositions" Type="Single" />
+          <Property Name="IHClosedPositions" Type="Single" />
+          <Property Name="IHNewPositions" Type="Single" />
+          <Property Name="IH3MoNetChange" Type="Single" />
+          <Property Name="IHTotalSharesHeld" Type="Single" />
+          <Property Name="IHofHolders" Type="Single" />
+          <Property Name="IHSharesOwned" Type="Single" />
+          <Property Name="HSEPSSurpriseQuater4" Type="Single" />
+          <Property Name="HSEPSSurpriseQuater3" Type="Single" />
+          <Property Name="HSEPSSurpriseQuater2" Type="Single" />
+          <Property Name="HSEPSSurpriseQuater1" Type="Single" />
+          <Property Name="HSEPSSurpriseQuater0" Type="Single" />
+          <Property Name="HSSalesSurpriseQuater4" Type="Single" />
+          <Property Name="HSSalesSurpriseQuater3" Type="Single" />
+          <Property Name="HSSalesSurpriseQuater2" Type="Single" />
+          <Property Name="HSSalesSurpriseQuater1" Type="Single" />
+          <Property Name="HSSalesSurpriseQuater0" Type="Single" />
+          <Property Name="HSSurpiseQuarter" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CRLastUpdated" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CRCompanyFiscalYearEndMonth" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CRNextEarningsapprox" Type="Single" />
+          <Property Name="CRConsensusRecommendation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ARRMeanRating3MonthAgo" Type="Single" />
+          <Property Name="ARRMeanRating2MonthAgo" Type="Single" />
+          <Property Name="ARRMeanRating1MonthAgo" Type="Single" />
+          <Property Name="ARRMeanRatingCurrent" Type="Single" />
+          <Property Name="CETEarningYear1YearAgo2" Type="Single" />
+          <Property Name="CETEarningYear2MonthAgo2" Type="Single" />
+          <Property Name="CETEarningYear1MonthAgo2" Type="Single" />
+          <Property Name="CETEarningYear1WeekAgo2" Type="Single" />
+          <Property Name="CETEarningYearCurrent2" Type="Single" />
+          <Property Name="CETEarningYear1YearAgo1" Type="Single" />
+          <Property Name="CETEarningYear2MonthAgo1" Type="Single" />
+          <Property Name="CETEarningYear1MonthAgo1" Type="Single" />
+          <Property Name="CETEarningYear1WeekAgo1" Type="Single" />
+          <Property Name="CETEarningYearCurrent1" Type="Single" />
+          <Property Name="CETEarningYear1YearAgo0" Type="Single" />
+          <Property Name="CETEarningYear2MonthAgo0" Type="Single" />
+          <Property Name="CETEarningYear1MonthAgo0" Type="Single" />
+          <Property Name="CETEarningYear1WeekAgo0" Type="Single" />
+          <Property Name="CETEarningYearCurrent0" Type="Single" />
+          <Property Name="CETEarningQuarter1YearAgo4" Type="Single" />
+          <Property Name="CETEarningQuarter2MonthAgo4" Type="Single" />
+          <Property Name="CETEarningQuarter1MonthAgo4" Type="Single" />
+          <Property Name="CETEarningQuarter1WeekAgo4" Type="Single" />
+          <Property Name="CETEarningQuarterCurrent4" Type="Single" />
+          <Property Name="CETEarningQuarter1YearAgo3" Type="Single" />
+          <Property Name="CETEarningQuarter2MonthAgo3" Type="Single" />
+          <Property Name="CETEarningQuarter1MonthAgo3" Type="Single" />
+          <Property Name="CETEarningQuarter1WeekAgo3" Type="Single" />
+          <Property Name="CETEarningQuarterCurrent3" Type="Single" />
+          <Property Name="CETEarningQuarter1YearAgo2" Type="Single" />
+          <Property Name="CETEarningQuarter2MonthAgo2" Type="Single" />
+          <Property Name="CETEarningQuarter1MonthAgo2" Type="Single" />
+          <Property Name="CETEarningQuarter1WeekAgo2" Type="Single" />
+          <Property Name="CETEarningQuarterCurrent2" Type="Single" />
+          <Property Name="CETEarningQuarter1YearAgo1" Type="Single" />
+          <Property Name="CETEarningQuarter2MonthAgo1" Type="Single" />
+          <Property Name="CETEarningQuarter1MonthAgo1" Type="Single" />
+          <Property Name="CETEarningQuarter1WeekAgo1" Type="Single" />
+          <Property Name="CETEarningQuarterCurrent1" Type="Single" />
+          <Property Name="CETEarningQuarter1YearAgo0" Type="Single" />
+          <Property Name="CETEarningQuarter2MonthAgo0" Type="Single" />
+          <Property Name="CETEarningQuarter1MonthAgo0" Type="Single" />
+          <Property Name="CETEarningQuarter1WeekAgo0" Type="Single" />
+          <Property Name="CETEarningQuarterCurrent0" Type="Single" />
+          <Property Name="CETSaleYear1YearAgo2" Type="Single" />
+          <Property Name="CETSaleYear2MonthAgo2" Type="Single" />
+          <Property Name="CETSaleYear1MonthAgo2" Type="Single" />
+          <Property Name="CETSaleYear1WeekAgo2" Type="Single" />
+          <Property Name="CETSaleYearCurrent2" Type="Single" />
+          <Property Name="CETSaleYear1YearAgo1" Type="Single" />
+          <Property Name="CETSaleYear2MonthAgo1" Type="Single" />
+          <Property Name="CETSaleYear1MonthAgo1" Type="Single" />
+          <Property Name="CETSaleYear1WeekAgo1" Type="Single" />
+          <Property Name="CETSaleYearCurrent1" Type="Single" />
+          <Property Name="CETSaleYear1YearAgo0" Type="Single" />
+          <Property Name="CETSaleYear2MonthAgo0" Type="Single" />
+          <Property Name="CETSaleYear1MonthAgo0" Type="Single" />
+          <Property Name="CETSaleYear1WeekAgo0" Type="Single" />
+          <Property Name="CETSaleYearCurrent0" Type="Single" />
+          <Property Name="CETSaleQuarter1YearAgo4" Type="Single" />
+          <Property Name="CETSaleQuarter2MonthAgo4" Type="Single" />
+          <Property Name="CETSaleQuarter1MonthAgo4" Type="Single" />
+          <Property Name="CETSaleQuarter1WeekAgo4" Type="Single" />
+          <Property Name="CETSaleQuarterCurrent4" Type="Single" />
+          <Property Name="CETSaleQuarter1YearAgo3" Type="Single" />
+          <Property Name="CETSaleQuarter2MonthAgo3" Type="Single" />
+          <Property Name="CETSaleQuarter1MonthAgo3" Type="Single" />
+          <Property Name="CETSaleQuarter1WeekAgo3" Type="Single" />
+          <Property Name="CETSaleQuarterCurrent3" Type="Single" />
+          <Property Name="CETSaleQuarter1YearAgo2" Type="Single" />
+          <Property Name="CETSaleQuarter2MonthAgo2" Type="Single" />
+          <Property Name="CETSaleQuarter1MonthAgo2" Type="Single" />
+          <Property Name="CETSaleQuarter1WeekAgo2" Type="Single" />
+          <Property Name="CETSaleQuarterCurrent2" Type="Single" />
+          <Property Name="CETSaleQuarter1YearAgo1" Type="Single" />
+          <Property Name="CETSaleQuarter2MonthAgo1" Type="Single" />
+          <Property Name="CETSaleQuarter1MonthAgo1" Type="Single" />
+          <Property Name="CETSaleQuarter1WeekAgo1" Type="Single" />
+          <Property Name="CETSaleQuarterCurrent1" Type="Single" />
+          <Property Name="CETSaleQuarter1YearAgo0" Type="Single" />
+          <Property Name="CETSaleQuarter2MonthAgo0" Type="Single" />
+          <Property Name="CETSaleQuarter1MonthAgo0" Type="Single" />
+          <Property Name="CETSaleQuarter1WeekAgo0" Type="Single" />
+          <Property Name="CETSaleQuarterCurrent0" Type="Single" />
+        </EntityType>
+        <EntityType Name="StockFinancial">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Symbol" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IndustryId" Type="Int32" />
+          <Property Name="SectorId" Type="Int32" />
+          <Property Name="Exch" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Time" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GRCapitalSpending5YrGrowthRate" Type="Single" />
+          <Property Name="GREPS5YrGrowthRate" Type="Single" />
+          <Property Name="GREPSTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GREPSMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="GRSales5YrGrowthRate" Type="Single" />
+          <Property Name="GRSalesTTMvsTTM1YrAgo" Type="Single" />
+          <Property Name="GRSalesMRQvsQtr1YrAgo" Type="Single" />
+          <Property Name="MEReturnonEquity5YrAvg" Type="Single" />
+          <Property Name="MEReturnonEquityTTM" Type="Single" />
+          <Property Name="MEReturnonInvestment5YrAvg" Type="Single" />
+          <Property Name="MEReturnonInvestmentTTM" Type="Single" />
+          <Property Name="MEReturnonAssets5YrAvg" Type="Single" />
+          <Property Name="MEReturnonAssetsTTM" Type="Single" />
+          <Property Name="PREffectiveTaxRate5YrAvg" Type="Single" />
+          <Property Name="PREffectiveTaxRateTTM" Type="Single" />
+          <Property Name="PRNetProfitMargin5YrAvg" Type="Single" />
+          <Property Name="PRNetProfitMarginTTM" Type="Single" />
+          <Property Name="PRPreTaxMargin5YrAvg" Type="Single" />
+          <Property Name="PRPreTaxMarginTTM" Type="Single" />
+          <Property Name="PROperatingMargin5YrAvg" Type="Single" />
+          <Property Name="PROperatingMarginTTM" Type="Single" />
+          <Property Name="PREBITD5YrAvg" Type="Single" />
+          <Property Name="PREBITDMarginTTM" Type="Single" />
+          <Property Name="PRGrossMargin5YrAvg" Type="Single" />
+          <Property Name="PRGrossMarginTTM" Type="Single" />
+          <Property Name="EffAssetTurnoverTTM" Type="Single" />
+          <Property Name="EffInventoryTurnoverTTM" Type="Single" />
+          <Property Name="EffReceivableTurnoverTTM" Type="Single" />
+          <Property Name="EffNetIncomeEmployeeTTM" Type="Single" />
+          <Property Name="EffRevenueEmployeeTTM" Type="Single" />
+          <Property Name="DivPayoutRatioTTM" Type="Single" />
+          <Property Name="DivDividend5YearGrowthRate" Type="Single" />
+          <Property Name="DivDividendYield5YearAvg" Type="Single" />
+          <Property Name="DivDividendYield" Type="Single" />
+          <Property Name="FSInterestCoverageTTM" Type="Single" />
+          <Property Name="FSTotalDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSLTDebttoEquityMRQ" Type="Single" />
+          <Property Name="FSCurrentRatioMRQ" Type="Single" />
+          <Property Name="FSQuickRatioMRQ" Type="Single" />
+          <Property Name="VROwnedInstitutions" Type="Single" />
+          <Property Name="VRPricetoCashFlowTTM" Type="Single" />
+          <Property Name="VRPricetoTangibleBookMRQ" Type="Single" />
+          <Property Name="VRPricetoBookMRQ" Type="Single" />
+          <Property Name="VRPricetoSalesTTM" Type="Single" />
+          <Property Name="VRBeta" Type="Single" />
+          <Property Name="VRPELowLast5Yrs" Type="Single" />
+          <Property Name="VRPEHighLast5Yrs" Type="Single" />
+          <Property Name="VRPERatioTTM" Type="Single" />
+        </EntityType>
+        <EntityContainer Name="StockDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Exchanges" EntityType="Self.Exchanx" />
+          <EntitySet Name="IndustryFinancials" EntityType="Self.IndustryFinancial" />
+          <EntitySet Name="PPIndustries" EntityType="Self.PPIndustry" />
+          <EntitySet Name="PPSectors" EntityType="Self.PPSector" />
+          <EntitySet Name="PPStocks" EntityType="Self.PPStock" />
+          <EntitySet Name="SectorFinancials" EntityType="Self.SectorFinancial" />
+          <EntitySet Name="StockAnalysts" EntityType="Self.StockAnalyst" />
+          <EntitySet Name="StockFinancials" EntityType="Self.StockFinancial" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockMetricModelsStoreContainer" CdmEntityContainer="StockDbContext">
+          <EntitySetMapping Name="Exchanges">
+            <EntityTypeMapping TypeName="StockMetricModels.Exchanx">
+              <MappingFragment StoreEntitySet="Exchanges">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Abbr" ColumnName="Abbr" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IndustryFinancials">
+            <EntityTypeMapping TypeName="StockMetricModels.IndustryFinancial">
+              <MappingFragment StoreEntitySet="IndustryFinancials">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="GRCapitalSpending5YrGrowthRate" ColumnName="GRCapitalSpending5YrGrowthRate" />
+                <ScalarProperty Name="GREPS5YrGrowthRate" ColumnName="GREPS5YrGrowthRate" />
+                <ScalarProperty Name="GREPSTTMvsTTM1YrAgo" ColumnName="GREPSTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GREPSMRQvsQtr1YrAgo" ColumnName="GREPSMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="GRSales5YrGrowthRate" ColumnName="GRSales5YrGrowthRate" />
+                <ScalarProperty Name="GRSalesTTMvsTTM1YrAgo" ColumnName="GRSalesTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GRSalesMRQvsQtr1YrAgo" ColumnName="GRSalesMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="MEReturnonEquity5YrAvg" ColumnName="MEReturnonEquity5YrAvg" />
+                <ScalarProperty Name="MEReturnonEquityTTM" ColumnName="MEReturnonEquityTTM" />
+                <ScalarProperty Name="MEReturnonInvestment5YrAvg" ColumnName="MEReturnonInvestment5YrAvg" />
+                <ScalarProperty Name="MEReturnonInvestmentTTM" ColumnName="MEReturnonInvestmentTTM" />
+                <ScalarProperty Name="MEReturnonAssets5YrAvg" ColumnName="MEReturnonAssets5YrAvg" />
+                <ScalarProperty Name="MEReturnonAssetsTTM" ColumnName="MEReturnonAssetsTTM" />
+                <ScalarProperty Name="PREffectiveTaxRate5YrAvg" ColumnName="PREffectiveTaxRate5YrAvg" />
+                <ScalarProperty Name="PREffectiveTaxRateTTM" ColumnName="PREffectiveTaxRateTTM" />
+                <ScalarProperty Name="PRNetProfitMargin5YrAvg" ColumnName="PRNetProfitMargin5YrAvg" />
+                <ScalarProperty Name="PRNetProfitMarginTTM" ColumnName="PRNetProfitMarginTTM" />
+                <ScalarProperty Name="PRPreTaxMargin5YrAvg" ColumnName="PRPreTaxMargin5YrAvg" />
+                <ScalarProperty Name="PRPreTaxMarginTTM" ColumnName="PRPreTaxMarginTTM" />
+                <ScalarProperty Name="PROperatingMargin5YrAvg" ColumnName="PROperatingMargin5YrAvg" />
+                <ScalarProperty Name="PROperatingMarginTTM" ColumnName="PROperatingMarginTTM" />
+                <ScalarProperty Name="PREBITD5YrAvg" ColumnName="PREBITD5YrAvg" />
+                <ScalarProperty Name="PREBITDMarginTTM" ColumnName="PREBITDMarginTTM" />
+                <ScalarProperty Name="PRGrossMargin5YrAvg" ColumnName="PRGrossMargin5YrAvg" />
+                <ScalarProperty Name="PRGrossMarginTTM" ColumnName="PRGrossMarginTTM" />
+                <ScalarProperty Name="EffAssetTurnoverTTM" ColumnName="EffAssetTurnoverTTM" />
+                <ScalarProperty Name="EffInventoryTurnoverTTM" ColumnName="EffInventoryTurnoverTTM" />
+                <ScalarProperty Name="EffReceivableTurnoverTTM" ColumnName="EffReceivableTurnoverTTM" />
+                <ScalarProperty Name="EffNetIncomeEmployeeTTM" ColumnName="EffNetIncomeEmployeeTTM" />
+                <ScalarProperty Name="EffRevenueEmployeeTTM" ColumnName="EffRevenueEmployeeTTM" />
+                <ScalarProperty Name="DivPayoutRatioTTM" ColumnName="DivPayoutRatioTTM" />
+                <ScalarProperty Name="DivDividend5YearGrowthRate" ColumnName="DivDividend5YearGrowthRate" />
+                <ScalarProperty Name="DivDividendYield5YearAvg" ColumnName="DivDividendYield5YearAvg" />
+                <ScalarProperty Name="DivDividendYield" ColumnName="DivDividendYield" />
+                <ScalarProperty Name="FSInterestCoverageTTM" ColumnName="FSInterestCoverageTTM" />
+                <ScalarProperty Name="FSTotalDebttoEquityMRQ" ColumnName="FSTotalDebttoEquityMRQ" />
+                <ScalarProperty Name="FSLTDebttoEquityMRQ" ColumnName="FSLTDebttoEquityMRQ" />
+                <ScalarProperty Name="FSCurrentRatioMRQ" ColumnName="FSCurrentRatioMRQ" />
+                <ScalarProperty Name="FSQuickRatioMRQ" ColumnName="FSQuickRatioMRQ" />
+                <ScalarProperty Name="VROwnedInstitutions" ColumnName="VROwnedInstitutions" />
+                <ScalarProperty Name="VRPricetoCashFlowTTM" ColumnName="VRPricetoCashFlowTTM" />
+                <ScalarProperty Name="VRPricetoTangibleBookMRQ" ColumnName="VRPricetoTangibleBookMRQ" />
+                <ScalarProperty Name="VRPricetoBookMRQ" ColumnName="VRPricetoBookMRQ" />
+                <ScalarProperty Name="VRPricetoSalesTTM" ColumnName="VRPricetoSalesTTM" />
+                <ScalarProperty Name="VRBeta" ColumnName="VRBeta" />
+                <ScalarProperty Name="VRPELowLast5Yrs" ColumnName="VRPELowLast5Yrs" />
+                <ScalarProperty Name="VRPEHighLast5Yrs" ColumnName="VRPEHighLast5Yrs" />
+                <ScalarProperty Name="VRPERatioTTM" ColumnName="VRPERatioTTM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PPIndustries">
+            <EntityTypeMapping TypeName="StockMetricModels.PPIndustry">
+              <MappingFragment StoreEntitySet="PPIndustry">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IndustryID" ColumnName="IndustryID" />
+                <ScalarProperty Name="SectorID" ColumnName="SectorID" />
+                <ScalarProperty Name="NumStock" ColumnName="NumStock" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
+                <ScalarProperty Name="pc1w" ColumnName="pc1w" />
+                <ScalarProperty Name="r1w" ColumnName="r1w" />
+                <ScalarProperty Name="pc2w" ColumnName="pc2w" />
+                <ScalarProperty Name="r2w" ColumnName="r2w" />
+                <ScalarProperty Name="pc3w" ColumnName="pc3w" />
+                <ScalarProperty Name="r3w" ColumnName="r3w" />
+                <ScalarProperty Name="pc4w" ColumnName="pc4w" />
+                <ScalarProperty Name="r4w" ColumnName="r4w" />
+                <ScalarProperty Name="pc13w" ColumnName="pc13w" />
+                <ScalarProperty Name="r13w" ColumnName="r13w" />
+                <ScalarProperty Name="pc26w" ColumnName="pc26w" />
+                <ScalarProperty Name="r26w" ColumnName="r26w" />
+                <ScalarProperty Name="pc52w" ColumnName="pc52w" />
+                <ScalarProperty Name="r52w" ColumnName="r52w" />
+                <ScalarProperty Name="v1" ColumnName="v1" />
+                <ScalarProperty Name="v2" ColumnName="v2" />
+                <ScalarProperty Name="v3" ColumnName="v3" />
+                <ScalarProperty Name="v4" ColumnName="v4" />
+                <ScalarProperty Name="v5" ColumnName="v5" />
+                <ScalarProperty Name="v6" ColumnName="v6" />
+                <ScalarProperty Name="v7" ColumnName="v7" />
+                <ScalarProperty Name="v8" ColumnName="v8" />
+                <ScalarProperty Name="v9" ColumnName="v9" />
+                <ScalarProperty Name="v10" ColumnName="v10" />
+                <ScalarProperty Name="a5v1" ColumnName="a5v1" />
+                <ScalarProperty Name="a5v2" ColumnName="a5v2" />
+                <ScalarProperty Name="a5v3" ColumnName="a5v3" />
+                <ScalarProperty Name="a5v4" ColumnName="a5v4" />
+                <ScalarProperty Name="a5v5" ColumnName="a5v5" />
+                <ScalarProperty Name="a5v6" ColumnName="a5v6" />
+                <ScalarProperty Name="a5v7" ColumnName="a5v7" />
+                <ScalarProperty Name="a5v8" ColumnName="a5v8" />
+                <ScalarProperty Name="a5v9" ColumnName="a5v9" />
+                <ScalarProperty Name="a5v10" ColumnName="a5v10" />
+                <ScalarProperty Name="a10v1" ColumnName="a10v1" />
+                <ScalarProperty Name="a10v2" ColumnName="a10v2" />
+                <ScalarProperty Name="a10v3" ColumnName="a10v3" />
+                <ScalarProperty Name="a10v4" ColumnName="a10v4" />
+                <ScalarProperty Name="a10v5" ColumnName="a10v5" />
+                <ScalarProperty Name="a10v6" ColumnName="a10v6" />
+                <ScalarProperty Name="a10v7" ColumnName="a10v7" />
+                <ScalarProperty Name="a10v8" ColumnName="a10v8" />
+                <ScalarProperty Name="a10v9" ColumnName="a10v9" />
+                <ScalarProperty Name="a10v10" ColumnName="a10v10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PPSectors">
+            <EntityTypeMapping TypeName="StockMetricModels.PPSector">
+              <MappingFragment StoreEntitySet="PPSector">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IndustryID" ColumnName="IndustryID" />
+                <ScalarProperty Name="SectorID" ColumnName="SectorID" />
+                <ScalarProperty Name="NumStock" ColumnName="NumStock" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
+                <ScalarProperty Name="pc1w" ColumnName="pc1w" />
+                <ScalarProperty Name="r1w" ColumnName="r1w" />
+                <ScalarProperty Name="pc2w" ColumnName="pc2w" />
+                <ScalarProperty Name="r2w" ColumnName="r2w" />
+                <ScalarProperty Name="pc3w" ColumnName="pc3w" />
+                <ScalarProperty Name="r3w" ColumnName="r3w" />
+                <ScalarProperty Name="pc4w" ColumnName="pc4w" />
+                <ScalarProperty Name="r4w" ColumnName="r4w" />
+                <ScalarProperty Name="pc13w" ColumnName="pc13w" />
+                <ScalarProperty Name="r13w" ColumnName="r13w" />
+                <ScalarProperty Name="pc26w" ColumnName="pc26w" />
+                <ScalarProperty Name="r26w" ColumnName="r26w" />
+                <ScalarProperty Name="pc52w" ColumnName="pc52w" />
+                <ScalarProperty Name="r52w" ColumnName="r52w" />
+                <ScalarProperty Name="v1" ColumnName="v1" />
+                <ScalarProperty Name="v2" ColumnName="v2" />
+                <ScalarProperty Name="v3" ColumnName="v3" />
+                <ScalarProperty Name="v4" ColumnName="v4" />
+                <ScalarProperty Name="v5" ColumnName="v5" />
+                <ScalarProperty Name="v6" ColumnName="v6" />
+                <ScalarProperty Name="v7" ColumnName="v7" />
+                <ScalarProperty Name="v8" ColumnName="v8" />
+                <ScalarProperty Name="v9" ColumnName="v9" />
+                <ScalarProperty Name="v10" ColumnName="v10" />
+                <ScalarProperty Name="a5v1" ColumnName="a5v1" />
+                <ScalarProperty Name="a5v2" ColumnName="a5v2" />
+                <ScalarProperty Name="a5v3" ColumnName="a5v3" />
+                <ScalarProperty Name="a5v4" ColumnName="a5v4" />
+                <ScalarProperty Name="a5v5" ColumnName="a5v5" />
+                <ScalarProperty Name="a5v6" ColumnName="a5v6" />
+                <ScalarProperty Name="a5v7" ColumnName="a5v7" />
+                <ScalarProperty Name="a5v8" ColumnName="a5v8" />
+                <ScalarProperty Name="a5v9" ColumnName="a5v9" />
+                <ScalarProperty Name="a5v10" ColumnName="a5v10" />
+                <ScalarProperty Name="a10v1" ColumnName="a10v1" />
+                <ScalarProperty Name="a10v2" ColumnName="a10v2" />
+                <ScalarProperty Name="a10v3" ColumnName="a10v3" />
+                <ScalarProperty Name="a10v4" ColumnName="a10v4" />
+                <ScalarProperty Name="a10v5" ColumnName="a10v5" />
+                <ScalarProperty Name="a10v6" ColumnName="a10v6" />
+                <ScalarProperty Name="a10v7" ColumnName="a10v7" />
+                <ScalarProperty Name="a10v8" ColumnName="a10v8" />
+                <ScalarProperty Name="a10v9" ColumnName="a10v9" />
+                <ScalarProperty Name="a10v10" ColumnName="a10v10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PPStocks">
+            <EntityTypeMapping TypeName="StockMetricModels.PPStock">
+              <MappingFragment StoreEntitySet="PPStock">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IndustryID" ColumnName="IndustryID" />
+                <ScalarProperty Name="SectorID" ColumnName="SectorID" />
+                <ScalarProperty Name="NumStock" ColumnName="NumStock" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
+                <ScalarProperty Name="pc1w" ColumnName="pc1w" />
+                <ScalarProperty Name="r1w" ColumnName="r1w" />
+                <ScalarProperty Name="pc2w" ColumnName="pc2w" />
+                <ScalarProperty Name="r2w" ColumnName="r2w" />
+                <ScalarProperty Name="pc3w" ColumnName="pc3w" />
+                <ScalarProperty Name="r3w" ColumnName="r3w" />
+                <ScalarProperty Name="pc4w" ColumnName="pc4w" />
+                <ScalarProperty Name="r4w" ColumnName="r4w" />
+                <ScalarProperty Name="pc13w" ColumnName="pc13w" />
+                <ScalarProperty Name="r13w" ColumnName="r13w" />
+                <ScalarProperty Name="pc26w" ColumnName="pc26w" />
+                <ScalarProperty Name="r26w" ColumnName="r26w" />
+                <ScalarProperty Name="pc52w" ColumnName="pc52w" />
+                <ScalarProperty Name="r52w" ColumnName="r52w" />
+                <ScalarProperty Name="v1" ColumnName="v1" />
+                <ScalarProperty Name="v2" ColumnName="v2" />
+                <ScalarProperty Name="v3" ColumnName="v3" />
+                <ScalarProperty Name="v4" ColumnName="v4" />
+                <ScalarProperty Name="v5" ColumnName="v5" />
+                <ScalarProperty Name="v6" ColumnName="v6" />
+                <ScalarProperty Name="v7" ColumnName="v7" />
+                <ScalarProperty Name="v8" ColumnName="v8" />
+                <ScalarProperty Name="v9" ColumnName="v9" />
+                <ScalarProperty Name="v10" ColumnName="v10" />
+                <ScalarProperty Name="a5v1" ColumnName="a5v1" />
+                <ScalarProperty Name="a5v2" ColumnName="a5v2" />
+                <ScalarProperty Name="a5v3" ColumnName="a5v3" />
+                <ScalarProperty Name="a5v4" ColumnName="a5v4" />
+                <ScalarProperty Name="a5v5" ColumnName="a5v5" />
+                <ScalarProperty Name="a5v6" ColumnName="a5v6" />
+                <ScalarProperty Name="a5v7" ColumnName="a5v7" />
+                <ScalarProperty Name="a5v8" ColumnName="a5v8" />
+                <ScalarProperty Name="a5v9" ColumnName="a5v9" />
+                <ScalarProperty Name="a5v10" ColumnName="a5v10" />
+                <ScalarProperty Name="a10v1" ColumnName="a10v1" />
+                <ScalarProperty Name="a10v2" ColumnName="a10v2" />
+                <ScalarProperty Name="a10v3" ColumnName="a10v3" />
+                <ScalarProperty Name="a10v4" ColumnName="a10v4" />
+                <ScalarProperty Name="a10v5" ColumnName="a10v5" />
+                <ScalarProperty Name="a10v6" ColumnName="a10v6" />
+                <ScalarProperty Name="a10v7" ColumnName="a10v7" />
+                <ScalarProperty Name="a10v8" ColumnName="a10v8" />
+                <ScalarProperty Name="a10v9" ColumnName="a10v9" />
+                <ScalarProperty Name="a10v10" ColumnName="a10v10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectorFinancials">
+            <EntityTypeMapping TypeName="StockMetricModels.SectorFinancial">
+              <MappingFragment StoreEntitySet="SectorFinancials">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="GRCapitalSpending5YrGrowthRate" ColumnName="GRCapitalSpending5YrGrowthRate" />
+                <ScalarProperty Name="GREPS5YrGrowthRate" ColumnName="GREPS5YrGrowthRate" />
+                <ScalarProperty Name="GREPSTTMvsTTM1YrAgo" ColumnName="GREPSTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GREPSMRQvsQtr1YrAgo" ColumnName="GREPSMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="GRSales5YrGrowthRate" ColumnName="GRSales5YrGrowthRate" />
+                <ScalarProperty Name="GRSalesTTMvsTTM1YrAgo" ColumnName="GRSalesTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GRSalesMRQvsQtr1YrAgo" ColumnName="GRSalesMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="MEReturnonEquity5YrAvg" ColumnName="MEReturnonEquity5YrAvg" />
+                <ScalarProperty Name="MEReturnonEquityTTM" ColumnName="MEReturnonEquityTTM" />
+                <ScalarProperty Name="MEReturnonInvestment5YrAvg" ColumnName="MEReturnonInvestment5YrAvg" />
+                <ScalarProperty Name="MEReturnonInvestmentTTM" ColumnName="MEReturnonInvestmentTTM" />
+                <ScalarProperty Name="MEReturnonAssets5YrAvg" ColumnName="MEReturnonAssets5YrAvg" />
+                <ScalarProperty Name="MEReturnonAssetsTTM" ColumnName="MEReturnonAssetsTTM" />
+                <ScalarProperty Name="PREffectiveTaxRate5YrAvg" ColumnName="PREffectiveTaxRate5YrAvg" />
+                <ScalarProperty Name="PREffectiveTaxRateTTM" ColumnName="PREffectiveTaxRateTTM" />
+                <ScalarProperty Name="PRNetProfitMargin5YrAvg" ColumnName="PRNetProfitMargin5YrAvg" />
+                <ScalarProperty Name="PRNetProfitMarginTTM" ColumnName="PRNetProfitMarginTTM" />
+                <ScalarProperty Name="PRPreTaxMargin5YrAvg" ColumnName="PRPreTaxMargin5YrAvg" />
+                <ScalarProperty Name="PRPreTaxMarginTTM" ColumnName="PRPreTaxMarginTTM" />
+                <ScalarProperty Name="PROperatingMargin5YrAvg" ColumnName="PROperatingMargin5YrAvg" />
+                <ScalarProperty Name="PROperatingMarginTTM" ColumnName="PROperatingMarginTTM" />
+                <ScalarProperty Name="PREBITD5YrAvg" ColumnName="PREBITD5YrAvg" />
+                <ScalarProperty Name="PREBITDMarginTTM" ColumnName="PREBITDMarginTTM" />
+                <ScalarProperty Name="PRGrossMargin5YrAvg" ColumnName="PRGrossMargin5YrAvg" />
+                <ScalarProperty Name="PRGrossMarginTTM" ColumnName="PRGrossMarginTTM" />
+                <ScalarProperty Name="EffAssetTurnoverTTM" ColumnName="EffAssetTurnoverTTM" />
+                <ScalarProperty Name="EffInventoryTurnoverTTM" ColumnName="EffInventoryTurnoverTTM" />
+                <ScalarProperty Name="EffReceivableTurnoverTTM" ColumnName="EffReceivableTurnoverTTM" />
+                <ScalarProperty Name="EffNetIncomeEmployeeTTM" ColumnName="EffNetIncomeEmployeeTTM" />
+                <ScalarProperty Name="EffRevenueEmployeeTTM" ColumnName="EffRevenueEmployeeTTM" />
+                <ScalarProperty Name="DivPayoutRatioTTM" ColumnName="DivPayoutRatioTTM" />
+                <ScalarProperty Name="DivDividend5YearGrowthRate" ColumnName="DivDividend5YearGrowthRate" />
+                <ScalarProperty Name="DivDividendYield5YearAvg" ColumnName="DivDividendYield5YearAvg" />
+                <ScalarProperty Name="DivDividendYield" ColumnName="DivDividendYield" />
+                <ScalarProperty Name="FSInterestCoverageTTM" ColumnName="FSInterestCoverageTTM" />
+                <ScalarProperty Name="FSTotalDebttoEquityMRQ" ColumnName="FSTotalDebttoEquityMRQ" />
+                <ScalarProperty Name="FSLTDebttoEquityMRQ" ColumnName="FSLTDebttoEquityMRQ" />
+                <ScalarProperty Name="FSCurrentRatioMRQ" ColumnName="FSCurrentRatioMRQ" />
+                <ScalarProperty Name="FSQuickRatioMRQ" ColumnName="FSQuickRatioMRQ" />
+                <ScalarProperty Name="VROwnedInstitutions" ColumnName="VROwnedInstitutions" />
+                <ScalarProperty Name="VRPricetoCashFlowTTM" ColumnName="VRPricetoCashFlowTTM" />
+                <ScalarProperty Name="VRPricetoTangibleBookMRQ" ColumnName="VRPricetoTangibleBookMRQ" />
+                <ScalarProperty Name="VRPricetoBookMRQ" ColumnName="VRPricetoBookMRQ" />
+                <ScalarProperty Name="VRPricetoSalesTTM" ColumnName="VRPricetoSalesTTM" />
+                <ScalarProperty Name="VRBeta" ColumnName="VRBeta" />
+                <ScalarProperty Name="VRPELowLast5Yrs" ColumnName="VRPELowLast5Yrs" />
+                <ScalarProperty Name="VRPEHighLast5Yrs" ColumnName="VRPEHighLast5Yrs" />
+                <ScalarProperty Name="VRPERatioTTM" ColumnName="VRPERatioTTM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockAnalysts">
+            <EntityTypeMapping TypeName="StockMetricModels.StockAnalyst">
+              <MappingFragment StoreEntitySet="StockAnalyst">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IHNetBuyers" ColumnName="IHNetBuyers" />
+                <ScalarProperty Name="IHReducedPositions" ColumnName="IHReducedPositions" />
+                <ScalarProperty Name="IHIncreasedPositions" ColumnName="IHIncreasedPositions" />
+                <ScalarProperty Name="IHClosedPositions" ColumnName="IHClosedPositions" />
+                <ScalarProperty Name="IHNewPositions" ColumnName="IHNewPositions" />
+                <ScalarProperty Name="IH3MoNetChange" ColumnName="IH3MoNetChange" />
+                <ScalarProperty Name="IHTotalSharesHeld" ColumnName="IHTotalSharesHeld" />
+                <ScalarProperty Name="IHofHolders" ColumnName="IHofHolders" />
+                <ScalarProperty Name="IHSharesOwned" ColumnName="IHSharesOwned" />
+                <ScalarProperty Name="HSEPSSurpriseQuater4" ColumnName="HSEPSSurpriseQuater4" />
+                <ScalarProperty Name="HSEPSSurpriseQuater3" ColumnName="HSEPSSurpriseQuater3" />
+                <ScalarProperty Name="HSEPSSurpriseQuater2" ColumnName="HSEPSSurpriseQuater2" />
+                <ScalarProperty Name="HSEPSSurpriseQuater1" ColumnName="HSEPSSurpriseQuater1" />
+                <ScalarProperty Name="HSEPSSurpriseQuater0" ColumnName="HSEPSSurpriseQuater0" />
+                <ScalarProperty Name="HSSalesSurpriseQuater4" ColumnName="HSSalesSurpriseQuater4" />
+                <ScalarProperty Name="HSSalesSurpriseQuater3" ColumnName="HSSalesSurpriseQuater3" />
+                <ScalarProperty Name="HSSalesSurpriseQuater2" ColumnName="HSSalesSurpriseQuater2" />
+                <ScalarProperty Name="HSSalesSurpriseQuater1" ColumnName="HSSalesSurpriseQuater1" />
+                <ScalarProperty Name="HSSalesSurpriseQuater0" ColumnName="HSSalesSurpriseQuater0" />
+                <ScalarProperty Name="HSSurpiseQuarter" ColumnName="HSSurpiseQuarter" />
+                <ScalarProperty Name="CRLastUpdated" ColumnName="CRLastUpdated" />
+                <ScalarProperty Name="CRCompanyFiscalYearEndMonth" ColumnName="CRCompanyFiscalYearEndMonth" />
+                <ScalarProperty Name="CRNextEarningsapprox" ColumnName="CRNextEarningsapprox" />
+                <ScalarProperty Name="CRConsensusRecommendation" ColumnName="CRConsensusRecommendation" />
+                <ScalarProperty Name="ARRMeanRating3MonthAgo" ColumnName="ARRMeanRating3MonthAgo" />
+                <ScalarProperty Name="ARRMeanRating2MonthAgo" ColumnName="ARRMeanRating2MonthAgo" />
+                <ScalarProperty Name="ARRMeanRating1MonthAgo" ColumnName="ARRMeanRating1MonthAgo" />
+                <ScalarProperty Name="ARRMeanRatingCurrent" ColumnName="ARRMeanRatingCurrent" />
+                <ScalarProperty Name="CETEarningYear1YearAgo2" ColumnName="CETEarningYear1YearAgo2" />
+                <ScalarProperty Name="CETEarningYear2MonthAgo2" ColumnName="CETEarningYear2MonthAgo2" />
+                <ScalarProperty Name="CETEarningYear1MonthAgo2" ColumnName="CETEarningYear1MonthAgo2" />
+                <ScalarProperty Name="CETEarningYear1WeekAgo2" ColumnName="CETEarningYear1WeekAgo2" />
+                <ScalarProperty Name="CETEarningYearCurrent2" ColumnName="CETEarningYearCurrent2" />
+                <ScalarProperty Name="CETEarningYear1YearAgo1" ColumnName="CETEarningYear1YearAgo1" />
+                <ScalarProperty Name="CETEarningYear2MonthAgo1" ColumnName="CETEarningYear2MonthAgo1" />
+                <ScalarProperty Name="CETEarningYear1MonthAgo1" ColumnName="CETEarningYear1MonthAgo1" />
+                <ScalarProperty Name="CETEarningYear1WeekAgo1" ColumnName="CETEarningYear1WeekAgo1" />
+                <ScalarProperty Name="CETEarningYearCurrent1" ColumnName="CETEarningYearCurrent1" />
+                <ScalarProperty Name="CETEarningYear1YearAgo0" ColumnName="CETEarningYear1YearAgo0" />
+                <ScalarProperty Name="CETEarningYear2MonthAgo0" ColumnName="CETEarningYear2MonthAgo0" />
+                <ScalarProperty Name="CETEarningYear1MonthAgo0" ColumnName="CETEarningYear1MonthAgo0" />
+                <ScalarProperty Name="CETEarningYear1WeekAgo0" ColumnName="CETEarningYear1WeekAgo0" />
+                <ScalarProperty Name="CETEarningYearCurrent0" ColumnName="CETEarningYearCurrent0" />
+                <ScalarProperty Name="CETEarningQuarter1YearAgo4" ColumnName="CETEarningQuarter1YearAgo4" />
+                <ScalarProperty Name="CETEarningQuarter2MonthAgo4" ColumnName="CETEarningQuarter2MonthAgo4" />
+                <ScalarProperty Name="CETEarningQuarter1MonthAgo4" ColumnName="CETEarningQuarter1MonthAgo4" />
+                <ScalarProperty Name="CETEarningQuarter1WeekAgo4" ColumnName="CETEarningQuarter1WeekAgo4" />
+                <ScalarProperty Name="CETEarningQuarterCurrent4" ColumnName="CETEarningQuarterCurrent4" />
+                <ScalarProperty Name="CETEarningQuarter1YearAgo3" ColumnName="CETEarningQuarter1YearAgo3" />
+                <ScalarProperty Name="CETEarningQuarter2MonthAgo3" ColumnName="CETEarningQuarter2MonthAgo3" />
+                <ScalarProperty Name="CETEarningQuarter1MonthAgo3" ColumnName="CETEarningQuarter1MonthAgo3" />
+                <ScalarProperty Name="CETEarningQuarter1WeekAgo3" ColumnName="CETEarningQuarter1WeekAgo3" />
+                <ScalarProperty Name="CETEarningQuarterCurrent3" ColumnName="CETEarningQuarterCurrent3" />
+                <ScalarProperty Name="CETEarningQuarter1YearAgo2" ColumnName="CETEarningQuarter1YearAgo2" />
+                <ScalarProperty Name="CETEarningQuarter2MonthAgo2" ColumnName="CETEarningQuarter2MonthAgo2" />
+                <ScalarProperty Name="CETEarningQuarter1MonthAgo2" ColumnName="CETEarningQuarter1MonthAgo2" />
+                <ScalarProperty Name="CETEarningQuarter1WeekAgo2" ColumnName="CETEarningQuarter1WeekAgo2" />
+                <ScalarProperty Name="CETEarningQuarterCurrent2" ColumnName="CETEarningQuarterCurrent2" />
+                <ScalarProperty Name="CETEarningQuarter1YearAgo1" ColumnName="CETEarningQuarter1YearAgo1" />
+                <ScalarProperty Name="CETEarningQuarter2MonthAgo1" ColumnName="CETEarningQuarter2MonthAgo1" />
+                <ScalarProperty Name="CETEarningQuarter1MonthAgo1" ColumnName="CETEarningQuarter1MonthAgo1" />
+                <ScalarProperty Name="CETEarningQuarter1WeekAgo1" ColumnName="CETEarningQuarter1WeekAgo1" />
+                <ScalarProperty Name="CETEarningQuarterCurrent1" ColumnName="CETEarningQuarterCurrent1" />
+                <ScalarProperty Name="CETEarningQuarter1YearAgo0" ColumnName="CETEarningQuarter1YearAgo0" />
+                <ScalarProperty Name="CETEarningQuarter2MonthAgo0" ColumnName="CETEarningQuarter2MonthAgo0" />
+                <ScalarProperty Name="CETEarningQuarter1MonthAgo0" ColumnName="CETEarningQuarter1MonthAgo0" />
+                <ScalarProperty Name="CETEarningQuarter1WeekAgo0" ColumnName="CETEarningQuarter1WeekAgo0" />
+                <ScalarProperty Name="CETEarningQuarterCurrent0" ColumnName="CETEarningQuarterCurrent0" />
+                <ScalarProperty Name="CETSaleYear1YearAgo2" ColumnName="CETSaleYear1YearAgo2" />
+                <ScalarProperty Name="CETSaleYear2MonthAgo2" ColumnName="CETSaleYear2MonthAgo2" />
+                <ScalarProperty Name="CETSaleYear1MonthAgo2" ColumnName="CETSaleYear1MonthAgo2" />
+                <ScalarProperty Name="CETSaleYear1WeekAgo2" ColumnName="CETSaleYear1WeekAgo2" />
+                <ScalarProperty Name="CETSaleYearCurrent2" ColumnName="CETSaleYearCurrent2" />
+                <ScalarProperty Name="CETSaleYear1YearAgo1" ColumnName="CETSaleYear1YearAgo1" />
+                <ScalarProperty Name="CETSaleYear2MonthAgo1" ColumnName="CETSaleYear2MonthAgo1" />
+                <ScalarProperty Name="CETSaleYear1MonthAgo1" ColumnName="CETSaleYear1MonthAgo1" />
+                <ScalarProperty Name="CETSaleYear1WeekAgo1" ColumnName="CETSaleYear1WeekAgo1" />
+                <ScalarProperty Name="CETSaleYearCurrent1" ColumnName="CETSaleYearCurrent1" />
+                <ScalarProperty Name="CETSaleYear1YearAgo0" ColumnName="CETSaleYear1YearAgo0" />
+                <ScalarProperty Name="CETSaleYear2MonthAgo0" ColumnName="CETSaleYear2MonthAgo0" />
+                <ScalarProperty Name="CETSaleYear1MonthAgo0" ColumnName="CETSaleYear1MonthAgo0" />
+                <ScalarProperty Name="CETSaleYear1WeekAgo0" ColumnName="CETSaleYear1WeekAgo0" />
+                <ScalarProperty Name="CETSaleYearCurrent0" ColumnName="CETSaleYearCurrent0" />
+                <ScalarProperty Name="CETSaleQuarter1YearAgo4" ColumnName="CETSaleQuarter1YearAgo4" />
+                <ScalarProperty Name="CETSaleQuarter2MonthAgo4" ColumnName="CETSaleQuarter2MonthAgo4" />
+                <ScalarProperty Name="CETSaleQuarter1MonthAgo4" ColumnName="CETSaleQuarter1MonthAgo4" />
+                <ScalarProperty Name="CETSaleQuarter1WeekAgo4" ColumnName="CETSaleQuarter1WeekAgo4" />
+                <ScalarProperty Name="CETSaleQuarterCurrent4" ColumnName="CETSaleQuarterCurrent4" />
+                <ScalarProperty Name="CETSaleQuarter1YearAgo3" ColumnName="CETSaleQuarter1YearAgo3" />
+                <ScalarProperty Name="CETSaleQuarter2MonthAgo3" ColumnName="CETSaleQuarter2MonthAgo3" />
+                <ScalarProperty Name="CETSaleQuarter1MonthAgo3" ColumnName="CETSaleQuarter1MonthAgo3" />
+                <ScalarProperty Name="CETSaleQuarter1WeekAgo3" ColumnName="CETSaleQuarter1WeekAgo3" />
+                <ScalarProperty Name="CETSaleQuarterCurrent3" ColumnName="CETSaleQuarterCurrent3" />
+                <ScalarProperty Name="CETSaleQuarter1YearAgo2" ColumnName="CETSaleQuarter1YearAgo2" />
+                <ScalarProperty Name="CETSaleQuarter2MonthAgo2" ColumnName="CETSaleQuarter2MonthAgo2" />
+                <ScalarProperty Name="CETSaleQuarter1MonthAgo2" ColumnName="CETSaleQuarter1MonthAgo2" />
+                <ScalarProperty Name="CETSaleQuarter1WeekAgo2" ColumnName="CETSaleQuarter1WeekAgo2" />
+                <ScalarProperty Name="CETSaleQuarterCurrent2" ColumnName="CETSaleQuarterCurrent2" />
+                <ScalarProperty Name="CETSaleQuarter1YearAgo1" ColumnName="CETSaleQuarter1YearAgo1" />
+                <ScalarProperty Name="CETSaleQuarter2MonthAgo1" ColumnName="CETSaleQuarter2MonthAgo1" />
+                <ScalarProperty Name="CETSaleQuarter1MonthAgo1" ColumnName="CETSaleQuarter1MonthAgo1" />
+                <ScalarProperty Name="CETSaleQuarter1WeekAgo1" ColumnName="CETSaleQuarter1WeekAgo1" />
+                <ScalarProperty Name="CETSaleQuarterCurrent1" ColumnName="CETSaleQuarterCurrent1" />
+                <ScalarProperty Name="CETSaleQuarter1YearAgo0" ColumnName="CETSaleQuarter1YearAgo0" />
+                <ScalarProperty Name="CETSaleQuarter2MonthAgo0" ColumnName="CETSaleQuarter2MonthAgo0" />
+                <ScalarProperty Name="CETSaleQuarter1MonthAgo0" ColumnName="CETSaleQuarter1MonthAgo0" />
+                <ScalarProperty Name="CETSaleQuarter1WeekAgo0" ColumnName="CETSaleQuarter1WeekAgo0" />
+                <ScalarProperty Name="CETSaleQuarterCurrent0" ColumnName="CETSaleQuarterCurrent0" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockFinancials">
+            <EntityTypeMapping TypeName="StockMetricModels.StockFinancial">
+              <MappingFragment StoreEntitySet="StockFinancials">
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+                <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+                <ScalarProperty Name="Exch" ColumnName="Exch" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="GRCapitalSpending5YrGrowthRate" ColumnName="GRCapitalSpending5YrGrowthRate" />
+                <ScalarProperty Name="GREPS5YrGrowthRate" ColumnName="GREPS5YrGrowthRate" />
+                <ScalarProperty Name="GREPSTTMvsTTM1YrAgo" ColumnName="GREPSTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GREPSMRQvsQtr1YrAgo" ColumnName="GREPSMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="GRSales5YrGrowthRate" ColumnName="GRSales5YrGrowthRate" />
+                <ScalarProperty Name="GRSalesTTMvsTTM1YrAgo" ColumnName="GRSalesTTMvsTTM1YrAgo" />
+                <ScalarProperty Name="GRSalesMRQvsQtr1YrAgo" ColumnName="GRSalesMRQvsQtr1YrAgo" />
+                <ScalarProperty Name="MEReturnonEquity5YrAvg" ColumnName="MEReturnonEquity5YrAvg" />
+                <ScalarProperty Name="MEReturnonEquityTTM" ColumnName="MEReturnonEquityTTM" />
+                <ScalarProperty Name="MEReturnonInvestment5YrAvg" ColumnName="MEReturnonInvestment5YrAvg" />
+                <ScalarProperty Name="MEReturnonInvestmentTTM" ColumnName="MEReturnonInvestmentTTM" />
+                <ScalarProperty Name="MEReturnonAssets5YrAvg" ColumnName="MEReturnonAssets5YrAvg" />
+                <ScalarProperty Name="MEReturnonAssetsTTM" ColumnName="MEReturnonAssetsTTM" />
+                <ScalarProperty Name="PREffectiveTaxRate5YrAvg" ColumnName="PREffectiveTaxRate5YrAvg" />
+                <ScalarProperty Name="PREffectiveTaxRateTTM" ColumnName="PREffectiveTaxRateTTM" />
+                <ScalarProperty Name="PRNetProfitMargin5YrAvg" ColumnName="PRNetProfitMargin5YrAvg" />
+                <ScalarProperty Name="PRNetProfitMarginTTM" ColumnName="PRNetProfitMarginTTM" />
+                <ScalarProperty Name="PRPreTaxMargin5YrAvg" ColumnName="PRPreTaxMargin5YrAvg" />
+                <ScalarProperty Name="PRPreTaxMarginTTM" ColumnName="PRPreTaxMarginTTM" />
+                <ScalarProperty Name="PROperatingMargin5YrAvg" ColumnName="PROperatingMargin5YrAvg" />
+                <ScalarProperty Name="PROperatingMarginTTM" ColumnName="PROperatingMarginTTM" />
+                <ScalarProperty Name="PREBITD5YrAvg" ColumnName="PREBITD5YrAvg" />
+                <ScalarProperty Name="PREBITDMarginTTM" ColumnName="PREBITDMarginTTM" />
+                <ScalarProperty Name="PRGrossMargin5YrAvg" ColumnName="PRGrossMargin5YrAvg" />
+                <ScalarProperty Name="PRGrossMarginTTM" ColumnName="PRGrossMarginTTM" />
+                <ScalarProperty Name="EffAssetTurnoverTTM" ColumnName="EffAssetTurnoverTTM" />
+                <ScalarProperty Name="EffInventoryTurnoverTTM" ColumnName="EffInventoryTurnoverTTM" />
+                <ScalarProperty Name="EffReceivableTurnoverTTM" ColumnName="EffReceivableTurnoverTTM" />
+                <ScalarProperty Name="EffNetIncomeEmployeeTTM" ColumnName="EffNetIncomeEmployeeTTM" />
+                <ScalarProperty Name="EffRevenueEmployeeTTM" ColumnName="EffRevenueEmployeeTTM" />
+                <ScalarProperty Name="DivPayoutRatioTTM" ColumnName="DivPayoutRatioTTM" />
+                <ScalarProperty Name="DivDividend5YearGrowthRate" ColumnName="DivDividend5YearGrowthRate" />
+                <ScalarProperty Name="DivDividendYield5YearAvg" ColumnName="DivDividendYield5YearAvg" />
+                <ScalarProperty Name="DivDividendYield" ColumnName="DivDividendYield" />
+                <ScalarProperty Name="FSInterestCoverageTTM" ColumnName="FSInterestCoverageTTM" />
+                <ScalarProperty Name="FSTotalDebttoEquityMRQ" ColumnName="FSTotalDebttoEquityMRQ" />
+                <ScalarProperty Name="FSLTDebttoEquityMRQ" ColumnName="FSLTDebttoEquityMRQ" />
+                <ScalarProperty Name="FSCurrentRatioMRQ" ColumnName="FSCurrentRatioMRQ" />
+                <ScalarProperty Name="FSQuickRatioMRQ" ColumnName="FSQuickRatioMRQ" />
+                <ScalarProperty Name="VROwnedInstitutions" ColumnName="VROwnedInstitutions" />
+                <ScalarProperty Name="VRPricetoCashFlowTTM" ColumnName="VRPricetoCashFlowTTM" />
+                <ScalarProperty Name="VRPricetoTangibleBookMRQ" ColumnName="VRPricetoTangibleBookMRQ" />
+                <ScalarProperty Name="VRPricetoBookMRQ" ColumnName="VRPricetoBookMRQ" />
+                <ScalarProperty Name="VRPricetoSalesTTM" ColumnName="VRPricetoSalesTTM" />
+                <ScalarProperty Name="VRBeta" ColumnName="VRBeta" />
+                <ScalarProperty Name="VRPELowLast5Yrs" ColumnName="VRPELowLast5Yrs" />
+                <ScalarProperty Name="VRPEHighLast5Yrs" ColumnName="VRPEHighLast5Yrs" />
+                <ScalarProperty Name="VRPERatioTTM" ColumnName="VRPERatioTTM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

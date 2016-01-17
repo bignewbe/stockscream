@@ -1,0 +1,531 @@
+﻿@model StockScream.ViewModels.TAModel
+
+@{
+    ViewBag.Title = "Search W Shape";
+}
+
+<style>
+    textarea {
+        max-width: 1680px;
+    }
+
+    input {
+        float: left;
+    }
+</style>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+}
+
+<div class="container">
+    <select id="format-select">
+        <option value="">none</option>
+        <option value="decimal" selected>decimal</option>
+        <option value="scientific">scientific</option>
+        <option value="percent">percent</option>
+        <option value="currency">currency</option>
+        <option value="short">short</option>
+        <option value="long">long</option>
+    </select>
+    <input type="file" id="fileUpload" />
+    <script>
+        $(document).ready(function(){
+            document.getElementById('format-select').onchange = function() {
+            };
+        });
+    </script>
+    <button id="getRealTimeQuote" class="btn btn-default">Get Real Time Quote</button>
+    <ul>
+        <li>
+            EUR.USD <span id="eurusd"></span>
+        </li>
+        <li>
+            EUR.GBP <span id="eurgbp"></span>
+        </li>
+    </ul>
+    
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function(){
+            $('#getRealTimeQuote').click(function(){
+                if ($("#getRealTimeQuote").text() == 'Get Real Time Quote'){
+                    var proxy = $.connection.forexHub;
+                    //define function 'onNewQuote' which can be called from server
+                    proxy.client.onNewForexQuote = function(symbol, time, buyPrice, sellPrice){
+                        console.log(symbol + ' ' + time + ' ' + buyPrice + ' ' + sellPrice);
+                        if (symbol == "EUR.USD_5"){
+                            $("#eurusd").text(buyPrice + ' ' + sellPrice);
+                        }
+                        if (symbol == "EUR.GBP_5"){
+                            $("#eurgbp").text(buyPrice + ' ' + sellPrice);
+                        }
+                    };                     
+                    
+                    //start connection
+                    $.connection.hub.start().done(function(){
+                        console.log('Now connected, connection ID = ' + $.connection.hub.id); 
+                        proxy.server.subscribe('EUR.USD_5' + ';' + 'EUR.GBP_5');
+                    }).fail(function(){ 
+                        console.log('Could not connect');
+                    });
+
+                    $("#getRealTimeQuote").text('Stop Real Time Quote');
+                }else{
+                    $.connection.hub.stop();
+                    $("#getRealTimeQuote").text('Get Real Time Quote');
+                }
+            });
+
+            //$('#getRealTimeQuote').click(function(){
+            //    if ($("#getRealTimeQuote").text() == 'Get Real Time Quote'){
+            //        var con = $.hubConnection();
+            //        var hub = con.createHubProxy('ForexHub');
+            //        con.qs = { 'version' : '1.0' };
+
+            //        //define function 'onNewQuote' which can be called from server
+            //        hub.on('onNewQuote', function(symbol, time, buyPrice, sellPrice){
+            //            console.log(symbol + ' ' + time + ' ' + buyPrice + ' ' + sellPrice);
+            //        });                     
+                    
+            //        //start connection
+            //        con.start().done(function(){ 
+            //                console.log('Now connected, connection ID =' + con.id); 
+            //            }).fail(function(){ 
+            //                console.log('Could not connect');
+            //            });
+
+            //        //con.start().done(function(){
+            //        //    hub.invoke('BroadCastQuote');
+            //        //});
+            //        $("#getRealTimeQuote").text('Stop Real Time Quote');
+            //    }else{
+            //        var con = $.hubConnection();
+            //        var hub = con.createHubProxy('ForexHub');
+            //        con.stop();
+            //        $("#getRealTimeQuote").text('Get Real Time Quote');
+            //    }
+            //});
+        })
+    </script>
+</div>
+
+
+<div class="container">
+    <div>
+        <button class="btn btn-default" data-toggle="modal" data-target="#modalAddSelect">Add Select Parameters</button>
+        <button id="btSaveFilter" class="btn btn-default">Save Filter</button>
+        <button id="btNewFilter" class="btn btn-default">New Filter</button>
+        <button id="btRun" class="btn btn-danger">Run</button>
+    </div>
+    @if (Request.IsAuthenticated) {
+        <div id="dropdownFilters" class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Saved Filters
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">None</a></li>
+                @foreach (var key in Model.SavedFilters.Keys) {
+                    <li><a href="#">@key</a></li>
+                }
+            </ul>
+            <button type="button" id="btDeleteFilter" class="btn btn-default">Delete Filter</button>
+        </div>
+    }
+
+    <div>
+        <label for="txtDate" style="float:left">Date:</label>
+        <input class="form-control col-lg-2 col-md-2" id="txtDate" type="text" placeholder="yyyy-mm-dd">
+    </div>
+    <textarea id="taCommand" name="command" class="form-control" style="width:100%;font-family:'Consolas'" rows="15"></textarea>
+    <p id="status" class="text-success"></p>
+    <div id="divResults"></div>
+    <div id="divCharts"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddSelect" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="divTableSelect" style="height:500px;overflow:scroll;"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btAddSelect" type="button" class="btn btn-default" data-source="divTableSelect" data-target="taCommand">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script charset="utf-8" src="http://d3js.org/d3.v3.js"></script>
+    <script src="http://techanjs.org/techan.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        //$(function() {
+        //    // Target all classed with ".lined"
+        //    $("#taCommand").linedtextarea(
+        //      {selectedLine: 1}
+        //    );
+        //    // Target a single one
+        //    //$("#taCommand").linedtextarea();
+        //});
+
+        google.load("visualization", "1", {packages:["corechart"]});
+
+
+        /////////////////////////////////////////////////////////////////////////////////////
+        $(document).ready(function () {
+            var localCache = facility.CreateLocaoCache(900000, 50);
+            var isAuthenticated = @Html.Raw(Json.Encode(Request.IsAuthenticated));
+            var filters = @Html.Raw(Json.Encode(Model.SavedFilters));
+            filters = filters == null? {} : filters;
+            var IsValidDate = function(date) {
+                var d = new Date(date);
+                if ( d === "Invalid Date" || isNaN(d) )
+                    return false;
+
+                var day = d.getDay();
+                return (d !== 6 && day !== 0);
+            }
+
+            window.onbeforeunload = function(){
+                var url = "/TA/SearchW";
+                var command = $("#taCommand").text();
+                var date = $("#txtDate").val();
+                var key = (url+command+date).hashCode();
+
+                localStorage.setItem("authenticate", isAuthenticated);
+                localStorage.setItem("command", command);
+                localStorage.setItem("date", date);
+
+                var hasTable = !$("#divResults").is(":empty");
+                localStorage.setItem("hasTable", hasTable);
+                if (hasTable && localCache.exist(key)){
+                    localStorage.setItem("data", JSON.stringify(localCache.get(key)));
+                }
+
+                if (isAuthenticated){
+                    var filterName = $("#dropdownFilters button").first().text().trim();
+                    localStorage.setItem("filter", filterName);
+                }
+            };
+
+            window.onload = function(){
+                var url = "/TA/SearchW";
+                var command = localStorage.getItem("command");
+                var date  = localStorage.getItem("date");
+                
+                var auth = localStorage.getItem("authenticate");
+                if (isAuthenticated != (auth == "true"))
+                    return;
+                
+                $("#taCommand").text(command);
+                $("#txtDate").val(date);
+                var hasTable  = localStorage.getItem("hasTable");
+                if (hasTable === "true"){
+                    var data = JSON.parse(localStorage.getItem("data"));
+                    CreateResultTable(data);
+                }
+
+                if (isAuthenticated){
+                    var filterName  = localStorage.getItem("filter");
+                    if (filters.hasOwnProperty(filterName)){
+                        var element = document.getElementById("dropdownFilters").getElementsByTagName("button")[0];
+                        element.innerHTML = filterName + ' <span class="caret"></span>';
+                        $("#taCommand").text(filters[filterName]);
+                    }
+                }
+            };
+
+            //specify a name for filter during saving filter
+            //var GetDate = function(){
+            //    var filterName = "";
+            //    var msg = "Enter a date to search:";
+            //    var defaultName = "yyyy-mm-dd";
+            //    while(filterName != null && (filterName == "" || filterName == void(0))){
+            //        filterName = window.prompt(msg, defaultName);
+            //        if (filters.hasOwnProperty(filterName)){
+            //            var toReplace = window.confirm(filterName + " exists, do you want to replace?");
+            //            if(toReplace) break;
+            //            msg = "Filter name already used. Please give another name:";
+            //            filterName = ""; //select another name
+            //        }
+            //    }
+            //    //if we cancel the dialog, null is returned
+            //    return filterName;
+            //};
+
+
+            $.ajaxPrefilter(function (options) {
+                if (options.cache) {
+                    var complete = options.complete || $.noop,
+                        key = options.key;
+
+                    //remove jQuery cache as we have our own localCache
+                    options.cache = false;
+                    options.beforeSend = function () {
+                        if (localCache.exist(key)) {
+                            complete(localCache.get(key));
+                            return false;
+                        }
+                        return true;
+                    };
+                }
+            })
+            
+            var drawStockChart = function(data){
+                if (!data.hasOwnProperty("Time")) return;
+
+                var d = new google.visualization.DataTable();
+                d.addColumn("date", "day");
+                d.addColumn("number", "low");
+                d.addColumn("number", "open");
+                d.addColumn("number", "close");
+                d.addColumn("number", "high");
+                //d.addColumn("number", "volume");
+                for(i=data.Time.length-100; i < data.Time.length; i++){
+                    var date = new Date(data.Time[i].Year, data.Time[i].Month, data.Time[i].Day);
+                    d.addRow([date, data.Low[i], data.Open[i], data.Close[i], data.High[i]]);
+                }
+                var chart = new google.visualization.CandlestickChart(document.getElementById("divCharts"));
+                var options = {
+                    //legend: 'none',
+                    width: 1200,
+                    height: 600,
+                    bar: {groupWidth: 100},
+                    candlestick: {
+                        hollowIsRising: true,
+                        //fallingColor: { strokeWidth: 0, fill: '#a52714' }, // red
+                        //risingColor: { strokeWidth: 0, fill: '#0f9d58' }   // green
+                    }
+                };
+                chart.draw(d, options);
+            }
+
+            $("#divResults").on("click", "table tbody tr", function(e){
+                var symbol = $(this).find("td:eq(1)").text();
+                var url = "/TA/stockdetails";
+                facility.RedirectToUrl(url, "GET", {"symbol":symbol});
+
+                //var symbol = $(this).find("td:eq(1)").text();
+                //var url = "/Data/RequestQuote";
+                //var key = (url + symbol).hashCode();
+                //var request = $.ajax({
+                //    method: "post",
+                //    url: url,
+                //    data: facility.AddAntiForgeryToken({"symbol": symbol}),
+                //    cache: true,
+                //    complete: drawStockChart,            //how data should be handled when succeed
+                //    key: key                             //key to check local cache
+                //});
+
+                //request.done(function (data, textStatus, jqXHR) {
+                //    drawStockChart(data);
+                //}).fail(function (jqXHR, textStatus, errorThrown) {
+                //}).always(function (data, textStatus, jqXHR){
+                //    if (textStatus != "canceled"){
+                //        localCache.set(key, data, null);
+                //        //facility.UpdateLocalData(data, key);
+                //    }
+                //});
+            })
+
+            //dialog for add select parameters
+            $('#modalAddSelect').on('shown.bs.modal', function (e) {
+                var url = "/data/gettableitem?table=all";
+                var request = window.facility.GetAjaxRequest(url);
+                request.done(function (data, textStatus, jqXHR) {
+                    var div = $("#divTableSelect");
+                    AddTableToDiv(div, data, null);
+                });
+            })
+
+            //add selected select parameters to command text area
+            $('#btAddSelect').click(function () {
+                var $table = $("#" + $(this).attr("data-source") + " table");
+                var rows = $table.bootstrapTable('getSelections');
+
+                var command = "";
+                for (var i = 0; i < rows.length; i++) {
+                    command += " " + '"' + rows[i].Item + '",';
+                }
+                if (command.length > 1) {
+                    var target = $(this).attr("data-target");
+                    $("#" + target).append("\n\n//Please move following parameters to SELECT\n" + command.substr(0, command.length - 1));
+                }
+            })
+            
+            //dropdown select specific saved filter
+            $("#dropdownFilters ul li").click(function(){
+                var element = document.getElementById("dropdownFilters").getElementsByTagName("button");
+                var item = $(this).text();
+                element[0].innerHTML = item + '<span class="caret"></span>';
+                if (filters.hasOwnProperty(item))
+                    $("#taCommand").text(filters[item]);
+                else
+                    $("#taCommand").text("");
+            });
+
+            $("#btNewFilter").click(function () {
+                if (isAuthenticated)
+                    SetDropDownText("dropdownFilters", "Saved Filters");  //resotre dropdown menu to default
+
+                $("#taCommand").text("@Html.Raw(HttpUtility.JavaScriptStringEncode(string.Format("{0,-38}{1}\n{2}\n\n{3,-38}{4}{5}",
+                "SELECT", "//comma separated items",
+                "\"Sector\", \"Exch\", \"EPS (MRQ) vs Qtr. 1 Yr. Ago\"",
+                "WHERE", "//filter criteria",
+                Model.Map.GenerateCommandStr())))");
+
+                $("#txtDate").val("2015-04-20");
+            })
+
+            //save filter to server: replace or add a new filter
+            $("#btSaveFilter").click(function(){
+                if(isAuthenticated){
+                    var filterName = GetFilterName();
+                    if (filterName == null) return;
+
+                    var commandStr = $("#taCommand").text();
+                    //we need to check if commandStr is valid
+
+                    var url = "/ta/savefilterw";
+                    var postData = {name: filterName, command: commandStr};
+
+                    $.ajax({
+                        method: "POST",
+                        url: url,
+                        data: facility.AddAntiForgeryToken(postData),
+                    }).always(function( data, textStatus, jqXHR ){
+                    }).done(function( data, textStatus, jqXHR ){
+                        //set the slected filter to the recently saved filter
+                        document.getElementById("dropdownFilters").getElementsByTagName("button")[0].innerHTML = filterName + '<span class="caret"></span>';
+                        window.location.reload(true);   //this will trigger window.beforeunload
+                    }).fail(function( jqXHR, textStatus, errorThrown ){
+                    });
+                }});
+
+            //delete selected filter
+            $("#btDeleteFilter").click(function(){
+                var currentName = $("#dropdownFilters button").first().text().trim();
+                if (filters.hasOwnProperty(currentName)){  //means we selected some filter
+                    if(window.confirm("Are you sure to delete " + currentName + "?"))
+                        facility.RedirectToUrl("/ta/removefilterw", "post", {name: currentName}, true);
+                }
+            });
+
+
+            $("#btRun").click(function () {
+                var date = $("#txtDate").val();
+                if (!IsValidDate(date)){
+                    alert("Either date on weekend or format is not correct. Please specify a valid date to search.")
+                    return;
+                }
+
+                $("#status").text("");
+                $("#divResults").empty();
+                var url = "/TA/SearchW";
+                var command = $("#taCommand").text();
+
+                var key = (url+command+date).hashCode();
+                var request = $.ajax({
+                    method: "post",
+                    url: url,
+                    data: facility.AddAntiForgeryToken({"command": command, "date": date}),
+                    cache: true,
+                    complete: CreateResultTable,            //how data should be handled when succeed
+                    key: key         //key to check local cache
+                });
+
+                request.done(function (data, textStatus, jqXHR) {
+                    CreateResultTable(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //if (textStatus == "canceled") textStatus = "from cache"
+                    //$("#status").text(textStatus);
+                }).always(function (data, textStatus, jqXHR){
+                    if (textStatus != "canceled"){
+                        localCache.set(key, data, null);
+                    }
+                });
+            })
+
+            function CreateResultTable(data)
+            {
+                if (data.Msg == "OK"){
+                    AddTableToDiv($("#divResults"), data, {"data-pagination": "true", "data-click-to-select": "false"});
+                    $("#status").text("{0} stocks matched.".format(data.Data.length));
+                }else{
+                    $("#status").text(data.Msg);
+                }
+            }
+
+            //specify a name for filter during saving filter
+            function GetFilterName() {
+                var filterName = "";
+                var msg = "Enter a name for the filter:";
+                var defaultName = "filterName"; //_{0}{1}{2}".format(Date.prototype.getFullYear, Date.prototype.getMonth, Date.prototype.getDay);
+                var currentName = $("#dropdownFilters button").first().text().trim();
+                if (currentName != "Saved Filters" && currentName.toLocaleLowerCase() != "none")
+                    defaultName = currentName;
+
+                while (filterName != null && (filterName == "" || filterName == void (0))) {
+                    filterName = window.prompt(msg, defaultName);
+                    if (filters.hasOwnProperty(filterName)) {
+                        var toReplace = window.confirm(filterName + " exists, do you want to replace?");
+                        if (toReplace) break;
+                        msg = "Filter name already used. Please give another name:";
+                        filterName = ""; //select another name
+                    }
+                }
+                //if we cancel the dialog, null is returned
+                return filterName;
+            }
+
+            function AddTableToDiv(div, data, options) {
+                var table = window.facility.CreateTableDom(data.Items, data.Keys, null);
+                if (options != null) {
+                    for (var x in options)
+                        table.setAttribute(x, options[x]);
+                }
+                $(div).html(table);
+                $(div).find("table").first().bootstrapTable({ data: data.Data });
+            }
+
+            function SetDropDownText(elementId, text){
+                //element.val(text + '<span class="caret"></span>');
+                var element = document.getElementById(elementId);
+                if (element == null) return;
+
+                element = element.getElementsByTagName("button");
+                if (element == null) return;
+
+                element[0].innerHTML = text + '<span class="caret"></span>';
+            }
+
+        });
+
+        //var request = facility.GetAjaxRequest(url, facility.AddAntiForgeryToken({"command": command}));
+        //var request = facility.GetAjaxRequest(url, {"command": command});  //ajax get has limit on the query string, depending on the browser because it contained in url
+        //var request = facility.GetAjaxRequestPost(url, facility.AddAntiForgeryToken({"command": command}), true);
+        //var request = facility.GetAjaxRequestPost(url, {"command": command}, true);
+        //var request = $.ajax({
+        //    method: "post",
+        //    url: url,
+        //    data: facility.AddAntiForgeryToken({"command": command}),
+        //    beforeSend: function(){
+        //        if (localCache.exist(key)){
+        //            var data = localCache.get(key);
+        //            CreateResultTable(data);
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //});
+    </script>
+}
+

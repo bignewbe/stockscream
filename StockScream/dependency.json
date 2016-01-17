@@ -1,0 +1,23 @@
+﻿{
+  "Path": {
+    "RemoteRoot": "D:/Lib/",
+    "LocalRoot": "E:/Code/Lib/",
+    "DefaultDebugPath": "../../Lib/Debug/",
+    "DefaultReleasePath": "../../Lib/Release/"
+  },
+
+  "Single": {
+  },
+
+  "Debug": {    
+    "CommonCSharpLibary 1.0": "DefaultDebugPath",
+    "PortableCSharpLib 1.0": "DefaultDebugPath"
+  },
+
+  "Release": {
+    "CommonCSharpLibary 1.0": "DefaultReleasePath",
+    "PortableCSharpLib 1.0": "DefaultReleasePath"
+  }
+}
+
+

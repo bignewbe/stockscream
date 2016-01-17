@@ -1,0 +1,362 @@
+﻿@model StockScream.ViewModels.FAModel
+
+@{
+    ViewBag.Title = "Fundamental Analysis";
+}
+
+<style>
+    textarea {
+        max-width: 1680px;
+    }
+</style>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+}
+
+<div class="container">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAddSelect">Add Select Parameters</button>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalAddQuery">Add Query Parameters</button>
+    <button type="button" id="btSaveFilter" class="btn btn-default">Save Filter</button>
+    <button type="button" id="btNewFilter" class="btn btn-default">New Filter</button>
+    <button type="button" id="btRun" class="btn btn-danger">Run</button>
+    @*<input type="submit" class="btn btn-danger" value="Run" />*@
+
+    @if (Request.IsAuthenticated) {
+        <div id="dropdownFilters" class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Saved Filters
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var key in Model.SavedFilters.Keys) {
+                    <li><a href="#">@key</a></li>
+                }
+            </ul>
+            <button type="button" id="btDeleteFilter" class="btn btn-default">Delete Filter</button>
+        </div>
+    }
+    <textarea id="taCommand" name="command" class="linedtextarea" style="width:100%;font-family:'Consolas'" rows="15"></textarea>
+    <p id="status" class="text-success"></p>
+    <div id="divResults"></div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddQuery" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="dropdownQuery" class="dropdown">
+                    <button type="button" class="btn btn-default">All</button>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        By Category
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        @foreach (var item in Model.Map.TableToItems.Keys) {
+                            <li><a href="#">@item</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="tbTest" style="height:500px;overflow:scroll;"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btAddQuery" type="button" class="btn btn-default" data-source="tbTest" data-target="taCommand">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalAddSelect" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            @*<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>*@
+            <div class="modal-body">
+                <div id="divTableSelect" style="height:500px;overflow:scroll;"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btAddSelect" type="button" class="btn btn-default" data-source="divTableSelect" data-target="taCommand">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            // Target all classed with ".linedtextarea"
+            $(".linedtextarea").linedtextarea(
+              {selectedLine: 1}
+            );
+
+            // Target a single one
+            //$("#taCommand").linedtextarea();
+        });
+
+        $(document).ready(function () {
+            //initialize global variables
+            filters = @Html.Raw(Json.Encode(Model.SavedFilters));
+            filters = filters == null? {} : filters;
+            isAuthenticated = @Html.Raw(Json.Encode(Request.IsAuthenticated));
+
+            window.onbeforeunload = function(){
+                if (isAuthenticated){
+                    //var html = document.getElementById("dropdownFilters").getElementsByTagName("button")[0].innerHTML;
+                    var text = $("#dropdownFilters button").first().text().trim();
+                    localStorage.setItem("savedFilterText", text);
+                }
+            };
+
+            window.onload = function(){
+                if (isAuthenticated){
+                    var savedFilterText = localStorage.getItem("savedFilterText");
+                    if (filters.hasOwnProperty(savedFilterText)){
+                        var element = document.getElementById("dropdownFilters").getElementsByTagName("button")[0];
+                        element.innerHTML = savedFilterText + ' <span class="caret"></span>';
+                        $("#taCommand").text(filters[savedFilterText]);
+                    }
+                }
+            };
+
+            //dropdown select specific saved filter
+            $("#dropdownFilters ul li").click(function(){
+                var element = document.getElementById("dropdownFilters").getElementsByTagName("button");
+                var item = $(this).text();
+                element[0].innerHTML = item + '<span class="caret"></span>';
+                $("#taCommand").text(filters[item])
+            });
+
+            $("#btNewFilter").click(function(){
+                if (isAuthenticated)
+                    SetDropDownText("dropdownFilters", "Saved Filters");
+                $("#taCommand").text("SELECT\n\nWHERE");
+            });
+
+            //delete selected filter
+            $("#btDeleteFilter").click(function(){
+                var currentName = $("#dropdownFilters button").first().text().trim();
+                if (filters.hasOwnProperty(currentName)){  //means we selected some filter
+                    if(window.confirm("Are you sure to delete " + currentName + "?"))
+                        facility.RedirectToUrl("/search/removefilter", "post", {name: currentName}, true);
+                }
+            });
+
+            //save filter to server: replace or add a new filter
+            $("#btSaveFilter").click(function(){
+                if(isAuthenticated){
+                    var filterName = GetFilterName();
+                    if (filterName == null) return;
+
+                    var commandStr = $("#taCommand").text();
+                    //we need to check if commandStr is valid
+
+                    //var url = "/search/savefilter";
+                    var url = "/api/filterapi/savefilterfa";
+                    var postData = {name: filterName, command: commandStr};
+
+                    $.ajax({
+                        method: "POST",
+                        url: url,
+                        data: facility.AddAntiForgeryToken(postData),
+                    }).always(function( data, textStatus, jqXHR ){
+                    }).done(function( data, textStatus, jqXHR ){
+                        //set the slected filter to the recently saved filter
+                        document.getElementById("dropdownFilters").getElementsByTagName("button")[0].innerHTML = filterName + '<span class="caret"></span>';
+                        window.location.reload(true);   //this will trigger window.beforeunload
+                    }).fail(function( jqXHR, textStatus, errorThrown ){
+                    });
+                }});
+
+            //run command
+            $("#btRun").click(function(){
+                $("#status").text("");
+                $("#divResults").empty();
+                var url = "/Search/RunCommand";
+                var command = $("#taCommand").text();
+                var request = facility.GetAjaxRequestPost(url, facility.AddAntiForgeryToken({"command": command}));
+                request.done(function (data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data) && data !== "" && data != null){
+                        window.AddTableToDiv($("#divResults"), data, {"data-pagination": "true", "data-click-to-select": "false"});
+                        $("#status").text("{0} stocks matched.".format(data.Data.length));
+                    }else{
+                        $("#status").text("no stock matched.");
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#status").text("search stock request failed.");
+                });
+            });
+
+            //dropdown to show query parameters by category
+            $("#dropdownQuery ul li").click(function () {
+                var url = "/data/gettableitem?table=" + $(this).text();
+                var request = window.facility.GetAjaxRequest(url);
+                request.done(function (data, textStatus, jqXHR) {
+                    window.AddTableToDiv($("#tbTest"), data, null);
+                });
+            });
+
+            //button All to show all query paramters
+            $("#dropdownQuery button").first().click(function () {
+                var url = "/data/gettableitem?table=tables";
+                var request = window.facility.GetAjaxRequest(url);
+                request.done(function (data, textStatus, jqXHR) {
+                    window.AddTableToDiv($("#tbTest"), data, null);
+                });
+            });
+
+            //dialog for add query parameters
+            $('#modalAddQuery').on('shown.bs.modal', function (e) {
+                var url = "/data/gettableitem?table=tables";
+                var request = window.facility.GetAjaxRequest(url);
+                request.done(function (data, textStatus, jqXHR) {
+                    window.AddTableToDiv($("#tbTest"), data, null);
+                });
+            })
+
+            //dialog for add select parameters
+            $('#modalAddSelect').on('shown.bs.modal', function (e) {
+                var url = "/data/gettableitem?table=all";
+                var request = window.facility.GetAjaxRequest(url);
+                request.done(function (data, textStatus, jqXHR) {
+                    //var div = $(this).first(".modal-body div");
+                    var div = $("#divTableSelect");
+                    window.AddTableToDiv(div, data, null);
+                });
+            })
+
+            //add selected query parameters to command text area
+            $('#btAddQuery').click(function () {
+                var selectStr = "#" + $(this).attr("data-source") + " tbody tr";
+                var command = "";
+                $(selectStr).has(':checkbox:checked').each(function () {
+                    var str = $(this).find('td:eq(1)').text();
+                    command += '"' + str + '"' + ":\n";
+                });
+                if (command.length > 1) {
+                    var target = $(this).attr("data-target");
+                    $("#" + target).append("\n\n//Please move following parameters to WHERE\n" + command);
+                }
+            })
+
+            //add selected select parameters to command text area
+            $('#btAddSelect').click(function () {
+                var selectStr = "#" + $(this).attr("data-source") + " tbody tr";
+                var command = "";
+                $(selectStr).has(':checkbox:checked').each(function () {
+                    var str = $(this).find("td:eq(1)").text();
+                    command += " " + '"' + str + '",';
+                });
+                if (command.length > 1) {
+                    var target = $(this).attr("data-target");
+                    $("#" + target).append("\n\n//Please move following parameters to SELECT\n" + command.substr(0, command.length - 1));
+                }
+            })
+        });
+
+        //specify a name for filter during saving filter
+        function GetFilterName(){
+            var filterName = "";
+            var msg = "Enter a name for the filter:";
+            var defaultName = "filter_{0}{1}{2}".format(Date.prototype.getFullYear, Date.prototype.getMonth, Date.prototype.getDay);
+            var currentName = $("#dropdownFilters button").first().text().trim();
+            if (currentName != "Saved Filters")
+                defaultName = currentName;
+
+            while(filterName != null && (filterName == "" || filterName == void(0))){
+                filterName = window.prompt(msg, defaultName);
+                if (filters.hasOwnProperty(filterName)){
+                    var toReplace = window.confirm(filterName + " exists, do you want to replace?");
+                    if(toReplace) break;
+                    msg = "Filter name already used. Please give another name:";
+                    filterName = ""; //select another name
+                }
+            }
+            //if we cancel the dialog, null is returned
+            return filterName;
+        };
+
+        function SetDropDownText(elementId, text){
+            //element.val(text + '<span class="caret"></span>');
+            var element = document.getElementById(elementId);
+            if (element == null) return;
+              
+            element = element.getElementsByTagName("button");
+            if (element == null) return;
+                
+            element[0].innerHTML = text + '<span class="caret"></span>';
+        };
+
+        function AddTableToDiv(div, data, options)
+        {
+            var table = window.facility.CreateTableDom(data.Items, data.Keys, null);
+            if (options != null){
+                for(var x in options)
+                    table.setAttribute(x, options[x]);
+            }
+            $(div).html(table);
+            $(div).find("table").first().bootstrapTable({ data: data.Data });
+            //$("#" + id).html(table);
+            //$("#" + id + " table").bootstrapTable({ data: data.Data });
+        }
+
+        ////one problem is that it lose all space while we post data
+        //function RedirectToUrl(url, method, postData, isAntiforgery){
+        //    var form = document.createElement('form');
+        //    form.method = method;
+        //    form.id = "tempForm";
+        //    form.action = url;
+        //    form.style.visibility = 'hidden';
+
+        //    //this will work even if postData is null, {} or undefined, i.e., void(0)
+        //    for(var x in postData){
+        //        var el = document.createElement("input");
+        //        el.type = "text";
+        //        el.name = x;
+        //        el.value = escape(postData[x]);
+        //        form.appendChild(el);
+        //    }
+
+        //    if (isAntiforgery && (method=="post" || method=="POST")){
+        //        postData = facility.AddAntiForgeryToken(postData);
+        //        var el = document.createElement("input");
+        //        el.setAttribute("type", "hidden");
+        //        el.setAttribute("name", "__RequestVerificationToken");
+        //        el.setAttribute("value", postData["__RequestVerificationToken"]);
+        //        form.appendChild(el);
+        //    }
+
+        //    document.getElementsByTagName('body')[0].appendChild(form);
+        //    form.submit();
+
+        //    ////remove form afterwards
+        //    //var element = document.getElementById("tempForm");
+        //    //element.parentNode.removeChild(element);
+        //}
+
+        ////construct url before Run Command
+        //function myOnBeginFunction(xhr, request) {
+        //    request.url = request.url + "?command=" + $("#taCommand").text();
+        //}
+
+        ////wehn run command succeed
+        //function myOnSucessFuncion(data) {
+        //    if (!$.isEmptyObject(data) && data !== "" && data != null)
+        //        window.AddTableToDiv($("#divResults"), data, {"data-pagination": "true"});
+        //}
+
+    </script>
+}
