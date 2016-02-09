@@ -123,4 +123,12 @@ namespace StockScream.BindingModels
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class KeyValueBindingModel
+    {
+        [Required]
+        public string Key { get; set; }
+        [Required]
+        public string Value { get; set; }
+    }
 }

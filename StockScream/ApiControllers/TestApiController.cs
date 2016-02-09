@@ -29,7 +29,7 @@ namespace StockScream.ApiControllers
         [HttpGet]
         public async Task<IHttpActionResult> RequestQuote(string symbols)
         {            
-            var searchResult = await Globals.StockClient.RequestQuote(symbols.Split(';'));
+            var searchResult = await Global.me.StockClient.RequestQuote(symbols.Split(';'));
             if (searchResult == null) return null;
 
             var lst = new List<object>();
@@ -54,7 +54,7 @@ namespace StockScream.ApiControllers
         [HttpGet]
         public IHttpActionResult GetTableItem(string table)
         {
-            var map = Globals.MapStock;
+            var map = Global.me.MapStock;
             var tableTitles = new List<string>();
             if (table == "all" || table == "tables")
                 tableTitles.AddRange(map.TableToItems.Keys.ToList());

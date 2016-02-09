@@ -9,63 +9,48 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using StockScream.Services;
 using StockScream.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading.Tasks;
+using StockScream.BindingModels;
 
 namespace StockScream.ApiControllers
 {
+    [Authorize]
+    [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+    [RoutePrefix("api/Filter")]
     public class FilterApiController : ApiController
     {
-        //IUserDataServices _userProfileServices;
-        //MyUserManager _unitOfWork;
-        //private ApplicationUserManager _userManager;
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        var context = Request.Properties["MS_HttpContext"] as System.Web.HttpContext;
-        //        context.
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
-
-        //public UserProfileController()
-        //{
-        //    var dbName = "Users";
-        //    var connectionStr = ConfigurationManager.ConnectionStrings["MongoDbConnection"].ConnectionString;
-        //    _userProfileServices = new UserDataServices(connectionStr, dbName);
-        //}
+        ApplicationDbContext _applicationDbcontext;
+        ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                //return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                _applicationDbcontext = _applicationDbcontext ?? new ApplicationDbContext();
+                return _userManager ?? new ApplicationUserManager(new UserStore<ApplicationUser>(_applicationDbcontext));
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [HttpPost]
-        public IHttpActionResult SaveFilterFA(string name, string command)
+        [Route("SaveFilterFA")]
+        public async Task<IHttpActionResult> SaveFilterFA(KeyValueBindingModel kv)
         {
-            ApplicationUser usr = null;
-            using (var usrManager = new MyUserManager<ApplicationUser, ApplicationDbContext>())
-            {
-                usr = usrManager.EntityRepository.GetByID(User.Identity.GetUserId());
-            }
+            if (!ModelState.IsValid)
+                return BadRequest();
 
-            //we have to find the user in database
-            if (usr == null)
-                return BadRequest("Unable to save filter for un-registered user");
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null)
+                return InternalServerError();
+            
+            if (user.Profile.AddUpdateFilterFA(kv.Key, kv.Value))
+                MyDbInitializer.SaveDbContext(_applicationDbcontext);
 
-            if (usr.FiltersFA.ContainsKey(name) && usr.FiltersFA[name] == command)
-                return Ok();
-
-            if (!usr.FiltersFA.ContainsKey(name))
-                usr.FiltersFA.Add(name, command);
-            else
-                usr.FiltersFA[name] = command;
-
-            using (var usrManager = new MyUserManager<ApplicationUser, ApplicationDbContext>())
-            {
-                //copy from user and perform update
-                usrManager.EntityRepository.Update(usr);
-            }
-
-            return Ok();
+            return Ok(user.Profile.FiltersFA.Count);
         }
     }
 }

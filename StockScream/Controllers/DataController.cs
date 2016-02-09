@@ -45,7 +45,7 @@ namespace StockScream.Controllers
         [OutputCache(Duration = 900, Location = OutputCacheLocation.Client, VaryByParam = "symbol")]
         public async Task<ActionResult> RequestQuote(string symbols)
         {
-            var searchResult = await Globals.StockClient.RequestQuote(symbols.Split(';'));
+            var searchResult = await Global.me.StockClient.RequestQuote(symbols.Split(';'));
             if (searchResult == null) return null;
 
             var lst = new List<object>();
@@ -69,7 +69,7 @@ namespace StockScream.Controllers
         [OutputCache(Duration = int.MaxValue, Location = System.Web.UI.OutputCacheLocation.Client, VaryByParam = "table")]
         public JsonResult GetTableItem(string table)
         {
-            var map = Globals.MapStock;
+            var map = Global.me.MapStock;
             var tableTitles = new List<string>();
             if (table == "all" || table == "tables")
                 tableTitles.AddRange(map.TableToItems.Keys.ToList());

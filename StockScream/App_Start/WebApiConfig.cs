@@ -26,7 +26,7 @@ namespace StockScream
             );
 
             // Enforce HTTPS
-            config.Filters.Add(new Filters.RequireHttpsAttribute());
+            // config.Filters.Add(new Filters.RequireHttpsAttribute());
 
             // to make sure that api returns json format
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));

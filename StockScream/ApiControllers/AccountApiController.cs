@@ -203,10 +203,10 @@ namespace StockScream.ApiControllers
                 var token = new Token(6, 60);
 
                 //2. add to database
-                if (!Globals.ConfirmationTokens.ContainsKey(email))
-                    Globals.ConfirmationTokens.TryAdd(email, token);
+                if (!Global.me.ConfirmationTokens.ContainsKey(email))
+                    Global.me.ConfirmationTokens.TryAdd(email, token);
                 else
-                    Globals.ConfirmationTokens[email] = token;
+                    Global.me.ConfirmationTokens[email] = token;
 
                 //3. send to client
                 await EmailService.SendEmail(email, "confirmation code", token.AuthToken);
@@ -231,13 +231,13 @@ namespace StockScream.ApiControllers
                     return BadRequest(ModelState);
 
                 //check email confirmation code
-                if (!Globals.ConfirmationTokens.ContainsKey(model.Email) || 
-                    !Globals.ConfirmationTokens[model.Email].CheckConfirmationCode(model.Code))
+                if (!Global.me.ConfirmationTokens.ContainsKey(model.Email) || 
+                    !Global.me.ConfirmationTokens[model.Email].CheckConfirmationCode(model.Code))
                     return BadRequest("Invalid confirmation code");
 
                 //remove token from database
                 Token token;
-                Globals.ConfirmationTokens.TryRemove(model.Email, out token);
+                Global.me.ConfirmationTokens.TryRemove(model.Email, out token);
 
                 //create user in database
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
@@ -388,7 +388,6 @@ namespace StockScream.ApiControllers
         //            return View(model);
         //    }
         //}
-
 
         [HttpGet]
         [AllowAnonymous]

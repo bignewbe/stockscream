@@ -24,10 +24,11 @@ namespace StockScream.Identity
     //    b. The Seed method will not be called when the application is run if the database already exists and the model has not changed since the last run. We’ll come back to this point later.
     public class ApplicationDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
-        public override async void InitializeDatabase(ApplicationDbContext context)
+        public override void InitializeDatabase(ApplicationDbContext context)
         {
             base.InitializeDatabase(context);
-            await MyDbInitializer.AddAdmin(context);
+
+            MyDbInitializer.AddAdmin(context);
         }
     }
 }

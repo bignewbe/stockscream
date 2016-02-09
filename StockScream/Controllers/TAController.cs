@@ -5,34 +5,34 @@ using System.Net;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using CommonCSharpLibary.CommonFuntionality;
 using CommonCSharpLibary.Stock;
-using CommonCSharpLibary.TACommon;
 using StockScream.Models;
 using CommonCSharpLibary.CustomExtensions;
 using System.Diagnostics;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using MongoDB.Driver;
 using StockScream.Identity;
 using StockScream.Services;
 using StockScream.ViewModels;
-using StockScream.DataModels;
+using CommonCSharpLibary.CommonClass;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace StockScream.Controllers
 {
     public class TAController : Controller
     {
-        private StockDbContext db = new StockDbContext();
-        private ApplicationUserManager _userManager;
+        StockDbContext _stockDbContext = new StockDbContext();
+        ApplicationDbContext _applicationDbcontext;
+        ApplicationUserManager _userManager;
         public ApplicationUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                //return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                _applicationDbcontext = _applicationDbcontext ?? new ApplicationDbContext();
+                return _userManager ?? new ApplicationUserManager(new UserStore<ApplicationUser>(_applicationDbcontext));
             }
             private set
             {
@@ -40,13 +40,15 @@ namespace StockScream.Controllers
             }
         }
 
-        public ActionResult SearchW()
+        public async Task<ActionResult> SearchW()
         {
-            TAModel model;
+            var dic = new SerializableStringDictionary();
             if (User.Identity.IsAuthenticated)
-                model = new TAModel { Map = Globals.MapWParam, SavedFilters = (Session["profile"] as UserProfile).FiltersW };
-            else
-                model = new TAModel { Map = Globals.MapWParam, SavedFilters = { } };
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                dic = user.Profile.FiltersW;
+            }
+            var model = new TAModel { Map = Global.me.MapWParam, SavedFilters = dic.ToDictionary() };
 
             return View(model);
         }
@@ -56,7 +58,7 @@ namespace StockScream.Controllers
         //[OutputCache(Duration=900, Location = OutputCacheLocation.Client, VaryByParam = "command", VaryByParam = "date")]
         public async Task<ActionResult> SearchW(string date, string command)
         {
-            var map = Globals.MapStock;
+            var map = Global.me.MapStock;
             EnumParseError error = EnumParseError.OK;
             int lineNumber = -1;
 
@@ -91,7 +93,7 @@ namespace StockScream.Controllers
 
             ///////////////////////////////////////////////////////////////////////////
             //search W
-            var searchResult = await Globals.StockClient.SearchStocks(wp);
+            var searchResult = await Global.me.StockClient.SearchStocks(wp);
 
             if (searchResult == null) {
                 error = EnumParseError.FailedToMatchAnyResults;
@@ -137,7 +139,7 @@ namespace StockScream.Controllers
             Type resultType = builder.CreateType();
 
             //create the query task
-            var taskQuery = db.Database.SqlQuery(resultType, sqlCommand).ToListAsync();
+            var taskQuery = _stockDbContext.Database.SqlQuery(resultType, sqlCommand).ToListAsync();
             return Json(new { Msg = "OK", Data = taskQuery.Result, Items = items, Keys = mappedKeys }, JsonRequestBehavior.AllowGet);
         }
         
@@ -146,18 +148,16 @@ namespace StockScream.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SaveFilterW(string name, string command)
         {
+            //var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            //var manager = new ApplicationUserManager(store);
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user == null)
-                return View("Error");
+            if (user == null) return View("Error");
 
-            var profile = Session["profile"] as UserProfile;
-            if (profile.FiltersW.ContainsKey(name))
-                profile.FiltersW[name] = command;
-            else
-                profile.FiltersW.Add(name, command);
-
-            var mongoUsers = MongoConfig.OpenUsers();
-            await mongoUsers.ReplaceOneAsync<UserProfile>(x => x.Email == user.Email, profile);   //replace entire object
+            if (user.Profile.AddUpdateFilterW(name, command))
+            {
+                //await UserManager.UpdateAsync(user);                   //not needed
+                MyDbInitializer.SaveDbContext(_applicationDbcontext);
+            }
 
             return RedirectToAction("SearchW");
         }
@@ -170,12 +170,9 @@ namespace StockScream.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null) return View("Error");
 
-            var profile = Session["profile"] as UserProfile;
-            if (profile.FiltersW.ContainsKey(name)) {
-                profile.FiltersW.Remove(name);
-                var mongoUsers = MongoConfig.OpenUsers();
-                await mongoUsers.ReplaceOneAsync<UserProfile>(x => x.Email == user.Email, profile);   //replace entire object
-            }
+            if (user.Profile.RemoveFilterW(name))
+                MyDbInitializer.SaveDbContext(_applicationDbcontext);
+
             return RedirectToAction("SearchW");
         }
 
@@ -184,7 +181,7 @@ namespace StockScream.Controllers
         {
             if (symbol == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-            var quotes = await Globals.StockClient.RequestQuote(new List<string> { symbol });
+            var quotes = await Global.me.StockClient.RequestQuote(new List<string> { symbol });
             if (quotes == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
             ViewBag.Symbol = symbol;
@@ -222,3 +219,47 @@ namespace StockScream.Controllers
         #endregion
     }
 }
+
+
+
+
+
+
+//public class MyUserManager
+//{
+//    DbContext _applicationDbcontext;
+//    public DbContext Dbcontext
+//    {
+//        get
+//        {
+//            if (_applicationDbcontext == null)
+//                _applicationDbcontext = new ApplicationDbContext(); 
+//            return _applicationDbcontext;
+//        }
+//        private set
+//        {
+//            _applicationDbcontext = value;
+//        }
+//    }
+//    ApplicationUserManager _userManager;
+//    public ApplicationUserManager UserManager
+//    {
+//        get
+//        {
+//            //return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+//            if (_userManager == null)
+//                _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(Dbcontext));
+
+//            return _userManager ?? new ApplicationUserManager(new UserStore<ApplicationUser>(Dbcontext));
+//        }
+//        private set
+//        {
+//            _userManager = value;
+//        }
+//    }
+
+//    public void SaveContext()
+//    {
+//        MyDbInitializer.SaveDbContext(Dbcontext);
+//    }
+//}

@@ -99,10 +99,10 @@ namespace StockScream.Controllers
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
-                    //create user profile
-                    var mongoDb = MongoConfig.OpenUsers();
-                    var userProfile = new UserProfile { Email = user.Email };
-                    await mongoDb.InsertOneAsync(userProfile);
+                    ////create user profile
+                    //var mongoDb = MongoConfig.OpenUsers();
+                    //var userProfile = new UserProfile { Email = user.Email };
+                    //await mongoDb.InsertOneAsync(userProfile);
 
                     if (selectedRoles != null)
                     {

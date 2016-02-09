@@ -45,20 +45,6 @@ namespace StockScream.Controllers
             private set { _signInManager = value; }
         }
 
-        //used to load user profile when first login
-        public async Task LoadUserProfileByEmail(string email)
-        {
-            var db = MongoConfig.OpenUsers();
-            var profile = await (await db.FindAsync(u => u.Email == email)).ToListAsync();
-            Session["profile"] = profile[0];
-            //if (profile[0].ExtraElements != null && profile[0].ExtraElements.ContainsKey("Birthday")) {
-            //    var filter = Builders<UserProfile>.Filter.Eq(u => u.Email, email);
-            //    var update = Builders<UserProfile>.Update.Set(u => u.Birthday, profile[0].Birthday).Set(u=>u.ExtraElements, profile[0].ExtraElements);
-            //    await db.UpdateOneAsync(filter, update);
-            //    profile = await (await db.FindAsync(u => u.Email == email)).ToListAsync();
-            //}
-        }
-
         public AccountController()
         {
         }
@@ -123,7 +109,7 @@ namespace StockScream.Controllers
 
             switch (result) {
                 case SignInStatus.Success:
-                    await this.LoadUserProfileByEmail(model.Email);
+                    //await this.LoadUserProfileByEmail(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -165,11 +151,6 @@ namespace StockScream.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
-                    //create userprofile and add role for user
-                    var mongoDb = MongoConfig.OpenUsers();
-                    var userProfile = new UserProfile { Email = user.Email, FirstName = "Li", LastName = "Ping", Birthday = new Mydate { Year = 1976, Month = 10, Day = 29 } };
-                    await mongoDb.InsertOneAsync(userProfile);
-
                     //set role
                     var roleNames = new List<string> { "Free" };
                     foreach (var role in roleNames)
@@ -284,7 +265,7 @@ namespace StockScream.Controllers
             {
                 case SignInStatus.Success:
                     var user = UserManager.FindById(User.Identity.GetUserId());
-                    await this.LoadUserProfileByEmail(user.Email);
+                    //await this.LoadUserProfileByEmail(user.Email);
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

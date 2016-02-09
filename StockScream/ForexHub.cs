@@ -27,23 +27,25 @@ namespace StockScream
             }
 
             var principal = user as ClaimsPrincipal;
+            var authenticated = principal?.Identity.IsAuthenticated ?? false;
+            return authenticated;
 
-            if (principal != null)
-            {
-                Claim authenticated = principal.FindFirst(ClaimTypes.Authentication);
-                if (authenticated != null && authenticated.Value == "true")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            //if (principal != null)
+            //{
+            //    Claim authenticated = principal.FindFirst(ClaimTypes.Authentication);
+            //    if (authenticated != null && authenticated.Value == "true")
+            //    {
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else
+            //{
+            //    return false;
+            //}
         }
 
         public override bool AuthorizeHubConnection(HubDescriptor hubDescriptor, IRequest request)
@@ -72,25 +74,20 @@ namespace StockScream
         {
             if (!IsRealTimeQuoteRequested)
             {
-                //var ip_quoteServer = ConfigurationManager.AppSettings["ip_quoteServer"];
-                //var port_quoteServer = int.Parse(ConfigurationManager.AppSettings["port_quoteServer"]);
-                //QuoteClient = new CTcpClientCommon2(ip_quoteServer, port_quoteServer);
-                //var r = QuoteClient.ConnectAsync().Result;
-
                 _requested = new Dictionary<string, int>();
-                Globals.QuoteClient.ReceiveRealTimeForexQuote += Client_ReceiveRealTimeForexQuote;
-                Globals.QuoteClient.ReceiveRealTimeStockQuote += Client_ReceiveRealTimeStockQuote; ;
-                Globals.QuoteClient.ReceiveMsg += Client_ReceiveMsg;
-                //Globals.QuoteClient.RequestRealTimeQuote("EUR.USD");
-                //Globals.QuoteClient.RequestRealTimeQuote("EUR.GBP");
-                //Globals.QuoteClient.RequestRealTimeQuote("USD.JPY");
-                //Globals.QuoteClient.RequestRealTimeQuote("GBP.USD");
-                //Globals.QuoteClient.RequestRealTimeQuote("USD.CAD");
-                //Globals.QuoteClient.RequestRealTimeQuote("USD.CHF");
-                //Globals.QuoteClient.RequestRealTimeQuote("EUR.JPY");
-                //Globals.QuoteClient.RequestRealTimeQuote("EUR.CAD");
-                //Globals.QuoteClient.RequestRealTimeQuote("ERU.AUD");
-                //Globals.QuoteClient.RequestRealTimeQuote("USD.CHF");
+                Global.me.QuoteClient.ReceiveRealTimeForexQuote += Client_ReceiveRealTimeForexQuote;
+                Global.me.QuoteClient.ReceiveRealTimeStockQuote += Client_ReceiveRealTimeStockQuote; ;
+                Global.me.QuoteClient.ReceiveMsg += Client_ReceiveMsg;
+                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.USD");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.GBP");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.JPY");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("GBP.USD");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CAD");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CHF");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.JPY");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.CAD");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("ERU.AUD");
+                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CHF");
                 IsRealTimeQuoteRequested = true;
             }
         }
@@ -102,7 +99,9 @@ namespace StockScream
 
         private void Client_ReceiveRealTimeStockQuote(object sender, string symbol, long t, double o, double c, double h, double l, double v)
         {
-            this.Clients.Group(symbol).onNewStockQuote(symbol, t, o, c, h, l, v);  //note that we dont tranmit interval here because we can handle only 7 parameters maximally
+            //this.Clients.Group(symbol).onNewStockQuote(symbol, t, o, c, h, l, v);  //note that we dont tranmit interval here because we can handle only 7 parameters maximally
+            var value = string.Format("{0}:{1}:{2}:{3}:{4}:{5}", t, o, c, h, l, v);
+            this.Clients.Group(symbol).onNewStockQuote(symbol, value);  //note that we dont tranmit interval here because we can handle only 7 parameters maximally
         }
 
         private void Client_ReceiveRealTimeForexQuote(object sender, string symbol, long t, double buyPrice, double sellPrice)
@@ -134,7 +133,7 @@ namespace StockScream
                     if (!_requested.ContainsKey(symbol))                      //if not yet requested to the quote server, make the request 
                     {
                         _requested.Add(symbol, 1);
-                        Globals.QuoteClient.RequestRealTimeQuote(symbol);
+                        Global.me.QuoteClient.RequestRealTimeQuote(symbol);
                     }
                 }
                 Clients.Client(Context.ConnectionId).onSubscribe(subscribedSymbols);   //indicate to client what symbols are requested

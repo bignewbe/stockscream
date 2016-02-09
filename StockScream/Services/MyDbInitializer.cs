@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver;
-
+using System.Data.Entity;
 
 namespace StockScream.Services
 {
@@ -23,33 +23,33 @@ namespace StockScream.Services
         /// <param name="context"></param>
         public static void InitializeDb(ApplicationDbContext context)
         {
-            //add users
-            var hasher = new PasswordHasher();
-            var users = new List<ApplicationUser> {
-                new ApplicationUser{PasswordHash = hasher.HashPassword("Abc123!"), Email = "imliping@gmail.com", UserName = "imliping@gmail.com",  EmailConfirmed=true},
-            };
-            context.Users.AddOrUpdate(u => u.Email, users.ToArray());
-            SaveDbContext(context);
+            ////add users
+            //var hasher = new PasswordHasher();
+            //var users = new List<ApplicationUser> {
+            //    new ApplicationUser{PasswordHash = hasher.HashPassword("Abc123!"), Email = "imliping@gmail.com", UserName = "imliping@gmail.com",  EmailConfirmed=true},
+            //};
+            //context.Users.AddOrUpdate(u => u.Email, users.ToArray());
+            //SaveDbContext(context);
 
-            //add roles
-            var roleNames = new List<string> { "Admin", "Free", "Basic", "Advanced", "Ultimate" };
-            context.Roles.AddOrUpdate(r => r.Name, roleNames.Select(r => new IdentityRole(r)).ToArray());
-            SaveDbContext(context);
+            ////add roles
+            //var roleNames = new List<string> { "Admin", "Free", "Basic", "Advanced", "Ultimate" };
+            //context.Roles.AddOrUpdate(r => r.Name, roleNames.Select(r => new IdentityRole(r)).ToArray());
+            //SaveDbContext(context);
 
-            //assign roles to each user
-            var userStore = new UserStore<ApplicationUser>(context);
-            var userManager = new ApplicationUserManager(userStore);
-            var user = userManager.FindByEmail("imliping@gmail.com");
-            var userRoles = userManager.GetRoles(user.Id);
-            foreach (var name in roleNames)
-            {
-                if (!userRoles.Contains(name))
-                    userManager.AddToRole(user.Id, name);
-            }
-            SaveDbContext(context);
+            ////assign roles to each user
+            //var userStore = new UserStore<ApplicationUser>(context);
+            //var userManager = new ApplicationUserManager(userStore);
+            //var user = userManager.FindByEmail("imliping@gmail.com");
+            //var userRoles = userManager.GetRoles(user.Id);
+            //foreach (var name in roleNames)
+            //{
+            //    if (!userRoles.Contains(name))
+            //        userManager.AddToRole(user.Id, name);
+            //}
+            //SaveDbContext(context);
         }
 
-        public static void SaveDbContext(ApplicationDbContext context)
+        public static void SaveDbContext(DbContext context)
         {
             try
             {
@@ -82,55 +82,44 @@ namespace StockScream.Services
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static async Task AddAdmin(ApplicationDbContext context)
+        public static void AddAdmin(ApplicationDbContext context)
         {
+            //add all roles if db is empty
+            var roleStore = new RoleStore<IdentityRole>(context);
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+            var roleNames = new List<string> { "Admin", "Free", "Basic", "Advanced", "Ultimate" };
+            foreach (var roleName in roleNames)
+            {
+                if (roleManager.FindByName(roleName) == null)
+                {
+                    var role = new IdentityRole { Name = roleName };
+                    roleManager.Create(role);
+                }
+            }
+
             var email = "imliping@gmail.com";
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new ApplicationUserManager(userStore);
             if (userManager.FindByEmail(email) == null)
-            {
-                //add all roles if db is empty
-                var roleStore = new RoleStore<IdentityRole>(context);
-                var roleManager = new RoleManager<IdentityRole>(roleStore);
-                var roleNames = new List<string> { "Admin", "Free", "Basic", "Advanced", "Ultimate" };
-                foreach (var roleName in roleNames)
-                {
-                    if (roleManager.FindByName(roleName) == null)
-                    {
-                        var role = new IdentityRole { Name = roleName };
-                        roleManager.Create(role);
-                    }
-                }
+                userManager.Create(new ApplicationUser { Email = email, UserName = email, EmailConfirmed = true }, "Abc123!");
 
-                //admin
-                var user = new ApplicationUser { Email = email, UserName = email, EmailConfirmed = true };
-                userManager.Create(user, "Abc123!");
-                foreach (var role in roleNames)
-                    userManager.AddToRole(user.Id, role);
 
-                //user profile for admin
-                var mongoDb = MongoConfig.OpenUsers();
-                var profile = await (await mongoDb.FindAsync(u => u.Email == email)).ToListAsync();
-                if (profile.Count == 0)
-                {
-                    var userProfile = new UserProfile { Email = user.Email, FirstName = "Li", LastName = "Ping", Birthday = new Mydate { Year = 1976, Month = 10, Day = 29 } };
-                    await mongoDb.InsertOneAsync(userProfile);
-                }
-            }
-            Debug.WriteLine("Seed completed!");
+            var user = userManager.FindByEmail(email);
+            foreach (var role in roleNames)
+                userManager.AddToRole(user.Id, role);
+
+            MyDbInitializer.SaveDbContext(context);
         }
 
         //reset both sql server express and mongo db
-        public static async void ResetDatabases()
+        public static async Task ResetDatabases()
         {
             var applicationDb = new ApplicationDbContext();
-            var mongoDb = MongoConfig.OpenUsers();
+            //var mongoDb = MongoConfig.OpenUsers();
 
             //remove all users from mongo db and application db
             if (applicationDb.Users.Any())
             {
-                await mongoDb.DeleteManyAsync(u => !string.IsNullOrEmpty(u.Email));
-
                 var userStore = new UserStore<ApplicationUser>(applicationDb);
                 var userManager = new ApplicationUserManager(userStore);
 
@@ -173,23 +162,8 @@ namespace StockScream.Services
                     EmailConfirmed = true
                 };
                 userManager.Create(user, "Abc123!");
-
-                var userProfile = new UserProfile { Email = user.Email, FirstName = "Li", LastName = "Ping", Birthday = new Mydate { Year = 1976, Month = 10, Day = 29 } };
-                foreach (var role in roleNames)
-                {
-                    userManager.AddToRole(user.Id, role);
-                    //userProfile.Roles.Add(role);
-                }
-
-                await mongoDb.InsertOneAsync(userProfile);
-
-                //await db.DeleteManyAsync(u => !string.IsNullOrEmpty(u.FirstName));
-                //var profile = await (await db.FindAsync(u => u.Email == "imliping@gmail.com")).ToListAsync();
-                //var found = await (await profiles.FindAsync(u => u.FirstName == "Ping" && u.LastName == "Li")).ToListAsync();            
-                //await profiles.InsertOneAsync(new UserProfile("Ping", "Li"));
             }
             Debug.WriteLine("Seed completed!");
         }
-
     }
 }
