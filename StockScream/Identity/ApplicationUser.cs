@@ -39,8 +39,5 @@ namespace StockScream.Identity
             // Add custom user claims here
             return userIdentity;
         }
-        public ApplicationUser()
-        {
-        }
     }
 }

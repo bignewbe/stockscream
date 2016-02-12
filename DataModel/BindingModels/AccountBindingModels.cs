@@ -131,4 +131,12 @@ namespace StockScream.BindingModels
         [Required]
         public string Value { get; set; }
     }
+
+    public class KeyValuesBindingModel
+    {
+        [Required]
+        public string Key { get; set; }
+        [Required]
+        public List<string> Values { get; set; }
+    }
 }

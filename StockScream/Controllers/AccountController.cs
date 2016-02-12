@@ -1,22 +1,13 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using StockScream.Models;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver;
 using System.Collections.Generic;
-using Microsoft.AspNet.Identity.EntityFramework;
 using StockScream.Identity;
-using StockScream.Services;
 using StockScream.ViewModels;
-using StockScream.DataModels;
 
 namespace StockScream.Controllers
 {

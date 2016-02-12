@@ -3,6 +3,8 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using CommonCSharpLibary.CommonClass;
 using CommonCSharpLibary.CommonFuntionality;
+using Newtonsoft.Json;
+using System;
 
 namespace StockScream.DataModels
 {
@@ -21,6 +23,22 @@ namespace StockScream.DataModels
         public virtual ICollection<Plan> PlanHistory { get; set; }
 
         [NotMapped]
+        public Dictionary<string, List<string>> Portfolio { get; set; }
+        public string JsonPortofolio
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(Portfolio);
+            }
+            set
+            {
+                Type type = typeof(Dictionary<string, List<string>>);
+                Portfolio = string.IsNullOrEmpty(value)? new Dictionary<string, List<string>>() :
+                    JsonConvert.DeserializeObject(value, type) as Dictionary<string, List<string>>;
+            }
+        }
+
+        [NotMapped]
         public SerializableStringDictionary FiltersFA { get; set; }
         [NotMapped]
         public SerializableStringDictionary FiltersW { get; set; }
@@ -31,10 +49,12 @@ namespace StockScream.DataModels
         {
             get
             {
-                return CFacility.SerializeToXmlStr(FiltersFA);
+                //called when write to database
+                return CFacility.SerializeToXmlStr(FiltersFA);   
             }
             set
             {
+                //called when retrieve data from database
                 FiltersFA = CFacility.DeserializeFromXmlStr<SerializableStringDictionary>(value) ??
                     new SerializableStringDictionary();
             }
@@ -64,7 +84,7 @@ namespace StockScream.DataModels
             }
         }
 
-        bool AddUpdateFilter(SerializableStringDictionary dic, string name, string command)
+        static bool AddUpdateFilter(SerializableStringDictionary dic, string name, string command)
         {
             if (dic == null) return false;
 
@@ -77,7 +97,7 @@ namespace StockScream.DataModels
             return false;
         }
 
-        bool RemoveFilter(SerializableStringDictionary dic, string name)
+        static bool RemoveFilter(SerializableStringDictionary dic, string name)
         {
             if (dic == null) return false;
             if (dic.ContainsKey(name))
@@ -88,30 +108,61 @@ namespace StockScream.DataModels
             return false;
         }
 
+        public bool AddToPortfolio(string name, params string[] symbols)
+        {
+            if (symbols == null) return false;
+            if (!Portfolio.ContainsKey(name)) {
+                Portfolio.Add(name, symbols.ToList());
+                return true;
+            }
 
+            var isAdded = false;
+            foreach(var symbol in symbols) {
+                if (!Portfolio[name].Contains(symbol)) {
+                    Portfolio[name].Add(symbol);
+                    isAdded = true;
+                }
+            }
+            return isAdded;
+        }
+
+        public bool RemoveFromPortfolio(string name, params string[] symbols)
+        {
+            if (symbols == null || !Portfolio.ContainsKey(name)) return false;
+
+            var isRemoved = false;
+            foreach (var symbol in symbols) {
+                if (Portfolio[name].Contains(symbol)) {
+                    Portfolio[name].Remove(symbol);
+                    isRemoved = true;
+                }
+            }
+            return isRemoved;
+        }
+        
         public bool AddUpdateFilterFA(string name, string command)
         {
-            return this.AddUpdateFilter(FiltersFA, name, command);
+            return AddUpdateFilter(FiltersFA, name, command);
         }
         public bool AddUpdateFilterW(string name, string command)
         {
-            return this.AddUpdateFilter(FiltersW, name, command);
+            return AddUpdateFilter(FiltersW, name, command);
         }
         public bool AddUpdateFilterM(string name, string command)
         {
-            return this.AddUpdateFilter(FiltersM, name, command);
+            return AddUpdateFilter(FiltersM, name, command);
         }
         public bool RemoveFilterFA(string name)
         {
-            return this.RemoveFilter(FiltersFA, name);
+            return RemoveFilter(FiltersFA, name);
         }
         public bool RemoveFilterW(string name)
         {
-            return this.RemoveFilter(FiltersW, name);
+            return RemoveFilter(FiltersW, name);
         }
         public bool RemoveFilterM(string name)
         {
-            return this.RemoveFilter(FiltersM, name);
+            return RemoveFilter(FiltersM, name);
         }
 
         public UserProfile()

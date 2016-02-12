@@ -18,7 +18,7 @@ namespace StockScream.ApiControllers
     [Authorize]
     [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
     [RoutePrefix("api/Filter")]
-    public class FilterApiController : ApiController
+    public class DataApiController : ApiController
     {
         ApplicationDbContext _applicationDbcontext;
         ApplicationUserManager _userManager;
@@ -52,5 +52,40 @@ namespace StockScream.ApiControllers
 
             return Ok(user.Profile.FiltersFA.Count);
         }
+
+        [HttpPost]
+        [Route("AddToPortfolio")]
+        public async Task<IHttpActionResult> AddToPortfolio(KeyValuesBindingModel kv)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null)
+                return InternalServerError();
+
+            if (user.Profile.AddToPortfolio(kv.Key, kv.Values.ToArray()))
+                MyDbInitializer.SaveDbContext(_applicationDbcontext);
+
+            return Ok(user.Profile.Portfolio.Count);
+        }
+
+        [HttpPost]
+        [Route("RemoveFromPortfolio")]
+        public async Task<IHttpActionResult> RemoveFromPortfolio(KeyValuesBindingModel kv)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null)
+                return InternalServerError();
+
+            if (user.Profile.RemoveFromPortfolio(kv.Key, kv.Values.ToArray()))
+                MyDbInitializer.SaveDbContext(_applicationDbcontext);
+
+            return Ok(user.Profile.Portfolio.Count);
+        }
+
     }
 }

@@ -41,7 +41,7 @@
             EUR.USD <span id="eurusd"></span>
         </li>
         <li>
-            EUR.GBP <span id="eurgbp"></span>
+            EUR.JPY <span id="eurjpy"></span>
         </li>
     </ul>
     
@@ -57,15 +57,25 @@
                         if (symbol == "EUR.USD_5"){
                             $("#eurusd").text(buyPrice + ' ' + sellPrice);
                         }
-                        if (symbol == "EUR.GBP_5"){
-                            $("#eurgbp").text(buyPrice + ' ' + sellPrice);
+                        if (symbol == "EUR.JPY_5"){
+                            $("#eurjpy").text(buyPrice + ' ' + sellPrice);
+                        }
+                    };                     
+                    proxy.client.onNewStockQuote = function(symbol, value){
+                        var s = value.split(':');
+                        console.log(symbol + ' ' + value);
+                        if (symbol == "EUR.USD_5"){
+                            $("#eurusd").text(value);
+                        }
+                        if (symbol == "EUR.JPY_5"){
+                            $("#eurjpy").text(value);
                         }
                     };                     
                     
                     //start connection
                     $.connection.hub.start().done(function(){
                         console.log('Now connected, connection ID = ' + $.connection.hub.id); 
-                        proxy.server.subscribe('EUR.USD_5' + ';' + 'EUR.GBP_5');
+                        proxy.server.subscribe('EUR.USD_5' + ';' + 'EUR.JPY_5');
                     }).fail(function(){ 
                         console.log('Could not connect');
                     });
@@ -76,36 +86,6 @@
                     $("#getRealTimeQuote").text('Get Real Time Quote');
                 }
             });
-
-            //$('#getRealTimeQuote').click(function(){
-            //    if ($("#getRealTimeQuote").text() == 'Get Real Time Quote'){
-            //        var con = $.hubConnection();
-            //        var hub = con.createHubProxy('ForexHub');
-            //        con.qs = { 'version' : '1.0' };
-
-            //        //define function 'onNewQuote' which can be called from server
-            //        hub.on('onNewQuote', function(symbol, time, buyPrice, sellPrice){
-            //            console.log(symbol + ' ' + time + ' ' + buyPrice + ' ' + sellPrice);
-            //        });                     
-                    
-            //        //start connection
-            //        con.start().done(function(){ 
-            //                console.log('Now connected, connection ID =' + con.id); 
-            //            }).fail(function(){ 
-            //                console.log('Could not connect');
-            //            });
-
-            //        //con.start().done(function(){
-            //        //    hub.invoke('BroadCastQuote');
-            //        //});
-            //        $("#getRealTimeQuote").text('Stop Real Time Quote');
-            //    }else{
-            //        var con = $.hubConnection();
-            //        var hub = con.createHubProxy('ForexHub');
-            //        con.stop();
-            //        $("#getRealTimeQuote").text('Get Real Time Quote');
-            //    }
-            //});
         })
     </script>
 </div>
@@ -195,7 +175,7 @@
             }
 
             window.onbeforeunload = function(){
-                var url = "/TA/SearchW";
+                var url = '@Url.Action("index", "TA")';
                 var command = $("#taCommand").text();
                 var date = $("#txtDate").val();
                 var key = (url+command+date).hashCode();
@@ -217,14 +197,12 @@
             };
 
             window.onload = function(){
-                var url = "/TA/SearchW";
                 var command = localStorage.getItem("command");
                 var date  = localStorage.getItem("date");
-                
                 var auth = localStorage.getItem("authenticate");
                 if (isAuthenticated != (auth == "true"))
                     return;
-                
+
                 $("#taCommand").text(command);
                 $("#txtDate").val(date);
                 var hasTable  = localStorage.getItem("hasTable");
@@ -278,7 +256,7 @@
                     };
                 }
             })
-            
+
             var drawStockChart = function(data){
                 if (!data.hasOwnProperty("Time")) return;
 
@@ -310,7 +288,8 @@
 
             $("#divResults").on("click", "table tbody tr", function(e){
                 var symbol = $(this).find("td:eq(1)").text();
-                var url = "/TA/stockdetails";
+                //var url = "/TA/stockdetails";
+                var url = '@Url.Action("stockdetails", "TA")';
                 facility.RedirectToUrl(url, "GET", {"symbol":symbol});
 
                 //var symbol = $(this).find("td:eq(1)").text();
@@ -338,7 +317,8 @@
 
             //dialog for add select parameters
             $('#modalAddSelect').on('shown.bs.modal', function (e) {
-                var url = "/data/gettableitem?table=all";
+                //var url = "/data/gettableitem?table=all";
+                var url = '@Url.Action("gettableitem", "data", new { table = "all" })';
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     var div = $("#divTableSelect");
@@ -360,7 +340,7 @@
                     $("#" + target).append("\n\n//Please move following parameters to SELECT\n" + command.substr(0, command.length - 1));
                 }
             })
-            
+
             //dropdown select specific saved filter
             $("#dropdownFilters ul li").click(function(){
                 var element = document.getElementById("dropdownFilters").getElementsByTagName("button");
@@ -394,7 +374,8 @@
                     var commandStr = $("#taCommand").text();
                     //we need to check if commandStr is valid
 
-                    var url = "/ta/savefilterw";
+                    //var url = "/ta/savefilterw";
+                    var url = '@Url.Action("savefilterw", "ta")';
                     var postData = {name: filterName, command: commandStr};
 
                     $.ajax({
@@ -414,8 +395,10 @@
             $("#btDeleteFilter").click(function(){
                 var currentName = $("#dropdownFilters button").first().text().trim();
                 if (filters.hasOwnProperty(currentName)){  //means we selected some filter
-                    if(window.confirm("Are you sure to delete " + currentName + "?"))
-                        facility.RedirectToUrl("/ta/removefilterw", "post", {name: currentName}, true);
+                    if(window.confirm("Are you sure to delete " + currentName + "?")){
+                        var url = '@Url.Action("removefilterw", "ta")';
+                        facility.RedirectToUrl(url, "post", {name: currentName}, true);
+                    }
                 }
             });
 
@@ -429,7 +412,7 @@
 
                 $("#status").text("");
                 $("#divResults").empty();
-                var url = "/TA/SearchW";
+                var url = '@Url.Action("runcommand", "ta")';
                 var command = $("#taCommand").text();
 
                 var key = (url+command+date).hashCode();
@@ -439,7 +422,7 @@
                     data: facility.AddAntiForgeryToken({"command": command, "date": date}),
                     cache: true,
                     complete: CreateResultTable,            //how data should be handled when succeed
-                    key: key         //key to check local cache
+                    key: key                                //key to check local cache
                 });
 
                 request.done(function (data, textStatus, jqXHR) {

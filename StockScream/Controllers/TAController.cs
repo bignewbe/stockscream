@@ -40,7 +40,7 @@ namespace StockScream.Controllers
             }
         }
 
-        public async Task<ActionResult> SearchW()
+        public async Task<ActionResult> Index()
         {
             var dic = new SerializableStringDictionary();
             if (User.Identity.IsAuthenticated)
@@ -56,7 +56,7 @@ namespace StockScream.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]  //does not work with OuputCache
         //[OutputCache(Duration=900, Location = OutputCacheLocation.Client, VaryByParam = "command", VaryByParam = "date")]
-        public async Task<ActionResult> SearchW(string date, string command)
+        public async Task<ActionResult> RunCommand(string date, string command)
         {
             var map = Global.me.MapStock;
             EnumParseError error = EnumParseError.OK;
@@ -154,10 +154,7 @@ namespace StockScream.Controllers
             if (user == null) return View("Error");
 
             if (user.Profile.AddUpdateFilterW(name, command))
-            {
-                //await UserManager.UpdateAsync(user);                   //not needed
                 MyDbInitializer.SaveDbContext(_applicationDbcontext);
-            }
 
             return RedirectToAction("SearchW");
         }

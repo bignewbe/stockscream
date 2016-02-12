@@ -33,30 +33,30 @@ if (!String.prototype.format) {
         "data-search": "true"
     };
 
-    facility.MapAction = function (actionName) {
-        if (actionName.toLowerCase() === "SearchW".toLowerCase())
-            return "/TA/" + actionName;
+    //facility.MapAction = function (actionName) {
+    //    if (actionName.toLowerCase() === "SearchW".toLowerCase())
+    //        return "/TA/" + actionName;
 
-        if (actionName.toLowerCase() === "StockDetails".toLowerCase())
-            return "/TA/" + actionName;
+    //    if (actionName.toLowerCase() === "StockDetails".toLowerCase())
+    //        return "/TA/" + actionName;
 
-        if (actionName.toLowerCase() === "RunCommand".toLowerCase())
-            return "/search/" + actionName;
+    //    if (actionName.toLowerCase() === "RunCommand".toLowerCase())
+    //        return "/search/" + actionName;
 
-        if (actionName.toLowerCase() === "SaveFilter".toLowerCase())
-            return "/data/" + actionName;
+    //    if (actionName.toLowerCase() === "SaveFilter".toLowerCase())
+    //        return "/data/" + actionName;
 
-        if (actionName.toLowerCase() === "RemoveFilter".toLowerCase())
-            return "/data/" + actionName;
+    //    if (actionName.toLowerCase() === "RemoveFilter".toLowerCase())
+    //        return "/data/" + actionName;
 
-        if (actionName.toLowerCase() === "Download".toLowerCase())
-            return "/data/" + actionName;
+    //    if (actionName.toLowerCase() === "Download".toLowerCase())
+    //        return "/data/" + actionName;
 
-        if (actionName.toLowerCase() === "GetTableItem".toLowerCase())
-            return "/data/" + actionName;
+    //    if (actionName.toLowerCase() === "GetTableItem".toLowerCase())
+    //        return "/data/" + actionName;
 
-        return null;
-    };
+    //    return null;
+    //};
 
     facility.CreateLocaoCache = function (timeout, limit) {
         var localCache = {

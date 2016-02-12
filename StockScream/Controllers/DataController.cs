@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using StockScream.Identity;
 using StockScream.Services;
 using PortableCSharpLib;
+using Newtonsoft.Json;
 
 namespace StockScream.Controllers
 {
@@ -66,10 +67,11 @@ namespace StockScream.Controllers
         }
 
         //this function should not be necessary since we have already passed Mapping information to client
-        [OutputCache(Duration = int.MaxValue, Location = System.Web.UI.OutputCacheLocation.Client, VaryByParam = "table")]
+        //[OutputCache(Duration = int.MaxValue, Location = System.Web.UI.OutputCacheLocation.Client, VaryByParam = "table")]
         public JsonResult GetTableItem(string table)
         {
             var map = Global.me.MapStock;
+
             var tableTitles = new List<string>();
             if (table == "all" || table == "tables")
                 tableTitles.AddRange(map.TableToItems.Keys.ToList());

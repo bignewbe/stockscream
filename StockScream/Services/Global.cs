@@ -19,6 +19,8 @@ namespace StockScream.Services
     public class Global
     {
         HashSet<string> _symbols;
+
+        public HashSet<string> AvailableSymbolsForStreaming { get; set; }
         public ITcpClientCommon2 QuoteClient { get; set; }
         public TcpStockClient StockClient { get; set; }
         public ConcurrentDictionary<string, Token> ConfirmationTokens { get; set; }
@@ -63,6 +65,9 @@ namespace StockScream.Services
             QuoteClient = new CTcpClientCommon2(ip_quoteServer, port_quoteServer);
             r = QuoteClient.ConnectAsync().Result;
             logger.Info(string.Format("Quote server connected {0}:{1}", ip_quoteServer, port_quoteServer));
+
+            var s = QuoteClient.RequestGeneralResult(new RP_AvailableSymbols()).Result;
+            AvailableSymbolsForStreaming = new HashSet<string>(s as List<string>);
 
             //create wparam mapping
             MapWParam = WParam.GetWParamMap();

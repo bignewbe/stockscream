@@ -27,8 +27,8 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Fundamental Analysis", "Index", "Search")</li>
-                    <li>@Html.ActionLink("Search W", "SearchW", "TA")</li>
+                    <li>@Html.ActionLink("Fundamental Analysis", "Index", "FA")</li>
+                    <li>@Html.ActionLink("Technical Analysis", "Index", "TA")</li>
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {

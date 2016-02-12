@@ -1,4 +1,5 @@
-﻿@model StockScream.ViewModels.FAModel
+﻿
+@model StockScream.ViewModels.FAModel
 
 @{
     ViewBag.Title = "Fundamental Analysis";
@@ -150,8 +151,10 @@
             $("#btDeleteFilter").click(function(){
                 var currentName = $("#dropdownFilters button").first().text().trim();
                 if (filters.hasOwnProperty(currentName)){  //means we selected some filter
-                    if(window.confirm("Are you sure to delete " + currentName + "?"))
-                        facility.RedirectToUrl("/search/removefilter", "post", {name: currentName}, true);
+                    if(window.confirm("Are you sure to delete " + currentName + "?")){
+                        var url = '@Url.Action("RemoveFilter", "FA")'
+                        facility.RedirectToUrl(url, "post", {name: currentName}, true);
+                    }
                 }
             });
 
@@ -162,10 +165,9 @@
                     if (filterName == null) return;
 
                     var commandStr = $("#taCommand").text();
-                    //we need to check if commandStr is valid
 
-                    //var url = "/search/savefilter";
-                    var url = "/api/filterapi/savefilterfa";
+                    //we need to check if commandStr is valid
+                    var url = '@Url.Action("SaveFilter", "FA")';
                     var postData = {name: filterName, command: commandStr};
 
                     $.ajax({
@@ -185,7 +187,9 @@
             $("#btRun").click(function(){
                 $("#status").text("");
                 $("#divResults").empty();
-                var url = "/Search/RunCommand";
+
+                //var url = "/Search/RunCommand";
+                var url = '@Url.Action("RunCommand", "FA")';
                 var command = $("#taCommand").text();
                 var request = facility.GetAjaxRequestPost(url, facility.AddAntiForgeryToken({"command": command}));
                 request.done(function (data, textStatus, jqXHR) {
@@ -196,13 +200,15 @@
                         $("#status").text("no stock matched.");
                     }
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $("#status").text("search stock request failed.");
+                    $("#status").text("search stock request failed: " + textStatus + errorThrown);
                 });
             });
 
             //dropdown to show query parameters by category
             $("#dropdownQuery ul li").click(function () {
-                var url = "/data/gettableitem?table=" + $(this).text();
+                //var url = "/data/gettableitem?table=" + $(this).text();
+                var queryStr = $(this).text();
+                var url = '@Url.Action("GetTableItem", "Data", new { table = "queryStr" })'.replace("queryStr", queryStr);
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     window.AddTableToDiv($("#tbTest"), data, null);
@@ -211,7 +217,8 @@
 
             //button All to show all query paramters
             $("#dropdownQuery button").first().click(function () {
-                var url = "/data/gettableitem?table=tables";
+                //var url = "/data/gettableitem?table=tables";
+                var url = '@Url.Action("GetTableItem", "Data", new { table = "tables" })';
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     window.AddTableToDiv($("#tbTest"), data, null);
@@ -220,7 +227,7 @@
 
             //dialog for add query parameters
             $('#modalAddQuery').on('shown.bs.modal', function (e) {
-                var url = "/data/gettableitem?table=tables";
+                var url = '@Url.Action("GetTableItem", "Data", new { table = "tables" })';
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     window.AddTableToDiv($("#tbTest"), data, null);
@@ -229,7 +236,7 @@
 
             //dialog for add select parameters
             $('#modalAddSelect').on('shown.bs.modal', function (e) {
-                var url = "/data/gettableitem?table=all";
+                var url = '@Url.Action("GetTableItem", "Data", new { table = "all" })';
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     //var div = $(this).first(".modal-body div");
@@ -293,10 +300,10 @@
             //element.val(text + '<span class="caret"></span>');
             var element = document.getElementById(elementId);
             if (element == null) return;
-              
+
             element = element.getElementsByTagName("button");
             if (element == null) return;
-                
+
             element[0].innerHTML = text + '<span class="caret"></span>';
         };
 

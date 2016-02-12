@@ -66,7 +66,7 @@ namespace StockScream
     public class ForexHub : Hub
     {
         //because hub is created per request we have to use static variable to store information
-        static HashSet<string> SymbolSet = new HashSet<string> { "GOOG_900", "EUR.USD_5", "EUR.GBP_5" };
+        //static HashSet<string> SymbolSet = new HashSet<string> { "GOOG_900", "EUR.USD_5", "EUR.GBP_5" };
         static bool IsRealTimeQuoteRequested = false;
         static Dictionary<string, int> _requested;       //keep track of requested symbols to prevent repetive request
 
@@ -78,16 +78,7 @@ namespace StockScream
                 Global.me.QuoteClient.ReceiveRealTimeForexQuote += Client_ReceiveRealTimeForexQuote;
                 Global.me.QuoteClient.ReceiveRealTimeStockQuote += Client_ReceiveRealTimeStockQuote; ;
                 Global.me.QuoteClient.ReceiveMsg += Client_ReceiveMsg;
-                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.USD");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.GBP");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.JPY");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("GBP.USD");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CAD");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CHF");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.JPY");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("EUR.CAD");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("ERU.AUD");
-                //Globals.me.QuoteClient.RequestRealTimeQuote("USD.CHF");
+                //SymbolSet = new HashSet<string>(Global.me.QuoteClient.RequestGeneralResult(new RP_AvailableSymbols()).Result as List<string>);
                 IsRealTimeQuoteRequested = true;
             }
         }
@@ -125,7 +116,7 @@ namespace StockScream
                 var subscribedSymbols = string.Empty;            
                 foreach (var symbol in symbols)
                 {
-                    if (!SymbolSet.Contains(symbol)) continue;                //we cannot subscribe symbols that are not in the set
+                    if (!Global.me.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot subscribe symbols that are not in the set
 
                     subscribedSymbols += symbol + ";";
 
@@ -151,12 +142,12 @@ namespace StockScream
                 var unSubscribedSymbols = string.Empty;
                 foreach (var symbol in symbols)
                 {
-                    if (!SymbolSet.Contains(symbol)) continue;                //we cannot unsubscribe symbols that are not in the set
+                    if (!Global.me.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot unsubscribe symbols that are not in the set
 
                     unSubscribedSymbols += symbol + ";";
                     Groups.Remove(Context.ConnectionId, symbol);
                 }
-                Clients.Client(Context.ConnectionId).onUnSubscribe(unSubscribedSymbols);   //indicate to client what symbols are requested
+                Clients.Client(Context.ConnectionId).onUnSubscribe(unSubscribedSymbols);                   //indicate to client what symbols are requested
             }
         }
 

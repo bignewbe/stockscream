@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using StockScream.Models;
 using CommonCSharpLibary.StockScream;
 using CommonCSharpLibary.CommonFuntionality;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using MongoDB.Driver;
 using System.Web.UI;
-using System.Linq;
 using StockScream.Identity;
 using StockScream.Services;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CommonCSharpLibary.CommonClass;
-using System.Collections.Specialized;
 using StockScream.ViewModels;
-using StockScream.DataModels;
 
 namespace StockScream.Controllers
 {
-    public class SearchController : Controller
+    public class FAController : Controller
     {
         private StockDbContext db = new StockDbContext();
 
