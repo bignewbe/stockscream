@@ -1,25 +1,28 @@
-﻿{
-  "Path": {
-    "RemoteRoot": "D:/Lib/",
-    "LocalRoot": "E:/Code/Lib/",
-    "DefaultDebugPath": "../../Lib/Debug/",
-    "DefaultReleasePath": "../../Lib/Release/"
+{
+  "Debug": {
+    "Serialization 1.0.0a2060d": "Default",
+    "NetworkRequestParameters 1.0.70565db": "Default",
+    "StockAnalysis 1.0.976972f": "Default",
+    "Network 1.0.f2016a2": "Default",
+    "TechnicalAnalysis 1.0.78db3d6": "Default",
+    "QuoteServer 1.0.1a6bfaf": "Default",
+    "CommonCSharpLibary 1.0.acd0e2e": "Default",
+    "PortableCSharpLib 1.0.cd6c08e": "Default"
   },
-
+  "Release": {
+    "Serialization 1.0.0a2060d": "Default",
+    "NetworkRequestParameters 1.0.70565db": "Default",
+    "StockAnalysis 1.0.976972f": "Default",
+    "Network 1.0.f2016a2": "Default",
+    "TechnicalAnalysis 1.0.78db3d6": "Default",
+    "QuoteServer 1.0.1a6bfaf": "Default",
+    "CommonCSharpLibary 1.0.acd0e2e": "Default",
+    "PortableCSharpLib 1.0.cd6c08e": "Default"
+  },
   "Single": {
   },
-
-  "Debug": {
-    "QuoteServer latest": "DefaultDebugPath",
-    "CommonCSharpLibary 1.0": "DefaultDebugPath",
-    "PortableCSharpLib 1.0": "DefaultDebugPath"
-  },
-
-  "Release": {
-    "QuoteServer latest": "DefaultReleasePath",
-    "CommonCSharpLibary 1.0": "DefaultReleasePath",
-    "PortableCSharpLib 1.0": "DefaultReleasePath"
+  "Path": {
+    "LocalRoot": ".",
+    "RemoteRoot": "D:\\Lib"
   }
 }
-
-

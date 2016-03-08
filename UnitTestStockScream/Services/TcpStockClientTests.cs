@@ -1,13 +1,8 @@
 ﻿using CommonCSharpLibary.Network;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StockScream.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockScream.Services.Tests
 {

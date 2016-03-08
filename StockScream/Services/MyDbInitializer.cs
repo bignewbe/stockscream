@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using StockScream.DataModels;
 using StockScream.Identity;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver;
 using System.Data.Entity;
 
 namespace StockScream.Services

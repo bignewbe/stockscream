@@ -1,19 +1,8 @@
-﻿using CommonCSharpLibary.CommonClass;
-using CommonCSharpLibary.CommonFuntionality;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using StockScream.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace StockScream.Identity
 {

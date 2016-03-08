@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI;
-using CommonCSharpLibary.CommonFuntionality;
-using CommonCSharpLibary.Stock;
 using StockScream.Models;
 using CommonCSharpLibary.CustomExtensions;
 using System.Diagnostics;
@@ -18,6 +16,8 @@ using StockScream.Services;
 using StockScream.ViewModels;
 using CommonCSharpLibary.CommonClass;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CommonCSharpLibary.StockAnalysis;
+using CommonCSharpLibary.Facility;
 
 namespace StockScream.Controllers
 {
@@ -59,21 +59,21 @@ namespace StockScream.Controllers
         public async Task<ActionResult> RunCommand(string date, string command)
         {
             var map = Global.me.MapStock;
-            EnumParseError error = EnumParseError.OK;
+            ParseErrors error = ParseErrors.OK;
             int lineNumber = -1;
 
             ///////////////////////////////////////////////////////////////////////////
             //create header
             var items = map.ExtractItemsFromCommand(command) as List<string>;
             if (items == null) {
-                error = EnumParseError.ItemExtractionFailed;
+                error = ParseErrors.ItemExtractionFailed;
                 return ConstructReturnResult(error, lineNumber);
             }
             items.Insert(0, "Stock");          //We always want to show stock           
 
             var tup = map.GenerateSQLCommandHeader(items.ToArray());
             if (tup == null) {
-                error = EnumParseError.ItemFailedToCreateHeader;
+                error = ParseErrors.ItemFailedToCreateHeader;
                 return ConstructReturnResult(error, lineNumber);
             }
             var header = tup.Item1;                  //sql command header
@@ -94,14 +94,13 @@ namespace StockScream.Controllers
             ///////////////////////////////////////////////////////////////////////////
             //search W
             var searchResult = await Global.me.StockClient.SearchStocks(wp);
-
             if (searchResult == null) {
-                error = EnumParseError.FailedToMatchAnyResults;
+                error = ParseErrors.FailedToMatchAnyResults;
                 return ConstructReturnResult(error, lineNumber);
             }
-            else if (searchResult.GetType() == typeof(string)) {            //error message returned
-                return Json(new { Msg = searchResult, Data = "", Items = "", Keys = "" }, JsonRequestBehavior.AllowGet);
-            }
+            //if (searchResult.GetType() == typeof(string)) {            //error message returned
+            //    return Json(new { Msg = searchResult, Data = "", Items = "", Keys = "" }, JsonRequestBehavior.AllowGet);
+            //}
 
             //////////////////////////////////////////////////////////////////////////
             //query database
@@ -156,7 +155,7 @@ namespace StockScream.Controllers
             if (user.Profile.AddUpdateFilterW(name, command))
                 MyDbInitializer.SaveDbContext(_applicationDbcontext);
 
-            return RedirectToAction("SearchW");
+            return RedirectToAction("Index");
         }
 
         [Authorize]
@@ -170,7 +169,7 @@ namespace StockScream.Controllers
             if (user.Profile.RemoveFilterW(name))
                 MyDbInitializer.SaveDbContext(_applicationDbcontext);
 
-            return RedirectToAction("SearchW");
+            return RedirectToAction("Index");
         }
 
         [OutputCache(Duration = 900, Location = OutputCacheLocation.Client, VaryByParam = "symbol")]
@@ -186,28 +185,28 @@ namespace StockScream.Controllers
         }
 
         #region facility
-        string GetErrorMsg(EnumParseError errorCode, int lineNumber)
+        string GetErrorMsg(ParseErrors errorCode, int lineNumber)
         {
             switch (errorCode) {
-                case EnumParseError.ItemExtractionFailed:
+                case ParseErrors.ItemExtractionFailed:
                     return "Faied to understand SELECT section. Are you missing double quotes?";
-                case EnumParseError.ItemFailedToCreateHeader:
+                case ParseErrors.ItemFailedToCreateHeader:
                     return "Faied to understand SELECT section. Is there any non supported item? Please select items via 'Add Select Parameters'";
-                case EnumParseError.ItemMissingColon:
+                case ParseErrors.ItemMissingColon:
                     return string.Format("line {0}: Are you missing ':' after item?", lineNumber);
-                case EnumParseError.ItemNotRecognized:
+                case ParseErrors.ItemNotRecognized:
                     return string.Format("line {0}: not supported item found.", lineNumber);
-                case EnumParseError.ComparatorLeftIsNotK:
-                case EnumParseError.ComparatorNotValid:
+                case ParseErrors.ComparatorLeftIsNotK:
+                case ParseErrors.ComparatorNotValid:
                     return string.Format("line {0}: filter experession must be 'k=some value, k<some value, or k>some value' ", lineNumber);
-                case EnumParseError.FailedToMatchAnyResults:
+                case ParseErrors.FailedToMatchAnyResults:
                     return string.Format("Filter does not find any result");
-                case EnumParseError.OK:
+                case ParseErrors.OK:
                 default:
                     return "OK";
             }
         }
-        ActionResult ConstructReturnResult(EnumParseError errorCode, int lineNumber)
+        ActionResult ConstructReturnResult(ParseErrors errorCode, int lineNumber)
         {
             var errorMsg = GetErrorMsg(errorCode, lineNumber + 1);                   //convert line number starting from 1 iso 0
             var result = new { Msg = errorMsg, Data = "", Items = "", Keys = "" };

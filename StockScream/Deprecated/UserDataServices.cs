@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using StockScream.Models;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver;
-using System.Diagnostics;
-using System.Configuration;
-using CommonCSharpLibary.Stock;
+﻿using StockScream.DataModels;
 using System.Threading.Tasks;
-using StockScream.DataModels;
 
 namespace StockScream.Services
 {

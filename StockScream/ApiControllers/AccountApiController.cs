@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,13 +15,12 @@ using Microsoft.Owin.Security.OAuth;
 using StockScream.Identity;
 using StockScream.Providers;
 using System.Diagnostics;
-using StockScream.Models;
 using Microsoft.Owin.Testing;
 using StockScream.Services;
-using StockScream.ViewModels;
 using StockScream.BindingModels;
-using StockScream.DataModels;
+using StockScream.ViewModels;
 using StockScream.ResultModels;
+using StockScream.DataModels;
 
 namespace StockScream.ApiControllers
 {
@@ -300,7 +298,7 @@ namespace StockScream.ApiControllers
                     return BadRequest(ModelState);
 
                 //1. generate 6 digit code
-                var code = 123456;
+                // var code = 123456;
                 //2. send to phone
                 
                 return Ok();

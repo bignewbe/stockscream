@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.Owin;
-using Microsoft.Owin.Cors;
-using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.Owin;
 using Owin;
-using StockScream.Providers;
 
 [assembly: OwinStartupAttribute(typeof(StockScream.Startup))]
 namespace StockScream

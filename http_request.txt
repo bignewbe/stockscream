@@ -1,0 +1,64 @@
+POST http://localhost:44306/api/account/registeremail
+
+User-Agent: Fiddler
+Host: localhost:44306
+Content-Length: 81
+Content-Type: application/json; charset=utf-8
+
+{"Email":"imliping@hotmail.com","Password":"Abc123!","ConfirmPassword":"Abc123!"}
+
+POST http://localhost:44306/Token
+
+User-Agent: Fiddler
+Host: localhost:44306
+Content-Length: 68
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+grant_type=password&username=imliping%40hotmail.com&password=Abc123!
+
+
+GET http://localhost:44306/api/account/UserInfo
+
+User-Agent: Fiddler
+Host: localhost:44306
+Authorization: Bearer QpGFZo8jMWoNrCQia8OPnGiL9i3ToE_IMBLLjRIKpfCM_CJal-zBc1UFTPaC51Rc9wt2FstOSONzrm3j12OdcR8G2FuIRJIAGhI-uGdrdw0B7qNBUx1tfuJnLzaC9nzcdqony82bDUH42TzROUAbwNGRbjAAtfzmudz7J5FTejLo2x8NaOsxhFHy2oriE2asBgxsxbRTQ3xS2xVrM3tsUFmQhYTYH8vLsRZzY1NA2Emu-zr6fx2g86T0DQfsKLlRePDwWd-RSg28Ad_Zz1QyIOiWSCURyeGd3Ph6mcydHZIB6bJaJ775d_4IQeah0kimRhHjBDgWq80LelHNTvjgCpT-meVDheJDP8t9q0WJ-zDwjz_Otu12laqnQwSJiPk8Dv2ek1Va_Ex0LIR1EaE7xB-1iZbIi_d3ZiUUvshjb7q1nIX8aRXP0neu1y0FGDSQnUjGNIqApdwtIji6pJLgTboG1S2t0CKgUuJ5AYVcRcwiubbQUAKBYPwESOU9Y3AHids2JNX6SdkYUOuKtSd58w
+Content-Length: 0
+
+POST http://localhost:44306/api/account/logout
+
+User-Agent: Fiddler
+Host: localhost:44306
+Authorization: Bearer QpGFZo8jMWoNrCQia8OPnGiL9i3ToE_IMBLLjRIKpfCM_CJal-zBc1UFTPaC51Rc9wt2FstOSONzrm3j12OdcR8G2FuIRJIAGhI-uGdrdw0B7qNBUx1tfuJnLzaC9nzcdqony82bDUH42TzROUAbwNGRbjAAtfzmudz7J5FTejLo2x8NaOsxhFHy2oriE2asBgxsxbRTQ3xS2xVrM3tsUFmQhYTYH8vLsRZzY1NA2Emu-zr6fx2g86T0DQfsKLlRePDwWd-RSg28Ad_Zz1QyIOiWSCURyeGd3Ph6mcydHZIB6bJaJ775d_4IQeah0kimRhHjBDgWq80LelHNTvjgCpT-meVDheJDP8t9q0WJ-zDwjz_Otu12laqnQwSJiPk8Dv2ek1Va_Ex0LIR1EaE7xB-1iZbIi_d3ZiUUvshjb7q1nIX8aRXP0neu1y0FGDSQnUjGNIqApdwtIji6pJLgTboG1S2t0CKgUuJ5AYVcRcwiubbQUAKBYPwESOU9Y3AHids2JNX6SdkYUOuKtSd58w
+Content-Length: 0
+
+POST http://localhost:44306/api/account/EmailCode
+
+User-Agent: Fiddler
+Host: localhost:44306
+Content-Length: 32
+Content-Type: application/json; charset=utf-8
+
+{"Email":"imliping@hotmail.com"}
+
+
+User-Agent: Fiddler
+Host: localhost:44306
+Content-Length: 26
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+Email=imliping@hotmail.com
+
+昨天和一位专门做创业公司和投资方牵线搭桥的朋友聊了一下，我觉得我开的条件诚意太足了，我想把我的想法理一下
+1. 一般情况下创业公司，有技术有产品的一方都是控股的，而我一下子就没了控股权，成了小股东。
+2. 你们作为投资方的风险比风投要小很多，因为你们出资人自己可以掌控资金的使用，随时做出调整。但是象我朋友这样的融资都是一步到位的，而且资方没用对资金的管控权。这两者相差是非常大的。
+3. 虽然我的股份不会被稀释，但是考虑到目前的市场情况，和你们以风险很小的方式投入900万就拿到70%的股份，对我来说也不是很划算的。
+   我说过我朋友拉到300的天使只给出<15%的股份，就算以后融资几轮，他也还可能确保自己的控股权，而我一下就没了。
+4. 对我来说机会成本也很大，比如说自己可以去申请杭州各个园区的政策（现在程序是很透明的，而且速度很快），然后找个200来万的风投，这相当于我就有了400多万的资金用两年时间去完善
+   自己的产品，而我股份的损失不会超过20%。就算以后几轮融资我也很有可能保留我的控股权。而且现在象杭州这样的海外人才政策对我来说是一次性的，用了就没了。而且我现在去做这个事情也可以说一次性的，是要把它做成的。
+5. 关于两年
+
+
+
+
+
+

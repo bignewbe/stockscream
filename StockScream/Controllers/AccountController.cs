@@ -462,7 +462,7 @@ namespace StockScream.Controllers
 //}
 
 ////
-//// GET: /Account/ExternalLoginCallback
+//// GET: /Account/ExternalLogallback
 //[AllowAnonymous]
 //public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
 //{

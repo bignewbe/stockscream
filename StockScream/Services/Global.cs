@@ -5,14 +5,17 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using CommonCSharpLibary.CustomExtensions;
-using CommonCSharpLibary.Stock;
 using NLog;
 using NLog.Targets;
 using StockScream.Models;
 using CommonCSharpLibary.Network;
 using StockScream.Identity;
-using StockScream.DataModels;
 using PortableCSharpLib;
+using CommonCSharpLibary.StockAnalysis;
+using StockScream.DataModels;
+using PortableCSharpLib.NetworkRequestParameters;
+using CommonCSharpLibary.Serialize;
+using Newtonsoft.Json;
 
 namespace StockScream.Services
 {
@@ -67,14 +70,15 @@ namespace StockScream.Services
             logger.Info(string.Format("Quote server connected {0}:{1}", ip_quoteServer, port_quoteServer));
 
             var s = QuoteClient.RequestGeneralResult(new RP_AvailableSymbols()).Result;
-            AvailableSymbolsForStreaming = new HashSet<string>(s as List<string>);
+            var symbols = s is string ? JsonConvert.DeserializeObject<List<string>>(s) : s;
+            AvailableSymbolsForStreaming = new HashSet<string>(symbols);
 
             //create wparam mapping
             MapWParam = WParam.GetWParamMap();
 
             //load stock mapping
             var mapStock = new StockMapping();
-            CommonCSharpLibary.Serialize.ObjectSerializer.DeSerializeObject(stockMapPath, ref mapStock);
+            ObjectSerializer.DeSerializeObject(stockMapPath, ref mapStock);
             MapStock = mapStock;
             logger.Info(string.Format("Stockmapping loaded from {0}", stockMapPath));
 

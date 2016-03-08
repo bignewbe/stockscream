@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using StockScream.Services;
 using StockScream.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using StockScream.BindingModels;
+using PortableCSharpLib.TechnicalAnalysis;
+using System.Text.RegularExpressions;
 
 namespace StockScream.ApiControllers
 {
     [Authorize]
     [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-    [RoutePrefix("api/Filter")]
+    [RoutePrefix("api/Data")]
     public class DataApiController : ApiController
     {
         ApplicationDbContext _applicationDbcontext;
@@ -87,5 +84,15 @@ namespace StockScream.ApiControllers
             return Ok(user.Profile.Portfolio.Count);
         }
 
+        [HttpPost]
+        [Route("RequestQuote")]
+        public async Task<List<QuoteBasic>> RequestQuote(KeyValuesBindingModel kv)
+        {
+            if (!ModelState.IsValid)
+                return null;
+
+            var quotes = await Global.me.StockClient.RequestQuote(kv.Values);
+            return quotes;
+        }
     }
 }

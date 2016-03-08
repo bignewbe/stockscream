@@ -1,0 +1,18 @@
+{
+  "Debug": {
+    "Network 1.0.f2016a2": "Default",
+    "CommonCSharpLibary 1.0.acd0e2e": "Default",
+    "PortableCSharpLib 1.0.cd6c08e": "Default"
+  },
+  "Release": {
+    "Network 1.0.f2016a2": "Default",
+    "CommonCSharpLibary 1.0.acd0e2e": "Default",
+    "PortableCSharpLib 1.0.cd6c08e": "Default"
+  },
+  "Single": {
+  },
+  "Path": {
+    "LocalRoot": ".",
+    "RemoteRoot": "D:\\Lib"
+  }
+}

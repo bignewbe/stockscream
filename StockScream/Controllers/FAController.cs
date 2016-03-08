@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using StockScream.Models;
-using CommonCSharpLibary.StockScream;
 using CommonCSharpLibary.CommonFuntionality;
 using Microsoft.AspNet.Identity;
 using System.Web.UI;
@@ -14,6 +13,8 @@ using StockScream.Services;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CommonCSharpLibary.CommonClass;
 using StockScream.ViewModels;
+using CommonCSharpLibary.StockAnalysis.ParseQueryCommand;
+using CommonCSharpLibary.Facility;
 
 namespace StockScream.Controllers
 {
@@ -76,7 +77,7 @@ namespace StockScream.Controllers
             Debug.WriteLine(sqlCommand);
 
             //dynamic create a type to hold query results. type must be matched, otherwise we can not convert the returned results
-            TypeBuilder builder = CFacility.CreateTypeBuilder("MyDynamicAssembly", "MyModule", "MyType");
+            var builder = CFacility.CreateTypeBuilder("MyDynamicAssembly", "MyModule", "MyType");
             foreach (var key in mappedKeys)
             {
                 if (map.MappedKeyTypes.ContainsKey(key))

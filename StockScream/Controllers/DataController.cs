@@ -5,13 +5,12 @@ using System.Web.Mvc;
 using System.IO;
 using System.Web.UI;
 using System.Threading.Tasks;
-using CommonCSharpLibary.TACommon;
 using CommonCSharpLibary.CustomExtensions;
 using Microsoft.AspNet.Identity.Owin;
 using StockScream.Identity;
 using StockScream.Services;
 using PortableCSharpLib;
-using Newtonsoft.Json;
+using CommonCSharpLibary.TechnicalAnalysis;
 
 namespace StockScream.Controllers
 {
@@ -41,30 +40,6 @@ namespace StockScream.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Path.GetFileName(filename));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]  //does not work with OuputCache
-        [OutputCache(Duration = 900, Location = OutputCacheLocation.Client, VaryByParam = "symbol")]
-        public async Task<ActionResult> RequestQuote(string symbols)
-        {
-            var searchResult = await Global.me.StockClient.RequestQuote(symbols.Split(';'));
-            if (searchResult == null) return null;
-
-            var lst = new List<object>();
-            foreach (QuoteCommon q in searchResult) {
-                var item = new
-                {
-                    Time = q._time.Select(t => t.GetJsonFromUnixTime()).ToList(),
-                    High = q._high,
-                    Low = q._low,
-                    Open = q._open,
-                    Close = q._close,
-                    Volume = q._volume,
-                    EMA = q._ema,
-                };
-                lst.Add(item);
-            }
-            return Json(lst[0], JsonRequestBehavior.AllowGet);
-        }
 
         //this function should not be necessary since we have already passed Mapping information to client
         //[OutputCache(Duration = int.MaxValue, Location = System.Web.UI.OutputCacheLocation.Client, VaryByParam = "table")]

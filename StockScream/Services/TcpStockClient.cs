@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using CommonCSharpLibary.Network;
+using Newtonsoft.Json;
+using PortableCSharpLib.TechnicalAnalysis;
 
 namespace StockScream.Services
 {
@@ -110,12 +112,16 @@ namespace StockScream.Services
             return result;
         }
 
-        public async Task<dynamic> SearchStocks(dynamic parameter)
+        public async Task<List<string>> SearchStocks(dynamic parameter)
         {
             ITcpClientCommon2 client = null;
             try {
-                if (TryGetAvailableClient(out client))
-                    return await client.RequestGeneralResult(parameter);
+                if (TryGetAvailableClient(out client)) {
+                    var result = await client.RequestGeneralResult(parameter);
+                    if (result == null) return null;
+
+                    return result is string? JsonConvert.DeserializeObject<List<string>>(result) : result;
+                }
 
                 return null;
             }
@@ -124,12 +130,16 @@ namespace StockScream.Services
             }
         }
         
-        public async Task<dynamic> RequestQuote(IList<string> symbols)
+        public async Task<List<QuoteBasic>> RequestQuote(IList<string> symbols)
         {
             ITcpClientCommon2 client = null;
             try {
-                if (TryGetAvailableClient(out client))
-                    return await client.RequestGeneralResult(new List<string> (symbols));
+                if (TryGetAvailableClient(out client)) {                    
+                    var result = await client.RequestGeneralResult(new List<string>(symbols));
+                    if (result == null) return null;
+
+                    return result is string ? JsonConvert.DeserializeObject<List<QuoteBasic>>(result) : result;
+                }
                 return null;
             }
             finally {
