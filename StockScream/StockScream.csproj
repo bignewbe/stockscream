@@ -306,6 +306,21 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\BindingModels\BindingModels.cs" />
+    <Compile Include="Models\Exchanx.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IndustryFinancial.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PPIndustry.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PPSector.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PPStock.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ResultModels\ChallengeResult.cs" />
     <Compile Include="Models\DataModels\MyAddress.cs" />
     <Compile Include="Models\DataModels\MyCreditcard.cs" />
@@ -315,6 +330,30 @@
     <Compile Include="Models\DataModels\SelectListItem.cs" />
     <Compile Include="Models\DataModels\Token.cs" />
     <Compile Include="Models\DataModels\UserProfile.cs" />
+    <Compile Include="Models\SectorFinancial.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockAnalyst.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockFinancial.cs">
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockMetricModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMetricModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockMetricModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMetricModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockMetricModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StockMetricModels.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\ViewModels\AdminViewModel.cs" />
     <Compile Include="Models\ViewModels\FilterModels.cs" />
@@ -363,46 +402,7 @@
     </Compile>
     <Compile Include="Services\Global.cs" />
     <Compile Include="Services\TcpStockClient.cs" />
-    <Compile Include="Models\Exchanx.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Deprecated\IdentityModels.cs" />
-    <Compile Include="Models\IndustryFinancial.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PPIndustry.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PPSector.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PPStock.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SectorFinancial.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StockAnalyst.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StockFinancial.cs">
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StockMetricModels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StockMetricModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StockMetricModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StockMetricModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StockMetricModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StockMetricModels.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -512,6 +512,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="Models\StockMetricModels.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>StockMetricModels.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\StockMetricModels.edmx.diagram">
+      <DependentUpon>StockMetricModels.edmx</DependentUpon>
+    </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -520,13 +527,6 @@
     <Content Include="Scripts\jquery-linedtextarea.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
-    <EntityDeploy Include="Models\StockMetricModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StockMetricModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\StockMetricModels.edmx.diagram">
-      <DependentUpon>StockMetricModels.edmx</DependentUpon>
-    </Content>
     <Content Include="App_Data\stock.csv" />
     <Content Include="App_Data\stockMapping.dat" />
     <Content Include="dependency.json" />
