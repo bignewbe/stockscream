@@ -79,6 +79,10 @@ namespace StockScream.Services
         /// <returns></returns>
         public static void AddAdmin(ApplicationDbContext context)
         {
+            var email = "imliping@gmail.com";
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new ApplicationUserManager(userStore);
+
             //add all roles if db is empty
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
@@ -92,14 +96,11 @@ namespace StockScream.Services
                 }
             }
 
-            var email = "imliping@gmail.com";
-            var userStore = new UserStore<ApplicationUser>(context);
-            var userManager = new ApplicationUserManager(userStore);
-            if (userManager.FindByEmail(email) == null)
-                userManager.Create(new ApplicationUser { Email = email, UserName = email, EmailConfirmed = true }, "Abc123!");
+            if (userManager.FindByEmail(email) != null) return;
 
-
+            userManager.Create(new ApplicationUser { Email = email, UserName = email, EmailConfirmed = true, Profile = new DataModels.UserProfile() }, "Abc123!");            
             var user = userManager.FindByEmail(email);
+            user.Profile = new DataModels.UserProfile();
             foreach (var role in roleNames)
                 userManager.AddToRole(user.Id, role);
 

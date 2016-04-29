@@ -29,7 +29,6 @@ namespace StockScream.Services.Tests
             server.Dispose();
         }
 
-
         [TestMethod()]
         public void ConnectAsyncTest()
         {

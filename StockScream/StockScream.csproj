@@ -78,10 +78,6 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Mvc.Core, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.Core.6.0.0-rc1-final\lib\net451\Microsoft.AspNet.Mvc.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>True</Private>
@@ -226,55 +222,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <Reference Include="PortableCSharpLib">
-      <HintPath>lib\Release\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
-    </Reference>
     <Reference Include="NetworkRequestParameters">
-      <HintPath>lib\Release\1.0.70565db\NetworkRequestParameters.dll</HintPath>
+      <HintPath>lib\NetworkRequestParameters\Release\1.0.70565db\NetworkRequestParameters.dll</HintPath>
     </Reference>
-    <Reference Include="QuoteServer">
-      <HintPath>lib\Release\1.0.1a6bfaf\QuoteServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Serialization">
-      <HintPath>lib\Release\1.0.0a2060d\Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="Network">
-      <HintPath>lib\Release\1.0.f2016a2\Network.dll</HintPath>
+    <Reference Include="PortableCSharpLib">
+      <HintPath>lib\PortableCSharpLib\Release\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
     </Reference>
     <Reference Include="CommonCSharpLibary">
-      <HintPath>lib\Release\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
+      <HintPath>lib\CommonCSharpLibary\Release\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
     </Reference>
-    <Reference Include="StockAnalysis">
-      <HintPath>lib\Release\1.0.976972f\StockAnalysis.dll</HintPath>
+    <Reference Include="QuoteServer">
+      <HintPath>lib\QuoteServer\Release\1.0.1a6bfaf\QuoteServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Serialization">
+      <HintPath>lib\Serialization\Release\1.0.0a2060d\Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Network">
+      <HintPath>lib\Network\Release\1.0.f2016a2\Network.dll</HintPath>
     </Reference>
     <Reference Include="TechnicalAnalysis">
-      <HintPath>lib\Release\1.0.78db3d6\TechnicalAnalysis.dll</HintPath>
+      <HintPath>lib\TechnicalAnalysis\Release\1.0.78db3d6\TechnicalAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="StockAnalysis">
+      <HintPath>lib\StockAnalysis\Release\1.0.976972f\StockAnalysis.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <Reference Include="PortableCSharpLib">
-      <HintPath>lib\Debug\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
-    </Reference>
     <Reference Include="NetworkRequestParameters">
-      <HintPath>lib\Debug\1.0.70565db\NetworkRequestParameters.dll</HintPath>
+      <HintPath>lib\NetworkRequestParameters\Debug\1.0.70565db\NetworkRequestParameters.dll</HintPath>
     </Reference>
-    <Reference Include="QuoteServer">
-      <HintPath>lib\Debug\1.0.1a6bfaf\QuoteServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Serialization">
-      <HintPath>lib\Debug\1.0.0a2060d\Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="Network">
-      <HintPath>lib\Debug\1.0.f2016a2\Network.dll</HintPath>
+    <Reference Include="PortableCSharpLib">
+      <HintPath>lib\PortableCSharpLib\Debug\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
     </Reference>
     <Reference Include="CommonCSharpLibary">
-      <HintPath>lib\Debug\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
+      <HintPath>lib\CommonCSharpLibary\Debug\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
     </Reference>
-    <Reference Include="StockAnalysis">
-      <HintPath>lib\Debug\1.0.976972f\StockAnalysis.dll</HintPath>
+    <Reference Include="QuoteServer">
+      <HintPath>lib\QuoteServer\Debug\1.0.1a6bfaf\QuoteServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Serialization">
+      <HintPath>lib\Serialization\Debug\1.0.0a2060d\Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Network">
+      <HintPath>lib\Network\Debug\1.0.f2016a2\Network.dll</HintPath>
     </Reference>
     <Reference Include="TechnicalAnalysis">
-      <HintPath>lib\Debug\1.0.78db3d6\TechnicalAnalysis.dll</HintPath>
+      <HintPath>lib\TechnicalAnalysis\Debug\1.0.78db3d6\TechnicalAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="StockAnalysis">
+      <HintPath>lib\StockAnalysis\Debug\1.0.976972f\StockAnalysis.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -309,22 +305,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Migrations\201601181349400_AddUserProfile.cs" />
-    <Compile Include="Migrations\201601181349400_AddUserProfile.Designer.cs">
-      <DependentUpon>201601181349400_AddUserProfile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601181417427_ChangeUerProfile.cs" />
-    <Compile Include="Migrations\201601181417427_ChangeUerProfile.Designer.cs">
-      <DependentUpon>201601181417427_ChangeUerProfile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201601181512115_ChangeProfileToVirtual.cs" />
-    <Compile Include="Migrations\201601181512115_ChangeProfileToVirtual.Designer.cs">
-      <DependentUpon>201601181512115_ChangeProfileToVirtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602111759126_addPortfolio.cs" />
-    <Compile Include="Migrations\201602111759126_addPortfolio.Designer.cs">
-      <DependentUpon>201602111759126_addPortfolio.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\BindingModels\BindingModels.cs" />
     <Compile Include="Models\ResultModels\ChallengeResult.cs" />
     <Compile Include="Models\DataModels\MyAddress.cs" />
@@ -356,29 +336,9 @@
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Identity\EmailService.cs" />
     <Compile Include="Identity\SmsService.cs" />
-    <Compile Include="Migrations\201512030910315_AddDictionary.cs" />
-    <Compile Include="Migrations\201512030910315_AddDictionary.Designer.cs">
-      <DependentUpon>201512030910315_AddDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512031227018_ChangeDictionary.cs" />
-    <Compile Include="Migrations\201512031227018_ChangeDictionary.Designer.cs">
-      <DependentUpon>201512031227018_ChangeDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041428209_ChangePlan.cs" />
-    <Compile Include="Migrations\201512041428209_ChangePlan.Designer.cs">
-      <DependentUpon>201512041428209_ChangePlan.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041432528_RemoveUserIdFromPlan.cs" />
-    <Compile Include="Migrations\201512041432528_RemoveUserIdFromPlan.Designer.cs">
-      <DependentUpon>201512041432528_RemoveUserIdFromPlan.cs</DependentUpon>
-    </Compile>
     <Compile Include="Providers\ApplicationRefreshTokenProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
     <Compile Include="Services\Mongo.cs" />
-    <Compile Include="Migrations\201512021948380_AddToken.cs" />
-    <Compile Include="Migrations\201512021948380_AddToken.Designer.cs">
-      <DependentUpon>201512021948380_AddToken.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\GenericRepository.cs" />
     <Compile Include="Services\MyDbInitializer.cs" />
@@ -495,7 +455,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -519,6 +478,7 @@
     <Content Include="Scripts\bootstrap-table.min.js" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -575,6 +535,8 @@
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\MvcP.pubxml" />
     <None Include="Properties\PublishProfiles\MvcPWy.pubxml" />
+    <None Include="Properties\PublishProfiles\package.pubxml" />
+    <None Include="Properties\PublishProfiles\remote.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -662,35 +624,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512021948380_AddToken.resx">
-      <DependentUpon>201512021948380_AddToken.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512030910315_AddDictionary.resx">
-      <DependentUpon>201512030910315_AddDictionary.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512031227018_ChangeDictionary.resx">
-      <DependentUpon>201512031227018_ChangeDictionary.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041428209_ChangePlan.resx">
-      <DependentUpon>201512041428209_ChangePlan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041432528_RemoveUserIdFromPlan.resx">
-      <DependentUpon>201512041432528_RemoveUserIdFromPlan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601181349400_AddUserProfile.resx">
-      <DependentUpon>201601181349400_AddUserProfile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601181417427_ChangeUerProfile.resx">
-      <DependentUpon>201601181417427_ChangeUerProfile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201601181512115_ChangeProfileToVirtual.resx">
-      <DependentUpon>201601181512115_ChangeProfileToVirtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602111759126_addPortfolio.resx">
-      <DependentUpon>201602111759126_addPortfolio.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,15 +1,8 @@
 namespace StockScream.Migrations
 {
     using Identity;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using Services;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using System.Threading.Tasks;
     // EF 4.3 introduced Code First Migrations.Migrations provide a way for the database to be evolved without needing to 
     // drop and recreate the entire database. Use of Migrations commonly involves using PowerShell commands to manage updates
     // to the database explicitly.That is, database creation and updates are usually handled during development from PowerShell

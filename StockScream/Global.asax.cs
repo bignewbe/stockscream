@@ -13,7 +13,7 @@ namespace StockScream
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            
             // Manually installed WebAPI 2.2 after making an MVC project.
             GlobalConfiguration.Configure(WebApiConfig.Register);
 

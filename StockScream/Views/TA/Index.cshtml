@@ -156,7 +156,7 @@
         //    //$("#taCommand").linedtextarea();
         //});
 
-        google.load("visualization", "1", {packages:["corechart"]});
+        //google.load("visualization", "1", {packages:["corechart"]});
 
 
         /////////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@
             //dialog for add select parameters
             $('#modalAddSelect').on('shown.bs.modal', function (e) {
                 //var url = "/data/gettableitem?table=all";
-                var url = '@Url.Action("gettableitem", "data", new { table = "all" })';
+                var url = '@Url.Action("GetTableItem", "Data", new { table = "all" })';
                 var request = window.facility.GetAjaxRequest(url);
                 request.done(function (data, textStatus, jqXHR) {
                     var div = $("#divTableSelect");

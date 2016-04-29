@@ -91,25 +91,25 @@
 		</Reference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<Reference Include="Network">
+			<HintPath>lib\Release\1.0.f2016a2\Network.dll</HintPath>
+		</Reference>
 		<Reference Include="CommonCSharpLibary">
 			<HintPath>lib\Release\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
 		</Reference>
 		<Reference Include="PortableCSharpLib">
 			<HintPath>lib\Release\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
 		</Reference>
-		<Reference Include="Network">
-			<HintPath>lib\Release\1.0.f2016a2\Network.dll</HintPath>
-		</Reference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<Reference Include="Network">
+			<HintPath>lib\Debug\1.0.f2016a2\Network.dll</HintPath>
+		</Reference>
 		<Reference Include="CommonCSharpLibary">
 			<HintPath>lib\Debug\1.0.acd0e2e\CommonCSharpLibary.dll</HintPath>
 		</Reference>
 		<Reference Include="PortableCSharpLib">
 			<HintPath>lib\Debug\1.0.cd6c08e\PortableCSharpLib.dll</HintPath>
-		</Reference>
-		<Reference Include="Network">
-			<HintPath>lib\Debug\1.0.f2016a2\Network.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 	<Choose>

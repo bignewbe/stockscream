@@ -16,3 +16,4 @@ namespace StockScream.DataModels
         }
     }
 }
+
