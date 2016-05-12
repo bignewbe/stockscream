@@ -45,7 +45,7 @@ namespace StockScream.Controllers
         //[OutputCache(Duration = int.MaxValue, Location = System.Web.UI.OutputCacheLocation.Client, VaryByParam = "table")]
         public JsonResult GetTableItem(string table)
         {
-            var map = Global.me.MapStock;
+            var map = Global.Instance.MapStock;
 
             var tableTitles = new List<string>();
             if (table == "all" || table == "tables")

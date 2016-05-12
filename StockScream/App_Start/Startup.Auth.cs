@@ -98,8 +98,7 @@ namespace StockScream
             //    clientId:  ConfigurationManager.AppSettings["GoogClientID"],
             //    clientSecret:  ConfigurationManager.AppSettings["GoogClientSecret"]);
         }
-
-
+        
         private static void CreateRefreshToken(AuthenticationTokenCreateContext context)
         {
             //var tokenExpiry = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["ApiTokenExpiry"]);
@@ -117,7 +116,6 @@ namespace StockScream
 
             context.SetToken(context.SerializeTicket());
         }
-
         private static void ReceiveRefreshToken(AuthenticationTokenReceiveContext context)
         {
             context.DeserializeTicket(context.Token);

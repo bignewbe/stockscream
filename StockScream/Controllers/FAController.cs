@@ -37,8 +37,7 @@ namespace StockScream.Controllers
                 _userManager = value;
             }
         }
-
-
+        
         // fundamental analysis
         public async Task<ActionResult> Index()
         {
@@ -49,7 +48,7 @@ namespace StockScream.Controllers
                 dic = user.Profile.FiltersFA;
             }
 
-            var model = new FAModel { Map = Global.me.MapStock, SavedFilters = dic.ToDictionary() };
+            var model = new FAModel { Map = Global.Instance.MapStock, SavedFilters = dic.ToDictionary() };
 
             return View(model);
         }
@@ -59,7 +58,7 @@ namespace StockScream.Controllers
         [OutputCache(Duration = 10000, Location = OutputCacheLocation.Client, VaryByParam = "command")]
         public ActionResult RunCommand(string command)
         {
-            var map = Global.me.MapStock;
+            var map = Global.Instance.MapStock;
             var items = map.ExtractItemsFromCommand(command) as List<string>;
             if (items == null) return null;
             items.Insert(0, "Stock");          //We always want to show stock           
@@ -73,9 +72,7 @@ namespace StockScream.Controllers
             var filter = QueryFilter.ParseCommandStr(command);
             if (filter == null) return null;
             var sqlCommand = tup.Item1 + filter.GetQueryString(map);
-
-            Debug.WriteLine(sqlCommand);
-
+            
             //dynamic create a type to hold query results. type must be matched, otherwise we can not convert the returned results
             var builder = CFacility.CreateTypeBuilder("MyDynamicAssembly", "MyModule", "MyType");
             foreach (var key in mappedKeys)

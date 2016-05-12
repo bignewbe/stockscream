@@ -139,7 +139,7 @@ namespace StockScream.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid) {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Profile = new DataModels.UserProfile() };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     //set role

@@ -15,16 +15,15 @@ namespace StockScream.Migrations
             AutomaticMigrationDataLossAllowed = false;
         }
 
-        //used for inserting test data
-        //When you are dropping and re-creating the database for every data model change, you use the initializer class's Seed method to insert test data, 
-        // because after every model change the database is dropped and all the test data is lost. With Code First Migrations, test data is retained after
+        // When you are dropping and re-creating the database for every data model change, you use the initializer class's Seed method to insert test data, 
+        // because after every model change the database is dropped and old data is lost. 
+        // With Code First Migrations, test data is retained after
         // database changes, so including test data in the Seed method is typically not necessary. In fact, you don't want the Seed method to insert test
         // data if you'll be using Migrations to deploy the database to production, because the Seed method will run in production. In that case you want 
         // the Seed method to insert into the database only the data that you need in production. For example, you might want the database to include actual
         // department names in the Department table when the application becomes available in production.
         //1. seed is run every time Update-Database is run in terminal. it will never be run when application start
         //2. AddOrUpdate take care of 'upinsert'
-        // 
         protected override void Seed(ApplicationDbContext context)
         {
             MyDbInitializer.InitializeDb(context);                        

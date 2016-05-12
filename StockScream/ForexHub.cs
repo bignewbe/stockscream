@@ -1,17 +1,11 @@
-﻿using CommonCSharpLibary.Network;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using StockScream.Services;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace StockScream
@@ -75,9 +69,9 @@ namespace StockScream
             if (!IsRealTimeQuoteRequested)
             {
                 _requested = new Dictionary<string, int>();
-                Global.me.QuoteClient.ReceiveRealTimeForexQuote += Client_ReceiveRealTimeForexQuote;
-                Global.me.QuoteClient.ReceiveRealTimeStockQuote += Client_ReceiveRealTimeStockQuote; ;
-                Global.me.QuoteClient.ReceiveMsg += Client_ReceiveMsg;
+                Global.Instance.QuoteClient.ReceiveRealTimeForexQuote += Client_ReceiveRealTimeForexQuote;
+                Global.Instance.QuoteClient.ReceiveRealTimeStockQuote += Client_ReceiveRealTimeStockQuote; ;
+                Global.Instance.QuoteClient.ReceiveMsg += Client_ReceiveMsg;
                 //SymbolSet = new HashSet<string>(Global.me.QuoteClient.RequestGeneralResult(new RP_AvailableSymbols()).Result as List<string>);
                 IsRealTimeQuoteRequested = true;
             }
@@ -116,7 +110,7 @@ namespace StockScream
                 var subscribedSymbols = string.Empty;            
                 foreach (var symbol in symbols)
                 {
-                    if (!Global.me.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot subscribe symbols that are not in the set
+                    if (!Global.Instance.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot subscribe symbols that are not in the set
 
                     subscribedSymbols += symbol + ";";
 
@@ -124,7 +118,7 @@ namespace StockScream
                     if (!_requested.ContainsKey(symbol))                      //if not yet requested to the quote server, make the request 
                     {
                         _requested.Add(symbol, 1);
-                        Global.me.QuoteClient.RequestRealTimeQuote(symbol);
+                        Global.Instance.QuoteClient.RequestRealTimeQuote(symbol);
                     }
                 }
                 Clients.Client(Context.ConnectionId).onSubscribe(subscribedSymbols);   //indicate to client what symbols are requested
@@ -142,7 +136,7 @@ namespace StockScream
                 var unSubscribedSymbols = string.Empty;
                 foreach (var symbol in symbols)
                 {
-                    if (!Global.me.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot unsubscribe symbols that are not in the set
+                    if (!Global.Instance.AvailableSymbolsForStreaming.Contains(symbol)) continue;                //we cannot unsubscribe symbols that are not in the set
 
                     unSubscribedSymbols += symbol + ";";
                     Groups.Remove(Context.ConnectionId, symbol);

@@ -31,10 +31,10 @@ namespace StockScream.Services
         public WParamMapping MapWParam { get; set; }
         public Logger logger;
 
-        public static Global me;
+        public static Global Instance;
         public static void Initialize(string stockMapPath, string logPath)
         {
-            me = new Global(stockMapPath, logPath);
+            Instance = new Global(stockMapPath, logPath);
         }
 
         public Global(string stockMapPath, string logPath)

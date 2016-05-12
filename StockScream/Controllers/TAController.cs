@@ -48,7 +48,7 @@ namespace StockScream.Controllers
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 dic = user.Profile.FiltersW;
             }
-            var model = new TAModel { Map = Global.me.MapWParam, SavedFilters = dic.ToDictionary() };
+            var model = new TAModel { Map = Global.Instance.MapWParam, SavedFilters = dic.ToDictionary() };
 
             return View(model);
         }
@@ -58,7 +58,7 @@ namespace StockScream.Controllers
         //[OutputCache(Duration=900, Location = OutputCacheLocation.Client, VaryByParam = "command", VaryByParam = "date")]
         public async Task<ActionResult> RunCommand(string date, string command)
         {
-            var map = Global.me.MapStock;
+            var map = Global.Instance.MapStock;
             ParseErrors error = ParseErrors.OK;
             int lineNumber = -1;
 
@@ -93,7 +93,7 @@ namespace StockScream.Controllers
 
             ///////////////////////////////////////////////////////////////////////////
             //search W
-            var searchResult = await Global.me.StockClient.SearchStocks(wp);
+            var searchResult = await Global.Instance.StockClient.SearchStocks(wp);
             if (searchResult == null) {
                 error = ParseErrors.FailedToMatchAnyResults;
                 return ConstructReturnResult(error, lineNumber);
@@ -177,7 +177,7 @@ namespace StockScream.Controllers
         {
             if (symbol == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-            var quotes = await Global.me.StockClient.RequestQuote(new List<string> { symbol });
+            var quotes = await Global.Instance.StockClient.RequestQuote(new List<string> { symbol });
             if (quotes == null) return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
             ViewBag.Symbol = symbol;

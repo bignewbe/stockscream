@@ -39,7 +39,8 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
 
-                @if (item.Email != "imliping@gmail.com") {
+                @*@if (item.Email != "imliping@gmail.com")*@ 
+                {
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <span>|</span>
                     <button class="btn-group">Reset Password</button>
                 }

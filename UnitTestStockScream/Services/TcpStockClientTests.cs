@@ -29,18 +29,18 @@ namespace StockScream.Services.Tests
             server.Dispose();
         }
 
-        [TestMethod()]
-        public void ConnectAsyncTest()
-        {
-            var client = new TcpStockClient(10);
+        //[TestMethod()]
+        //public void ConnectAsyncTest()
+        //{
+        //    var client = new TcpStockClient(10);
 
-            Assert.IsTrue(client.ConnectAsync(ip, port).Result);
-            Assert.IsTrue(client.IsConnected);
-            Assert.IsTrue(client.Clients.Count == 10);
+        //    Assert.IsTrue(client.ConnectAsync(ip, port).Result);
+        //    Assert.IsTrue(client.IsConnected);
+        //    Assert.IsTrue(client.Clients.Count == 10);
 
-            client.Disconnect();
-            Assert.IsFalse(client.IsConnected);
-        }
+        //    client.Disconnect();
+        //    Assert.IsFalse(client.IsConnected);
+        //}
 
         //[TestMethod()]
         //public void TcpStockClientTest()

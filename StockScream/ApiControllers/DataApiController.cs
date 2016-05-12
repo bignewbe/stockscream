@@ -91,7 +91,7 @@ namespace StockScream.ApiControllers
             if (!ModelState.IsValid)
                 return null;
 
-            var quotes = await Global.me.StockClient.RequestQuote(kv.Values);
+            var quotes = await Global.Instance.StockClient.RequestQuote(kv.Values);
             return quotes;
         }
     }

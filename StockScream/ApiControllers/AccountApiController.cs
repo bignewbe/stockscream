@@ -87,7 +87,7 @@ namespace StockScream.ApiControllers
         [HttpGet]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
-        {
+        {           
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             return new UserInfoViewModel
             {
@@ -201,10 +201,10 @@ namespace StockScream.ApiControllers
                 var token = new Token(6, 60);
 
                 //2. add to database
-                if (!Global.me.ConfirmationTokens.ContainsKey(email))
-                    Global.me.ConfirmationTokens.TryAdd(email, token);
+                if (!Global.Instance.ConfirmationTokens.ContainsKey(email))
+                    Global.Instance.ConfirmationTokens.TryAdd(email, token);
                 else
-                    Global.me.ConfirmationTokens[email] = token;
+                    Global.Instance.ConfirmationTokens[email] = token;
 
                 //3. send to client
                 await EmailService.SendEmail(email, "confirmation code", token.AuthToken);
@@ -229,13 +229,13 @@ namespace StockScream.ApiControllers
                     return BadRequest(ModelState);
 
                 //check email confirmation code
-                if (!Global.me.ConfirmationTokens.ContainsKey(model.Email) || 
-                    !Global.me.ConfirmationTokens[model.Email].CheckConfirmationCode(model.Code))
+                if (!Global.Instance.ConfirmationTokens.ContainsKey(model.Email) || 
+                    !Global.Instance.ConfirmationTokens[model.Email].CheckConfirmationCode(model.Code))
                     return BadRequest("Invalid confirmation code");
 
                 //remove token from database
                 Token token;
-                Global.me.ConfirmationTokens.TryRemove(model.Email, out token);
+                Global.Instance.ConfirmationTokens.TryRemove(model.Email, out token);
 
                 //create user in database
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
